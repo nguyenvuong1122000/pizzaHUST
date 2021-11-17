@@ -5,7 +5,7 @@ let data = [
     name: "Pizza Hải Sản Đào",
     quantity: 1,
     price: 69000,
-    description: "Đế Mỏng, Viền Phô Mai, Không topping",
+    description: "Size M, Đế mỏng, Topping: Cà chua, xúc xích, Ghi chú: Không",
   },
   {
     id: 2,
@@ -14,7 +14,7 @@ let data = [
     quantity: 2,
     price: 99000,
     description:
-      "Tôm, cua, mực và bông cải xanh tươi ngon trên nền sốt Pesto Xanh",
+      "Size M, Đế mỏng, Topping: Cà chua, xúc xích, Ghi chú: Không",
   },
   {
     id: 3,
@@ -22,7 +22,7 @@ let data = [
     name: "Pizza Hải Sản Cao Cấp",
     quantity: 1,
     price: 179000,
-    description: "Tôm, cua, mực và nghêu với sốt Marinara",
+    description: "Size M, Đế mỏng, Topping: Cà chua, xúc xích, Ghi chú: Không",
   },
   {
     id: 4,
@@ -30,7 +30,7 @@ let data = [
     name: "Pizza Thịt Nguội Kiểu Canada",
     quantity: 3,
     price: 149000,
-    description: "Sự kết hợp giữa thịt nguội và bắp ngọt",
+    description: "Size M, Đế mỏng, Topping: Cà chua, xúc xích, Ghi chú: Không",
   },
   {
     id: 5,
@@ -39,7 +39,7 @@ let data = [
     quantity: 4,
     price: 169000,
     description:
-      "Thịt giăm bông, thịt xông khói và hai loại rau của ớt xanh, cà chua",
+      "Size M, Đế mỏng, Topping: Cà chua, xúc xích, Ghi chú: Không",
   },
   {
     id: 6,
@@ -47,7 +47,7 @@ let data = [
     name: "Đùi Gà Tẩm Bột Chiên Giòn (6pcs)",
     quantity: 5,
     price: 279000,
-    description: "Đùi Gà phủ một lớp bột chiên giòn rụm",
+    description: "Size M, Đế mỏng, Topping: Cà chua, xúc xích, Ghi chú: Không",
   },
   {
     id: 7,
@@ -55,7 +55,7 @@ let data = [
     name: "Mì Ý Tôm Sốt Kem Cà Chua",
     quantity: 10,
     price: 279000,
-    description: "Sự tươi ngon của tôm kết hợp với sốt kem cà chua",
+    description: "Size M, Đế mỏng, Topping: Cà chua, xúc xích, Ghi chú: Không",
   },
 ];
 
@@ -67,7 +67,7 @@ let productList = data.map(function (product) {
                 <div class="product-detail">
                   <p class="product-name">${product.name}</p>
                   <p class="product-quantity">
-                    <span class="color-orange">x</span> ${product.quantity}
+                    <span class="color-orange product-volumeBtn product-volumeBtnDe"> -   </span>${product.quantity}<span class="color-orange product-volumeBtn product-volumeBtnIn">   + </span>
                   </p>
                   <p class="product-des">
                     ${product.description}

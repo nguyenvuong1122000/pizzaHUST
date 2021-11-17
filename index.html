@@ -91,19 +91,17 @@
           <div class="product-list">
             <!-- Item -->
             <!-- <div class="product-item">
-              <img class="product-img" src=${product.image} />
+              <img class="product-img" src="${product.image}" />
               <div class="product-info">
                 <div class="product-detail">
                   <p class="product-name">${product.name}</p>
                   <p class="product-quantity">
-                    <span class="color-orange">x</span> ${product.quantity}
+                    <span class="color-orange product-volumeBtn product-volumeBtnDe">-</span>${product.quantity}<span class="color-orange product-volumeBtn product-volumeBtnIn">+</span>
                   </p>
-                  <p class="product-des">
-                    ${product.description}
-                  </p>
+                  <p class="product-des">${product.description}</p>
                 </div>
                 <div class="price-and-clear">
-                  <div class="clear" onclick='deleteItem(${product.id})'>
+                  <div class="clear" onclick="deleteItem(${product.id})">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -122,7 +120,8 @@
                     </svg>
                   </div>
                   <div class="product-price">
-                    ${(product.price * product.quantity).toLocaleString("de-DE")}
+                    ${(product.price *
+                    product.quantity).toLocaleString("de-DE")}
                     <span class="color-orange">đ</span>
                   </div>
                 </div>
@@ -178,6 +177,5 @@
     </div>
 
     <script src="./index.js"></script>
-
   </body>
 </html>
