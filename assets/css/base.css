@@ -1,3 +1,6 @@
+body{
+  background-color:#FFF2F2 !important;
+}
 /* width */
 ::-webkit-scrollbar {
   width: 5px;
@@ -23,7 +26,6 @@
 
 .app_body {
   padding-top: 30px;
-  background-color: #fff2f2;
 }
 .app_content {
   margin: 0 30px;
@@ -219,15 +221,15 @@
   margin-top: 50px;
 }
 .right {
-  background: rgb(255, 255, 255);
-  border-radius: 20px 0px 0px 0px;
   padding: 16px 30px 31px;
   box-sizing: border-box;
+  border-top-left-radius: 30px;
   font-family: Montserrat;
   font-style: normal;
   display: flex;
   height: 100vh;
   flex-direction: column;
+  background-color: #fff;
 }
 
 .logo{
@@ -388,6 +390,7 @@
   background: #ff8000;
   border-radius: 46.5px;
   font-size: 18px;
+  margin-top: 20px;
   font-weight: 600;
   line-height: calc(22 / 18);
   cursor: pointer;
@@ -627,7 +630,9 @@
 }
 .cart__container {
   position: fixed !important;
+  border-top-left-radius: 50px;
   right: 0;
+  padding-right: 0px !important;
 }
 .btn-check-out.add {
   bottom: 15px;

@@ -9,18 +9,18 @@ a {
 /* tổng thể phần nav bar */
 .navigation {
   position: fixed;
-  height: 700px;
+  height: 100vh;
   left: 0px;
   top: 0px;
+  min-width: 91.325px;
   background-color: #ffffff;
-  border-radius: 0 20px 0 0;
+  border-radius: 0 30px 0 0;
+  display: flex;
+  justify-content: center;
 }
 
 .navigation_list {
-  margin-top: 14px;
-  margin-left: 14px;
-  padding-left: 0;
-  position: relative;
+  padding: 20px 0;
   display: flex;
   height: 40%;
   flex-direction: column;
