@@ -41,6 +41,10 @@ a {
   transition: transform 0.5s;
 }
 /* svg */
+.navigation_list_item svg{
+  fill: #D2d2d2;
+}
+
 
 .home_icon_component {
   display: inline-block;
@@ -52,28 +56,40 @@ a {
 /* thẻ a bao ngoài */
 /* .active, .componentx:hover { */
 
-.active,
 .navigation_list_item a:hover {
-  background-color: #e3e3e5;
+  background-color: #fff;
   cursor: pointer;
   transform: scale(1.2);
-  background: #ff8001;
+  /* background: #ff8001; */
   box-shadow: 4px 4px 4px rgba(255, 128, 1, 0.25),
     -2px -2px 4px rgba(208, 208, 208, 0.15);
+  /* border-radius: 45px; */
+}
+
+.navigation_list_item a:hover svg{
+  fill: #ff8001;
+}
+
+.active {
   border-radius: 45px;
+  background-color: #ff8001 !important;
+  transform: scale(1.2);
+}
+
+.active svg{
+  fill: #fff !important;
 }
 
 .log {
   position: absolute;
   top: 295px;
   display: flex;
+  align-items: center;
   flex-direction: column;
-  left: 14px;
 }
 
 .log_icon {
   margin-top: 20px;
-  margin-left: 10px;
   transition: transform 0.5s;
 }
 
