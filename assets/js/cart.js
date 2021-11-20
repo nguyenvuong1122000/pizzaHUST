@@ -72,9 +72,7 @@ let productList = data.map(function (product) {
                       product.name
                     }</p>
                     <p class="product-quantity">
-                      <span class="color-orange">x</span> ${
-                        product.quantity
-                      }
+                    <span class="color-orange product-volumeBtn product-volumeBtnDe"> - </span>${product.quantity}<span class="color-orange product-volumeBtn product-volumeBtnIn"> + </span>
                     </p>
                     <p class="product-des">
                       ${product.description}
