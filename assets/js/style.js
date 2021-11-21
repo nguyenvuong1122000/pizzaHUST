@@ -1,9 +1,9 @@
-const $ = document.querySelector.bind(document);
-const $$ = document.querySelectorAll.bind(document);
-const menuList = $$('.menu__item');
+const $1 = document.querySelector.bind(document);
+const $$1 = document.querySelectorAll.bind(document);
+const menuList = $$1('.menu__item');
 menuList.forEach((menuItem, index) => {
   menuItem.onclick = function () {
-    $('.menu__item--active').classList.remove(
+    $1('.menu__item--active').classList.remove(
       'menu__item--active'
     );
     this.classList.add('menu__item--active');

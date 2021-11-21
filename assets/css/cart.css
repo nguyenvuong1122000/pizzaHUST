@@ -261,6 +261,7 @@ body {
 .input:hover,
 .input:focus {
   outline: 1px solid var(--color-primary);
+  border: none;
 }
 
 input:-webkit-autofill,
