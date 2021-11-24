@@ -146,17 +146,18 @@
 }
 
 .slider {
+  position: relative;
+  z-index: 1;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 0;
+  overflow: hidden;
+  list-style: none;
   display: flex;
-  flex-wrap: wrap;
-  /* width: 200px; */
-  height: 80px;
-  /* overflow: hidden; */
-  /* position: relative; */
-  margin-bottom: 80px;
 }
 .slider-item {
   position: static;
-  width: 65px;
+  width: 90px;
   height: 66px;
   display: inline-flex;
   flex-direction: column;

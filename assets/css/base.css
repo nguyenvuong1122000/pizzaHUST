@@ -249,12 +249,12 @@ body {
   border-top-left-radius: 30px;
   font-family: Montserrat;
   font-style: normal;
-  /* display: flex; */
+  display: flex;
   height: 100vh;
-  /* flex-direction: column; */
+  flex-direction: column;
   background-color: #fff;
-  /* position: fixed; */
-  /* width: 33%; */
+  position: fixed;
+  width: 33%;
 }
 
 .logo {
