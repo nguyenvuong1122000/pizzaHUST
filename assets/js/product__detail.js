@@ -1,14 +1,6 @@
 $(document).ready(function () {
-  $('.slider').slick({
-    slidesToShow: 4,
-    slidesToScroll: 4,
-  });
-
-  $('.slider-item-add').click(function () {
-    $(this).closest('.slider-item').addClass('item-added');
-    $(this)
-      .addClass('slider-item-added')
-      .removeClass('slider-item-add');
+  $('.slider-item').click(function () {
+    $(this).toggleClass('item-added');
   });
 });
 
