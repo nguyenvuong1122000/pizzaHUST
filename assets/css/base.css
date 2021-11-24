@@ -1,5 +1,5 @@
-body{
-  background-color:#FFF2F2 !important;
+body {
+  background-color: #fff2f2 !important;
 }
 /* width */
 ::-webkit-scrollbar {
@@ -22,7 +22,6 @@ body{
 ::-webkit-scrollbar-thumb:hover {
   background: #ff8800;
 }
-
 
 .app_body {
   padding-top: 30px;
@@ -72,14 +71,14 @@ body{
   background-color: #fff;
 }
 
-.menu__item--overal svg{
+.menu__item--overal svg {
   width: 100%;
   height: 100%;
   fill: #000;
   border-radius: 50px;
 }
 
-.menu__item--active svg{
+.menu__item--active svg {
   fill: #ff8000;
 }
 
@@ -266,7 +265,7 @@ body{
   width: 33%;
 }
 
-.logo{
+.logo {
   display: flex;
   flex-direction: row-reverse;
 }
@@ -362,6 +361,8 @@ body{
   color: white;
 } */
 .cart-img img{
+}
+.cart-img img {
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -376,7 +377,7 @@ body{
   display: block;
 }
 
-.product-volumeBtn{
+.product-volumeBtn {
   cursor: pointer;
 }
 
@@ -400,7 +401,7 @@ body{
   display: inline-block;
 }
 
-.price{
+.price {
   display: flex;
 }
 

@@ -29,7 +29,7 @@
 }
 
 .product-detail__option {
-    margin-left: 20px;
+  margin-left: 20px;
 }
 
 .clip-list {
@@ -72,18 +72,18 @@
 }
 
 .select-selected:after {
-    content: '';
-    position: absolute;
-    height: 16px;
-    width: 13px;
-    top: 50%;
-    right: 11.69%;
-    background-repeat: no-repeat;
-    background-position: center;
-    border-radius: 0px;
-    background-image: url(../img/Chevron.png);
-    transform: translateY(-50%) rotate(0deg);
-    transition: 0.5s;
+  content: '';
+  position: absolute;
+  height: 16px;
+  width: 13px;
+  top: 50%;
+  right: 11.69%;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 0px;
+  background-image: url(../img/Chevron.png);
+  transform: translateY(-50%) rotate(0deg);
+  transition: 0.5s;
 }
 
 .select-selected.select-arrow-active:after {
@@ -137,21 +137,22 @@
 }
 
 .product-detail__topping {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .product-detail__tp-title {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .slider {
-  /* display: inline-block; */
-  width: 200px;
-  height: 80px;
-  overflow: hidden;
-  /* position: relative; */
   display: flex;
+  flex-wrap: wrap;
+  /* width: 200px; */
+  height: 80px;
+  /* overflow: hidden; */
+  /* position: relative; */
+  margin-bottom: 80px;
 }
 .slider-item {
   position: static;
@@ -212,17 +213,17 @@
 }
 
 .product-detail__comment {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .product-detail__comment textarea {
-    border: 1px solid #ffffff;
+  border: 1px solid #ffffff;
 }
 
 .product-detail__comment textarea:hover,
-.product-detail__comment textarea:focus{
-    outline: 1px solid #ff8000;
+.product-detail__comment textarea:focus {
+  outline: 1px solid #ff8000;
 }
 
 .btn-check-out.add {
