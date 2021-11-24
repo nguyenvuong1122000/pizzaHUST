@@ -144,8 +144,10 @@
 .product-detail__tp-title {
   font-weight: 600;
 }
-
-.slider {
+.slider__wrap {
+  position: relative;
+}
+.slider__main {
   position: relative;
   z-index: 1;
   margin-right: auto;
@@ -153,7 +155,15 @@
   padding: 0;
   overflow: hidden;
   list-style: none;
+  width: 70%;
+}
+.slider {
   display: flex;
+  align-items: stretch;
+  box-sizing: content-box;
+  padding-left: 0;
+  width: 250%;
+  list-style: none;
 }
 .slider-item {
   position: static;
@@ -229,4 +239,24 @@
 
 .btn-check-out.add {
   bottom: 15px;
+}
+.slider__previus {
+  position: absolute;
+  top: 36%;
+  transform: translateY(-50%);
+  z-index: 2;
+  cursor: pointer;
+  left: 4px;
+}
+.slider__next {
+  position: absolute;
+  top: 36%;
+  transform: translateY(-50%);
+  z-index: 2;
+  cursor: pointer;
+  right: 4px;
+}
+.slider__btn {
+  font-size: 10px;
+  color: #666;
 }
