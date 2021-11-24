@@ -111,20 +111,24 @@ let productList = data.map(function (product) {
       `;
 });
 
-let totalPrice = data.reduce((accumulator, product) => {
+let provisionalPrice = data.reduce((accumulator, product) => {
   return accumulator + product.price * product.quantity;
 }, 0);
+let totalPrice = provisionalPrice + 22000
 
 const deleteItem = (id) => {
   data = data.filter((product) => product.id != id);
   console.log(data);
 };
 
+provisionalPrice = provisionalPrice.toLocaleString('de-DE');
+provisionalPrice += `<span class="color-orange"> đ</span>`;
+let htmlObj1 = document.querySelector('.product-list');
+htmlObj1.innerHTML = productList.join('\n') + htmlObj1.innerHTML;
+document.querySelector('.products-provisional-price').innerHTML = provisionalPrice;
+
 totalPrice = totalPrice.toLocaleString('de-DE');
 totalPrice += `<span class="color-orange"> đ</span>`;
 let htmlObj = document.querySelector('.product-list');
-htmlObj.innerHTML =
-  productList.length === 0
-    ? `Giỏ hàng trống`
-    : productList.join('\n') + htmlObj.innerHTML;
-document.querySelector('.total').innerHTML = totalPrice;
+htmlObj.innerHTML = productList.join('\n') + htmlObj.innerHTML;
+document.querySelector('.products-total-price').innerHTML = totalPrice;
