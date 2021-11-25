@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-fw6)y=(neys0m63jdb*kj(3$*8sxq2(#dx4hi9d+tb&)r4==2g
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -38,13 +38,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'home',
     'profiles',
     'crispy_forms',
     'project',
+    'django_extensions',
+    'corsheaders',
+
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,6 +55,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+
 ]
 
 ROOT_URLCONF = 'myproject.urls'
@@ -89,6 +94,7 @@ DATABASES = {
         # 'USER': 'postgres',
         # 'PASSWORD': 'an0911053091',
         # 'HOST': 'localhost',
+        # 'HOST': '127.0.0.1',
         # 'PORT': '5432',
         # # import os
         # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -102,6 +108,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER=''
 EMAIL_HOST_PASSWORD=''
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -145,3 +152,18 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3030',
+]
+
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
+CORS_ORIGIN_ALLOW_ALL = True
