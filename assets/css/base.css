@@ -173,7 +173,7 @@ body {
 
 .product-item__img {
   width: 60%;
-  margin: auto;
+  align-self: center;
   margin-top: -70px;
   transition: all 0.2s ease-in-out;
 }

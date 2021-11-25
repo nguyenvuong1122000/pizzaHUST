@@ -1,26 +1,30 @@
-var pizzaApi = 'http://127.0.0.1:8000/pizza/'
-
+var pizzaApi = 'http://127.0.0.1:8000/pizza/';
+var localhost = 'http://127.0.0.1:8000';
 function start() {
-    getData(renderData);
+  getData(renderData);
 }
 
 start();
 
 function getData(callback) {
-    fetch(pizzaApi)
-        .then(function(response) {
-            return response.json();
-        })
-        .then(callback);
+  fetch(pizzaApi)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(callback);
 }
 
-function renderData(data){
-    var listDataBlock = document.querySelector('.product-list__block');
-    var html = data.map(function(item){
-        return `
+function renderData(data) {
+  var listDataBlock = document.querySelector(
+    '.product-list__block'
+  );
+  var html = data.filter(function(item){
+      return item.size == "S";
+  }).map(function (item) {
+    return `
         <div class="product-item col-lg-4">
         <img
-          src='http://127.0.0.1:8000/media/pizza/0002220_deluxe_300-removebg-preview_DZshBXr.png'
+          src= ${localhost}${item.image}
           alt=""
           class="product-item__img"
         />
@@ -175,7 +179,7 @@ function renderData(data){
           </div>
         </div>
       </div>
-        `
-    })
-    listDataBlock.innerHTML = html.join('');
+        `;
+  });
+  listDataBlock.innerHTML = html.join('');
 }
