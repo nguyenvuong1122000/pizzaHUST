@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from django.forms import ModelForm, fields
 from datetime import date
 # Create your models here.
+
 class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     image =models.ImageField(default="default.jpg",upload_to="profile_pictures")
