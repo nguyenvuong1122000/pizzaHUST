@@ -82,14 +82,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'myproject',
-        'USER': 'postgres',
-        'PASSWORD': 'an0911053091',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # 'NAME': 'myproject',
+        # 'USER': 'postgres',
+        # 'PASSWORD': 'an0911053091',
+        # 'HOST': 'localhost',
+        # 'PORT': '5432',
         # # import os
         # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
         # MEDIA_URL = '/media/'
