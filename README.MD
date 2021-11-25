@@ -1,6 +1,6 @@
 ## Running project
 
-
+### FOR LINUX
 
 - Để bắt đầu và run project này, máy tính cần cài sẵn Python 3.8 trong máy. Nên tạo một virtual environment để quản lý các thư viện. Install virtualenv bằng command : 
 ```
@@ -26,9 +26,17 @@ pip install -r requirements.txt
 
 - Khởi chạy sever : 
 ```
-python manage.py runserver
+python manager.py runserver
 ```
 - Username của admin : vuong
 
 - Password của admin : 123
+- 
+### FOR WINDOW :
+- Install python, pip and install requirements, so it done :)))
+
+- Add superuser to django :
+```
+python manager.py createsuperuser
+```
 
