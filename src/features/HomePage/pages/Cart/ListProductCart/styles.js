@@ -16,23 +16,22 @@ const useStyles = makeStyles({
     marginTop: '18px',
     overflow: 'auto',
     marginBottom: '40px',
-
   },
-  
+
   productList: {
     flex: 1,
-    overflow: 'auto',
+    overflow: 'scroll',
     /* width */
     '&::-webkit-scrollbar': {
       width: '5px',
       borderRadius: '10px',
     },
-  
+
     /* Track */
     '&::-webkit-scrollbar-track': {
       background: '#fff2e0',
     },
-  
+
     /* Handle */
     '&::-webkit-scrollbar-thumb': {
       background: '#ff8000',
@@ -83,7 +82,7 @@ const useStyles = makeStyles({
     WebkitLineClamp: '2',
     maxHeight: '2.4rem',
     fontWeight: 600,
-    overflow: 'hidden',
+    // overflow: 'hidden',
     textOverflow: 'ellipsis',
     textAlign: 'left',
   },

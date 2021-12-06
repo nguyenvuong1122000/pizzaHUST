@@ -26,8 +26,8 @@ const useStyles = makeStyles({
 
     '&:hover': {
       '& img': {
-        transform: 'scale(1.2) rotate(20deg)',
-        transition: '0.5s',
+        transform: 'scale(1.2) rotate(60deg)',
+        transition: '1s',
       },
       '& p': {
         color: '#ff8000',
@@ -70,9 +70,9 @@ export default function Item({ item }) {
   return (
     <div className={classes.root}>
       <img
-        src={item.image}
+        src={process.env.PUBLIC_URL + `${item.srcImg}`}
         alt=""
-        style={{width:'100%'}}
+        style={{ width: '100%' }}
       />
       <p>{item.name}</p>
       <div className={classes.body}>

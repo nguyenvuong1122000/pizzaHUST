@@ -19,7 +19,7 @@ export default function AnProductCart({ chooseProduct }) {
   const [topping, setTopping] = useState('');
   const cart = useSelector((state) => state.cart.listProduct);
   const dispatch = useDispatch();
-  console.log(cart)
+  console.log(cart);
   function handleBackBtn() {
     dispatch(BackBtnClick());
   }
@@ -70,7 +70,7 @@ export default function AnProductCart({ chooseProduct }) {
       </Box>
       <ArrowBackIosIcon className={classes.back} onClick={handleBackBtn} />
       <Box className={classes.product}>
-        <img src={chooseProduct.image} alt="" />
+        <img src={process.env.PUBLIC_URL + `${chooseProduct.srcImg}`} alt="" />
         <Box>
           <p style={{}}>{chooseProduct.name}</p>
           <p style={{ fontWeight: 400 }}>{chooseProduct.description}</p>

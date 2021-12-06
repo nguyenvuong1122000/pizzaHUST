@@ -53,15 +53,12 @@ export default function ListProductCart({ cart }) {
       <Box className={classes.product}>
         <Box className={classes.text}>
           <span style={{ fontSize: '18px', fontWeight: 700 }}>Giỏ hàng</span>
-          {/* <span style={{ fontSize: '12px', fontWeight: 500, color: '#FF8000' }}>
-            Xem thêm
-          </span> */}
         </Box>
         <Box className={classes.productList}>
           <>
             {cart.map((item) => (
               <Box key={item.id} className={classes.productItem}>
-                <img src={item.image} alt="" />
+                <img src={process.env.PUBLIC_URL + `${item.srcImg}`} alt="" />
                 <Box className={classes.itemInfo}>
                   <p
                     onMouseEnter={(event) => handlePopoverOpen(item.id, event)}
