@@ -8,9 +8,6 @@ import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
   root: {
-    position: 'fixed',
-    zIndex: 2,
-    width: '33.3333%',
     backgroundColor: '#fff',
     borderRadius: '20px 0 0 0',
   },

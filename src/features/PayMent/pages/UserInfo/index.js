@@ -27,7 +27,7 @@ export default function UserInfo() {
   }
 
   return (
-    <Box className={classes.root}>
+    <Box className={classes.root} height={{md: "100vh"}}>
       <Box className={classes.logo}>
         <img
           srcSet={process.env.PUBLIC_URL + 'pizzaLogo.png 2x'}

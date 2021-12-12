@@ -2,7 +2,7 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
   root: {
-    padding: '12px 28px 34px 32px',
+    padding: '10px',
     boxSizing: 'border-box',
     display: 'flex',
     flexDirection: 'column',
@@ -12,7 +12,7 @@ const useStyles = makeStyles({
   product: {
     display: 'flex',
     flexDirection: 'column',
-    flex: 1,
+   
     marginTop: '18px',
     overflow: 'auto',
     marginBottom: '40px',
@@ -20,7 +20,8 @@ const useStyles = makeStyles({
 
   productList: {
     flex: 1,
-    overflow: 'scroll',
+    overflow: "scroll",
+    paddingTop: "20px",
     /* width */
     '&::-webkit-scrollbar': {
       width: '5px',
@@ -50,6 +51,7 @@ const useStyles = makeStyles({
     height: '80px',
     backgroundColor: '#FFECD1',
     display: 'flex',
+    fontSize: "0.85em",
     alignItems: 'center',
     marginBottom: '24px',
     borderRadius: '57px',

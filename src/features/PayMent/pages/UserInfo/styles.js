@@ -6,12 +6,10 @@ const useStyles = makeStyles({
     boxSizing: 'border-box',
     display: 'flex',
     flexDirection: 'column',
-    height: '100vh',
     backgroundColor: '#fff',
   },
 
   userInfo: {
-    flex: 1,
     display: 'flex',
     flexDirection: 'column',
 

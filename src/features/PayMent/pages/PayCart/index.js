@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Divider, Collapse } from '@mui/material';
+import { Box, Divider, Collapse, Button } from '@mui/material';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
@@ -50,7 +50,7 @@ export default function PayCard() {
   function renderItem({ item }) {
     return (
       <Box key={item.id} className={classes.productItem}>
-        <img src={process.env.PUBLIC_URL + `${item.srcImg}`} alt="" />
+        <img className="item-img" src={process.env.PUBLIC_URL + `${item.srcImg}`} alt="" />
         <Box className={classes.itemInfo}>
           <p>{item.name}</p>
           <Box className={classes.quantity}>
@@ -160,10 +160,11 @@ export default function PayCard() {
                 </tr>
               </table>
             </Box>
-            <span onClick={() => navigate('/', { replace: true })}>
-              Tiếp tục mua hàng
-            </span>
+           
           </Box>
+          <Button className="back-shop-btn" onClick={() => navigate('/', { replace: true })}>
+              Tiếp tục mua hàng
+            </Button>
         </Box>
       </Box>
     </Box>

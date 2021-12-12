@@ -16,8 +16,9 @@ const useStyles = makeStyles({
 
   category: {
     display: 'flex',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     marginTop: '22px',
+    flexWrap: "wrap",
   },
 });
 

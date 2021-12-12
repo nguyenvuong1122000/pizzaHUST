@@ -9,8 +9,9 @@ const useStyles = makeStyles({
     boxSizing: 'border-box',
     display: 'flex',
     flexDirection: 'column',
+    textAlign: "center",
     height: '100vh',
-
+    justifyContent: "space-around",
     '& > span': {
       fontSize: '18px',
       fontWeight: 700,
@@ -21,7 +22,7 @@ const useStyles = makeStyles({
   body: {
     flex: 1,
     marginTop: '85px',
-    alignSelf: 'center',
+    
   },
 });
 
@@ -31,10 +32,8 @@ export default function EmptyCard() {
   return (
     <Box className={classes.root}>
       <span>Giỏ hàng</span>
-      <Box className={classes.body}>
         <img srcSet={process.env.PUBLIC_URL + 'empty.png 2x'} alt="" />
         <p>Giỏ hàng trống, vui lòng chọn sản phẩm</p>
-      </Box>
       <Button name={'Mua hàng'} disable />
     </Box>
   );

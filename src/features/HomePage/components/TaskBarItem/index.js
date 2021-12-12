@@ -7,7 +7,7 @@ export default function TaskBarItem({ item, onTabClick, activeId }) {
   const classes = useStyles({ isActive });
 
   return (
-    <Box className={classes.item} onClick={() => onTabClick(item.id)}>
+    <Box style={{margin: "10px"}} className={classes.item} onClick={() => onTabClick(item.id)}>
       <div className={classes.circle}>
         <svg
           width="20"

@@ -7,7 +7,6 @@ import NavBar from 'components/NavBar';
 
 const useStyles = makeStyles({
   root: {
-    height: '100vh',
     backgroundColor: '#FFF2F2',
   },
 });
@@ -17,13 +16,13 @@ export default function Pay() {
 
   return (
     <Grid className={classes.root} container>
-      <Grid className={classes.navBar} item xs={1}>
+      <Grid className={classes.navBar} item display={{xs: "none", md: "unset"}} md={1}>
         <NavBar />
       </Grid>
-      <Grid className={classes.main} item xs={7}>
+      <Grid padding={"25px"} className={classes.main} item xs={12} md={7}>
         <PayCard />
       </Grid>
-      <Grid className={classes.userInfo} item xs={4}>
+      <Grid padding={{xs: "25px", md: "0px"}} className={classes.userInfo} item xs={12} md={4}>
         <UserInfo />
       </Grid>
     </Grid>

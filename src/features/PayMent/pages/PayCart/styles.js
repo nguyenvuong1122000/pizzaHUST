@@ -1,16 +1,22 @@
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
-  root: {},
+  root: {
+    '& .back-shop-btn': {
+      width: "fit-content",
+      color: '#ff8000',
+      fontSize: '12px',
+      fontWeight: 700,
+      cursor: 'pointer',
+    },
+  },
 
   container: {
-    marginLeft: '25px',
     cursor: 'default',
   },
 
   cart: {
-    height: '100vh',
-    padding: '77px 70px 28px 69px',
+    padding: '20px',
     boxSizing: 'border-box',
     backgroundColor: '#fff',
     display: 'flex',
@@ -51,14 +57,15 @@ const useStyles = makeStyles({
   productItem: {
     display: 'flex',
     alignItems: 'center',
-    fontSize: '16px',
+    fontSize: '0.8em',
     lineHeight: 5 / 4,
     fontWeight: 600,
     background: '#fff2e0',
     borderRadius: '100px 0 0 100px',
 
     '& img': {
-      width: '120px',
+      width: "20%",
+      height: "20%"
     },
 
     '& p, span': {
@@ -83,19 +90,12 @@ const useStyles = makeStyles({
     marginRight: '20px',
     fontWeight: 700,
   },
-
+ 
   total: {
     position: 'relative',
     // height: '100px',
-
-    '& > span': {
-      position: 'absolute',
-      bottom: 0,
-      color: '#ff8000',
-      fontSize: '12px',
-      fontWeight: 700,
-      cursor: 'pointer',
-    },
+    marginTop: "20px",
+    
   },
   fee: {
     float: 'right',

@@ -8,9 +8,10 @@ const useStyles = makeStyles({
   root: {},
   body: {
     marginTop: '100px',
-    display: 'grid',
-    gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-    gridGap: '20px',
+    display: 'flex',
+    columnGap: "20px",
+    flexWrap: "wrap",
+    justifyContent: "space-around"
   },
 
   moreBtn: {
