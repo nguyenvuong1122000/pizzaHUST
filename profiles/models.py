@@ -79,7 +79,7 @@ class Order(models.Model):
     @property
     def cost(self):
         cost = 0
-        a = OrderSideDishes.objects.filter(order__id = self.id)
+        a = OrderPizza.objects.filter(order__id = self.id)
         for piza in a:
             cost +=piza.cost()
         b = OrderSideDishes.objects.filter(order__id = self.id)
@@ -88,7 +88,7 @@ class Order(models.Model):
         c = OrderCombo.objects.filter(order__id = self.id)
         for combo in c:
             cost+=combo.cost()
-        return cost
+        return cost + 22000
 class OrderPizza(models.Model):
     order = models.ForeignKey(Order,related_name='orderpizza',on_delete= models.CASCADE, null = False)
     pizaa = models.ForeignKey(Pizza,related_name='pizaa', on_delete=models.CASCADE)

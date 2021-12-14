@@ -6,6 +6,8 @@ from .models import *
 from project.models import *
 from django.contrib.auth.models import User
 # from project.serializers import ComboSerializer
+from drf_writable_nested import WritableNestedModelSerializer
+
 class ProfilesSerializaer(serializers.HyperlinkedModelSerializer):
     user = serializers.SlugRelatedField(queryset = User.objects.all(),slug_field='username')
     image =serializers.ImageField()
@@ -81,7 +83,7 @@ class ProfilesSerializaer(serializers.HyperlinkedModelSerializer):
     #     for order in carts.cart:
     #         price+=order.cost
     #     return price
-class OrderPizzaSerializer(serializers.HyperlinkedModelSerializer):
+class OrderPizzaSerializer(WritableNestedModelSerializer, serializers.HyperlinkedModelSerializer):
     order = serializers.StringRelatedField()
    # pizaa = serializers.SlugRelatedField(queryset = Pizza.objects.all(), slug_field='name')
     pizaa = serializers.HyperlinkedRelatedField(read_only = True, view_name='pizza-detail')
@@ -133,9 +135,9 @@ class OrderComboSerializer(serializers.HyperlinkedModelSerializer):
         )
     def get_cost(self, ordercombo):
         return ordercombo.combobox.cost*ordercombo.amount
-class OrderSerializer(serializers.HyperlinkedModelSerializer):
+class OrderSerializer(WritableNestedModelSerializer, serializers.HyperlinkedModelSerializer):
     # cart = serializers.SlugRelatedField(queryset = Cart.objects.all(), slug_field='__str__')
-    # cart = serializers.StringRelatedField()
+    cart = serializers.StringRelatedField()
     # piza = serializers.SlugRelatedField(queryset = Pizza.objects.all(), slug_field='name')
     # side = serializers.SlugRelatedField(queryset = SideDishes.objects.all(), slug_field='name')
     # combobox = serializers.SlugRelatedField(queryset = Combo.objects.all(), slug_field = 'name')
@@ -145,7 +147,7 @@ class OrderSerializer(serializers.HyperlinkedModelSerializer):
     orderpizza = OrderPizzaSerializer(many = True)
     orderside = OrderSideSerializer(many = True)
     ordercombo = OrderComboSerializer( many = True)
-    cost_fields = serializers.IntegerField(source = 'cost')
+    cost_fields = serializers.IntegerField(source = 'cost', read_only=True)
     class Meta:
         model = Order
         fields = (
