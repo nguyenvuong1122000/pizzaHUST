@@ -155,15 +155,15 @@ class ComboClient(models.Model):
         self.dishes.remove(dishes)
     def current_side(self):
         return SideDishes.objects.filter(type='Noodle')
-    # def pricecombo(self):
-    #     price = 0
-    #     a = PizzaInCombo.objects.filter(combo__id  = self.id)
-    #     for pizacb in a:
-    #         price += pizacb.pizzacombo.cost
-    #     b = SideDishesInCombo.objects.filter(combo__id = self.id)
-    #     for sidecb in b:
-    #         price+= sidecb.sidecombo.cost
-    #     return int(price*(100-self.percent))/100
+    def pricecombo(self):
+        price = 0
+        a = PizzaInComboClient.objects.filter(comboclient__id  = self.id)
+        for pizacb in a:
+            price += pizacb.pizzacombo.cost
+        b = SideDishesInComboClient.objects.filter(comboclient__id = self.id)
+        for sidecb in b:
+            price+= sidecb.sidecombo.cost
+        return int(price*(100-self.percent))/100
     @property
     def current_sides(self):
         return SideDishes.objects.filter(type='Drink')

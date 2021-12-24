@@ -100,7 +100,7 @@ class SideDishesSerializer(serializers.HyperlinkedModelSerializer):
 #             'dishes',
 #             'amount',)
 class PizzaInComboClientSerializer(serializers.HyperlinkedModelSerializer):
-    comboclient = serializers.SlugRelatedField(queryset = Combo.objects.all(), slug_field='name')
+    comboclient = serializers.SlugRelatedField(queryset = ComboClient.objects.all(), slug_field='pk')
     pizzacomboclient = serializers.SlugRelatedField(queryset = Pizza.objects.all(), slug_field='pk')
     pizza = PizzaSerializer(read_only = True, source = 'piza')
     class Meta:
@@ -114,7 +114,7 @@ class PizzaInComboClientSerializer(serializers.HyperlinkedModelSerializer):
             # 'amount',
         )
 class SideDishesInComboClientSerializer(serializers.HyperlinkedModelSerializer):
-    comboclient = serializers.SlugRelatedField(queryset = Combo.objects.all(), slug_field='name')
+    comboclient = serializers.SlugRelatedField(queryset = ComboClient.objects.all(), slug_field='pk')
     sidecomboclient = serializers.SlugRelatedField(queryset = SideDishes.objects.all(), slug_field='pk')
     sidedishes = SideDishesSerializer(read_only = True, source = 'side')
     type = serializers.ChoiceField(choices=SideDishes.TYPE_CHOICES, read_only = True)

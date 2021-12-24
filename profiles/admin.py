@@ -17,6 +17,64 @@ class OrderAdmin(admin.ModelAdmin):
         }),
     )
     inlines = [OrderPizzaInLine,OrderSideInLine,OrderComboInLine]
+class PizzaInComboClientAdmin(admin.StackedInline):
+    model = PizzaInComboClient
+    extra = 1
+class SideDishesInComboClientAdmin(admin.StackedInline):
+    model = SideDishesInComboClient
+    extra = 1
+class ComboClientAdmin(admin.ModelAdmin):
+    list_display=('name','numberperson','cost','time')
+    list_filter=['numberperson','cost']
+    search_fields=['name']
+    fieldsets = (
+        # (None,{
+        #     'fields':(
+        #         ['combocategory']
+        #     ),
+        # }
+        # ),
+        (None, {
+            "fields": (
+                ['name']
+            ),
+        }),
+        (None,{
+            'fields':
+            ['cost']
+        }),
+        (None,{
+            'fields':['percent']
+        }),
+        (None,{
+            'fields':['time']
+        }),
+        (None,{
+            'fields':['image']
+        }),
+        (None,{
+            'fields':['numberperson']
+        }),
+        (None,{
+            "fields":['description']
+        }
+        ),
+         (None,{
+            'fields':['menu']
+        }),
+        # (None, {
+        #     "fields": (
+        #         ['pizzas']
+        #     ),
+        # }),
+        # (None, {
+        #     "fields": (
+        #         ['sides']
+        #     ),
+        # }),
+    )
+    inlines=[PizzaInComboClientAdmin,SideDishesInComboClientAdmin]
 admin.site.register(Profile)
 admin.site.register(Cart)
 admin.site.register(Order,OrderAdmin)
+admin.site.register(ComboClient, ComboClientAdmin)
