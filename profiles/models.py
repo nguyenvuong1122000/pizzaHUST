@@ -55,12 +55,22 @@ class Cart(models.Model):
     #         price +=order.cost()
     #     return price
 class Order(models.Model):
-    cart = models.ForeignKey(Cart, related_name='cart', on_delete=models.SET_NULL,null=True)
+    cart = models.ForeignKey(Cart, related_name='cart', on_delete=models.SET_NULL,null=True, blank=True)
     name = models.CharField(max_length=100, blank=False)
     phonenumber = models.CharField(max_length=10,blank=False)
     email = models.EmailField(blank=True)
     address = models.CharField(max_length=100)
-    delive = models.BooleanField(default=False)
+    XAC = 'Dang xac nhan'
+    NHA = 'Xac nhan'
+    DAN = 'Dang giao'
+    OKE = 'Hoan thanh'
+    DELIVE_CHOICE =[
+        (XAC,'Dang xac nhan'),
+        (NHA, 'Xac nhan'),
+        (DAN,'Dang giao'),
+        (OKE,'Hoan thanh ')
+        ]
+    delive = models.CharField(choices=DELIVE_CHOICE, max_length= 30)
     create = models.DateTimeField(default = datetime.now())
     def __str__(self):
         return self.name +str(self.id)
@@ -109,12 +119,88 @@ class OrderSideDishes(models.Model):
         return SideDishes.objects.get(id = self.sidess.id)
 class OrderCombo(models.Model):
     order = models.ForeignKey(Order, related_name = 'ordercombo', on_delete = models.CASCADE)
-    combobox = models.ForeignKey(Combo,related_name= 'combobox',on_delete = models.CASCADE)
+    combobox = models.ForeignKey('ComboClient',related_name= 'combobox',on_delete = models.CASCADE)
     amount = models.IntegerField(default=1)
     def cost(self):
         return self.combobox.pricecombo()*self.amount
     @property
     def comboboss(self):
         return Combo.objects.get(id = self.combobox.id)
-    
-    
+class ComboClient(models.Model):
+    name=models.CharField(max_length=100)
+    cost = models.IntegerField()
+    time = models.DateTimeField("Expires on")
+    image = models.ImageField(default = 'combo', upload_to = 'combo')
+    numberperson = models.IntegerField()
+    percent = models.IntegerField(default=10)
+    description = models.CharField(max_length = 200, blank = True)
+    # pizzas= models.ManyToManyField(Pizza,related_name='pizzas')
+    # sides = models.ManyToManyField(SideDishes,related_name='sides')
+    menu = models.CharField(default='Sang',choices = Pizza.choi,max_length=10)
+    class Meta:
+        ordering = ('name',)
+    def __str__(self):
+        return self.name
+    def addpizza(self, pizza_id):
+        pizza=Pizza.objects.get(pk=pizza_id)
+        self.pizzas.add(pizza)
+    def removepizza(self, pizza_id):
+        pizza = Pizza.objects.get(pk=pizza_id)
+        self.pizzas.add(pizza)
+    def adddishes(self,dishes_id):
+        dishes = SideDishes.objects.get(pk=dishes_id)
+        self.dishes.add(dishes)
+    def remvedishes(self, dishes_id):
+        dishes = SideDishes.objects.get(pk=dishes_id)
+        self.dishes.remove(dishes)
+    def current_side(self):
+        return SideDishes.objects.filter(type='Noodle')
+    # def pricecombo(self):
+    #     price = 0
+    #     a = PizzaInCombo.objects.filter(combo__id  = self.id)
+    #     for pizacb in a:
+    #         price += pizacb.pizzacombo.cost
+    #     b = SideDishesInCombo.objects.filter(combo__id = self.id)
+    #     for sidecb in b:
+    #         price+= sidecb.sidecombo.cost
+    #     return int(price*(100-self.percent))/100
+    @property
+    def current_sides(self):
+        return SideDishes.objects.filter(type='Drink')
+    def score(self):
+        a = ScoreCombo.objects.filter(combo__id = self.id)
+        score = float(0.0)
+        count = 0
+        for scorecombo in a:
+            count+=1
+            score += scorecombo.score
+        if(count == 0):
+            return 5
+        return score/count
+    def price(self):
+        price = 0
+        a = PizzaInCombo.objects.filter(combo__id  = self.id)
+        for pizacb in a:
+            price += pizacb.pizzacombo.cost
+        b = SideDishesInCombo.objects.filter(combo__id = self.id)
+        for sidecb in b:
+            price+= sidecb.sidecombo.cost
+        return int(price*(100-self.percent))/100 
+class SideDishesInComboClient(models.Model):
+    comboclient = models.ForeignKey('ComboClient', related_name='sideincomboclient', on_delete=models.SET_NULL, null=True)
+    sidecomboclient = models.ForeignKey(SideDishes, on_delete=models.SET_NULL,null = True,related_name='sidecomboclient')
+    # amount = models.IntegerField(default=0)
+    type = models.CharField(choices=SideDishes.TYPE_CHOICES, default='Drink', max_length=15)
+    @property
+    def side(self):
+        return SideDishes.objects.get(id = self.sidecombo.id)
+    def sidedishes(self):
+        # a = self.type
+        return SideDishes.objects.filter(type = self.type)
+class PizzaInComboClient(models.Model):
+    comboclient = models.ForeignKey('ComboClient', on_delete=models.SET_NULL, related_name='pizzaincomboclient', null=True)
+    pizzacomboclient = models.ForeignKey(Pizza, on_delete=models.SET_NULL, null = True, related_name='pizzacomboclient')
+    # amount = models.IntegerField(default=0)
+    @property
+    def piza(self):
+        return Pizza.objects.get(id = self.pizzacombo.id)

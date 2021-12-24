@@ -64,6 +64,9 @@ class ComboAdmin(admin.ModelAdmin):
             ['cost']
         }),
         (None,{
+            'fields':['percent']
+        }),
+        (None,{
             'fields':['time']
         }),
         (None,{

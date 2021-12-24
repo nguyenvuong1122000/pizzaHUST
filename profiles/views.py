@@ -2,6 +2,7 @@ import django
 from django.db.models import query
 from django.shortcuts import render,redirect
 from django.contrib import messages
+# from myproject.profiles import serializer
 # from myproject.profiles.serializer import CartSerializer, OrderSerializer
 from profiles.serializer import *
 from .models import *
@@ -64,6 +65,30 @@ class UserList(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     name = 'user-list'
+class ComboClientList(generics.ListCreateAPIView):
+    queryset = ComboClient.objects.all()
+    serializer_class = ComboClientSerializer
+    name = 'comboclient-list'
+class ComboClientDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ComboClient.objects.all()
+    serializer_class = ComboClientSerializer
+    name = 'comboclient-detail'
+class PizzaInComboClientList(generics.ListCreateAPIView):
+    queryset = PizzaInComboClient.objects.all()
+    serializer_class = PizzaInComboClientSerializer
+    name = 'pizzaincomboclient-list'
+class PizzaInComboClientDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = PizzaInComboClient.objects.all()
+    serializer_class = PizzaInComboClientSerializer
+    name = 'pizzaincomboclient-detail'
+class SideInComboClientList(generics.ListCreateAPIView):
+    queryset = SideDishesInComboClient.objects.all()
+    serializer_class = SideDishesInComboClientSerializer
+    name = 'sideincomboclient-list'
+class SideInComboClientDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = SideDishesInComboClient.objects.all()
+    serializer_class = SideDishesInComboClientSerializer
+    name = 'sideincomboclient-detail'
 # class ScorePizzaList(generics.ListCreateAPIView):
 #     queryset = ScorePizza.objects.all()
 #     serializer_class = ScorePizzaSerialize
