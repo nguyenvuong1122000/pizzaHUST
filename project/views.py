@@ -72,7 +72,7 @@ class PizzaList(generics.ListCreateAPIView):
     queryset = Pizza.objects.all()
     serializer_class = PizzaSerializer
     name = 'pizza-list'
-    filter_fields = ['size','menu']
+    filter_fields = ['menu']
 class PizzaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Pizza.objects.all()
     serializer_class = PizzaSerializer

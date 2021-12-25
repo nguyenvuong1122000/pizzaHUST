@@ -16,10 +16,10 @@ class Pizza(models.Model):
     # toppings = models.ManyToManyField('Topping', through='ToppingAmount', related_name='pizzas')
     name = models.CharField(max_length=100, blank=False)
     # class Size(models.TextChoices):
-    SMALL='S'
-    MEAN='M'
-    BIG='L'
-    choice = [(SMALL,'S'),(MEAN,'M'),(BIG,'L')]
+    # SMALL='S'
+    # MEAN='M'
+    # BIG='L'
+    # choice = [(SMALL,'S'),(MEAN,'M'),(BIG,'L')]
     sizes = models.IntegerField()
     sizem = models.IntegerField()
     sizel = models.IntegerField()
@@ -47,6 +47,10 @@ class Pizza(models.Model):
         (TRE,'Children')
         )
     menu = models.CharField(default=SAN, choices=choi, max_length=10)
+    SMALL='S'
+    MEAN='M'
+    BIG='L'
+    choice = [(SMALL,'S'),(MEAN,'M'),(BIG,'L')]
     # class Meta:
     #     ordering = ('id',)
     # def addtopping(self, topping_set):
@@ -59,8 +63,8 @@ class Pizza(models.Model):
     # def removetopping(self, topping_id):
     #     topping = Topping.objects.get(pk=topping_id)
     #     self.toppings.remove(topping)
-    # def __str__(self):
-    #     return self.name
+    def __str__(self):
+        return self.name
     @property
     def score(self):
         a = ScorePizza.objects.filter(pizza__id = self.id)

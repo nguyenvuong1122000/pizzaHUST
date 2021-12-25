@@ -107,25 +107,23 @@ class PizzaSerializer(serializers.HyperlinkedModelSerializer):
     # pizza = serializers.HyperlinkedRelatedField(many = True, read_only = True, view_name='comboamount-detail')
     # topping_amounts = ToppingAmountSerializer(many = True)
     name = serializers.CharField(max_length = 100)
-    # cost = serializers.IntegerField()
-    image = serializers.ImageField(required = False, read_only = True)
+    image = serializers.ImageField( read_only = True)
     description = serializers.CharField(max_length = 200)
+    sizes = serializers.IntegerField()
     menu = serializers.ChoiceField(choices = Pizza.choi, read_only = True)
     score_fields = serializers.FloatField(source = 'score', read_only = True)
     class Meta:
         model = Pizza
         fields = (
             'url',
-            'cost',
             'name',
-            'costs',
-            # 'size',
+            'sizes',
+            # 'sizel',
+            # 'sizem',
             'pk',
             'image',
             'description',
             'menu',
-            # 'topping_amounts',
-            # 'pizza',
             'score_fields'
         )
 class SideDishesSerializer(serializers.HyperlinkedModelSerializer):
