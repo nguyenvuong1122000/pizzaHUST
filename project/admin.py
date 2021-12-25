@@ -2,9 +2,9 @@ from django.contrib import admin
 from .models import *
 # Register your models here.
 # admin.site.register(Pizza,PizzaAdmin)
-class AmountToppingInLine(admin.StackedInline):
-    model=ToppingAmount
-    extra=0
+# class AmountToppingInLine(admin.StackedInline):
+#     model=ToppingAmount
+#     extra=0
 # class ComboAmountInLine(admin.StackedInline):
 #     model=ComboAmount
 #     extra = 1
@@ -15,8 +15,8 @@ class SideDishesInComboAdmin(admin.StackedInline):
     model = SideDishesInCombo
     extra = 1
 class PizzaAdmin(admin.ModelAdmin):
-    list_display=('name','cost')
-    list_filter=['cost','toppings']
+    list_display=('name','sizes')
+    list_filter=['sizes']
     search_fields=['name']
     fieldsets = (
         (None, {
@@ -24,11 +24,17 @@ class PizzaAdmin(admin.ModelAdmin):
                 ['name']
             ),
         }),
+        # (None,{
+        #     'fields':['size']
+        # }),
         (None,{
-            'fields':['size']
+            "fields":['sizes']
         }),
         (None,{
-            "fields":['cost']
+            "fields":['sizem']
+        }),
+        (None,{
+            "fields":['sizel']
         }),
         (None,{
             "fields":['image']
@@ -41,11 +47,11 @@ class PizzaAdmin(admin.ModelAdmin):
             'fields':['menu']
         }),
     )
-    inlines = [AmountToppingInLine]
-    exclude=('toppings',)
+    # inlines = [AmountToppingInLine]
+    # exclude=('toppings',)
 class ComboAdmin(admin.ModelAdmin):
-    list_display=('name','numberperson','cost','time')
-    list_filter=['numberperson','cost']
+    list_display=('name','numberperson','time')
+    list_filter=['numberperson']
     search_fields=['name']
     fieldsets = (
         # (None,{
@@ -59,10 +65,22 @@ class ComboAdmin(admin.ModelAdmin):
                 ['name']
             ),
         }),
-        (None,{
-            'fields':
-            ['cost']
-        }),
+        # (None,{
+        #     'fields':
+        #     ['cost']
+        # }),
+        # (None,{
+        #     'fields':
+        #     ['costs']
+        # }),
+        #  (None,{
+        #     'fields':
+        #     ['costm']
+        # }),
+        #  (None,{
+        #     'fields':
+        #     ['costl']
+        # }),
         (None,{
             'fields':['percent']
         }),
@@ -106,14 +124,14 @@ class SideDishesAdmin(admin.ModelAdmin):
 # class ComboAmountAdmin(admin.ModelAdmin):
 #     list_filter=['combo']
 #     list_display=('combo','pizza','size','amountPizza','dishes','amount')
-class ToppingAmountAdmin(admin.ModelAdmin):
-    list_filter=['pizza']
-    list_display=('pizza','topping','amount')
+# class ToppingAmountAdmin(admin.ModelAdmin):
+#     list_filter=['pizza']
+#     list_display=('pizza','topping','amount')
     
 admin.site.register(Topping,ToppingAdmin)
 admin.site.register(SideDishes,SideDishesAdmin)
 admin.site.register(Pizza,PizzaAdmin)
 admin.site.register(Combo,ComboAdmin)
-admin.site.register(ToppingAmount, ToppingAmountAdmin)
+# admin.site.register(ToppingAmount, ToppingAmountAdmin)
 # admin.site.register(ComboAmount,ComboAmountAdmin)
 # admin.site.register(ComboCategory)

@@ -2,6 +2,7 @@ from codecs import lookup
 from django.db.models import fields, query
 from rest_framework import serializers
 from project.models import *
+from profiles.models import *
 import project.views
 class ToppingSerializers(serializers.Serializer):
     pk = serializers.IntegerField(read_only = True)
@@ -89,14 +90,14 @@ class ToppingSerializer(serializers.HyperlinkedModelSerializer):
         )
 class ToppingAmountSerializer(serializers.HyperlinkedModelSerializer):
     # pk = serializers.IntegerField(read_only=True)
-    pizza = serializers.SlugRelatedField(queryset = Pizza.objects.all(), slug_field='name')
-    topping = serializers.SlugRelatedField(queryset = Topping.objects.all(), slug_field='name')
+    orderpizza = serializers.SlugRelatedField(queryset = OrderPizza.objects.all(), slug_field='pk')
+    topping = serializers.SlugRelatedField(queryset = Topping.objects.all(), slug_field='pk')
     amount = serializers.ChoiceField(choices = ToppingAmount.AMOUNT_CHOICES)
     class Meta:
         model = ToppingAmount
         fields = ('url',
         'pk',
-        'pizza',
+        'orderpizza',
         'topping',
         'amount',
         )
@@ -104,9 +105,9 @@ class PizzaSerializer(serializers.HyperlinkedModelSerializer):
     # pk = serializers.IntegerField(read_only=True)
     # topping_amounts = serializers.HyperlinkedRelatedField(many = True, read_only = True, view_name='toppingamount-detail')
     # pizza = serializers.HyperlinkedRelatedField(many = True, read_only = True, view_name='comboamount-detail')
-    topping_amounts = ToppingAmountSerializer(many = True)
+    # topping_amounts = ToppingAmountSerializer(many = True)
     name = serializers.CharField(max_length = 100)
-    cost = serializers.IntegerField()
+    # cost = serializers.IntegerField()
     image = serializers.ImageField(required = False, read_only = True)
     description = serializers.CharField(max_length = 200)
     menu = serializers.ChoiceField(choices = Pizza.choi, read_only = True)
@@ -117,12 +118,13 @@ class PizzaSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'cost',
             'name',
-            'size',
+            'costs',
+            # 'size',
             'pk',
             'image',
             'description',
             'menu',
-            'topping_amounts',
+            # 'topping_amounts',
             # 'pizza',
             'score_fields'
         )
@@ -219,7 +221,7 @@ class ComboSerializer(serializers.HyperlinkedModelSerializer):
     name = serializers.CharField(max_length = 100)
     numberperson = serializers.IntegerField()
     time = serializers.DateTimeField()
-    cost = serializers.IntegerField()
+    # cost = serializers.IntegerField()
     image = serializers.ImageField()
     description = serializers.CharField(max_length = 200)
     menu = serializers.ChoiceField(choices=Pizza.choi, read_only = True)
@@ -233,7 +235,7 @@ class ComboSerializer(serializers.HyperlinkedModelSerializer):
             'time',
             'pk',
             'numberperson',
-            'cost',
+            # 'cost',
             'image',
             'percent',
             'description',

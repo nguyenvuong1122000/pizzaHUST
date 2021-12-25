@@ -1,6 +1,7 @@
 # from django.db.models import query
 # from django.db.models.fields import IntegerField
 # from myproject.project.serializers import ComboSerializers
+from django.db.models import query
 from rest_framework import serializers
 from rest_framework.relations import SlugRelatedField
 from .models import *
@@ -178,30 +179,60 @@ class ComboClientSerializer(serializers.HyperlinkedModelSerializer):
             # 'side'
             # 'typeside'
             )
+class ToppingAmountSerializer(serializers.HyperlinkedModelSerializer):
+    # pk = serializers.IntegerField(read_only=True)
+    orderpizza = serializers.SlugRelatedField(queryset = OrderPizza.objects.all(), slug_field='pk', required = False)
+    topping = serializers.SlugRelatedField(queryset = Topping.objects.all(), slug_field='pk')
+    amount = serializers.ChoiceField(choices = ToppingAmount.AMOUNT_CHOICES)
+    class Meta:
+        model = ToppingAmount
+        fields = ('url',
+        'pk',
+        'orderpizza',
+        'topping',
+        'amount',
+        )
 class OrderPizzaSerializer(serializers.HyperlinkedModelSerializer):
     # order = serializers.StringRelatedField()
     order = serializers.SlugRelatedField(queryset = Order.objects.all(), slug_field='pk')
     # pizaa = PizzaSerializer()
+    combo = serializers.SlugRelatedField(queryset = Combo.objects.all(), slug_field='pk')
     pizaa = serializers.SlugRelatedField(queryset = Pizza.objects.all(), slug_field='pk')
     pizzaa = PizzaSerializer(source = 'pizza', read_only = True)
     #pizaa = serializers.PrimaryKeyRelatedField(queryset = Pizza.objects.all(),pk_field=UUIDField(format='hex'))
     # pizaa = serializers.HyperlinkedIdentityField(view_name='pizza-detail')
+    topping_amounts = ToppingAmountSerializer(many = True, read_only = True)
     cost  = serializers.SerializerMethodField(read_only = True)
+    # size = serializers.CharField()
+    # test = serializers.IntegerField(read_only = True)
     class Meta:
         model = OrderPizza
         fields = (
             'url',
             'pk',
             'order',
+            'combo',
+            'size',
+            'topping_amounts',
             'pizaa',
             'pizzaa',
             'pecent',
             'amount',
-            'cost'
-
+            'cost',
+            # 'size',
+            # 'test',
         )
+    # def get_test(self,orderpiza):
+    #     if orderpiza.size == "S":
+    #         return 0
+    #     return 1
     def get_cost(self,orderpiza):
-        return orderpiza.pizaa.cost*orderpiza.amount
+        if orderpiza.size == 'S':
+            return orderpiza.pizaa.sizes*orderpiza.amount
+        if orderpiza.size == 'M':
+            return orderpiza.pizaa.sizem*orderpiza.amount
+        if orderpiza.size == 'L':
+            return orderpiza.pizaa.sizel*orderpiza.amount
 class OrderSideSerializer(serializers.HyperlinkedModelSerializer):
     # order = serializers.StringRelatedField()
 

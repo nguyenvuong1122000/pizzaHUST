@@ -89,6 +89,14 @@ class SideInComboClientDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = SideDishesInComboClient.objects.all()
     serializer_class = SideDishesInComboClientSerializer
     name = 'sidedishesincomboclient-detail'
+class ToppingAmountList(generics.ListCreateAPIView):
+    queryset = ToppingAmount.objects.all()
+    serializer_class = ToppingAmountSerializer
+    name = 'toppingamount-list'
+class ToppingAmountDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ToppingAmount.objects.all()
+    serializer_class = ToppingAmountSerializer
+    name = 'toppingamount-detail'
 # class ScorePizzaList(generics.ListCreateAPIView):
 #     queryset = ScorePizza.objects.all()
 #     serializer_class = ScorePizzaSerialize

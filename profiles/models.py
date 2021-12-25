@@ -8,8 +8,21 @@ from django.dispatch import receiver
 from django.forms import ModelForm, fields
 from datetime import date, datetime
 from django.utils import timezone
-from project.models import *
+from project.models import SideDishes, Combo, Pizza, ScoreCombo, Topping
 # Create your models here.
+class ToppingAmount(models.Model):
+    REGULAR = 1
+    DOUBLE = 2
+    TRIPLE = 3
+    AMOUNT_CHOICES = (
+        (REGULAR, 'Regular'),
+        (DOUBLE, 'Double'),
+        (TRIPLE, 'Triple'),
+    )
+    orderpiza = models.ForeignKey('OrderPizza', related_name='topping_amounts', on_delete=models.SET_NULL, null=True)
+    # topping = models.ForeignKey('Topping', related_name='topping_amounts', on_delete=models.SET_NULL, null=True, blank=True)
+    topping = models.ForeignKey(Topping, related_name='topping_amount', on_delete=models.SET_NULL, null=True, blank=True)
+    amount = models.IntegerField(choices=AMOUNT_CHOICES, default=REGULAR)
 class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     image =models.ImageField(default="default.jpg",upload_to="profile_pictures")
@@ -72,8 +85,8 @@ class Order(models.Model):
         ]
     delive = models.CharField(choices=DELIVE_CHOICE, max_length= 30)
     create = models.DateTimeField(default = datetime.now())
-    def __str__(self):
-        return self.name +str(self.id)
+    # def __str__(self):
+    #     return self.name
     def price(self):
         cost = 0
         a = OrderSideDishes.objects.filter(order__id = self.id)
@@ -100,8 +113,11 @@ class Order(models.Model):
             cost+=combo.cost()
         return cost
 class OrderPizza(models.Model):
+    comboorder = models.ForeignKey(Combo, related_name='comboorder',on_delete=models.CASCADE, null = True, blank=True)
     order = models.ForeignKey(Order,related_name='orderpizza',on_delete= models.CASCADE, null = False)
     pizaa = models.ForeignKey(Pizza,related_name='pizaa', on_delete=models.CASCADE)
+    size  = models.CharField(default='S', choices=Pizza.choice, max_length=20)
+    soles = models.CharField(choices=Pizza.DE_CHOICE, max_length = 10, default='Gion')
     pecent = models.IntegerField(default=0)
     amount = models.IntegerField(default=1)
     def cost(self):
@@ -139,10 +155,10 @@ class ComboClient(models.Model):
     # pizzas= models.ManyToManyField(Pizza,related_name='pizzas')
     # sides = models.ManyToManyField(SideDishes,related_name='sides')
     menu = models.CharField(default='Sang',choices = Pizza.choi,max_length=10)
-    class Meta:
-        ordering = ('name',)
-    def __str__(self):
-        return self.name
+    # class Meta:
+    #     ordering = ('name',)
+    # def __str__(self):
+    #     return self.name
     def addpizza(self, pizza_id):
         pizza=Pizza.objects.get(pk=pizza_id)
         self.pizzas.add(pizza)
@@ -179,15 +195,15 @@ class ComboClient(models.Model):
         if(count == 0):
             return 5
         return score/count
-    def price(self):
-        price = 0
-        a = PizzaInCombo.objects.filter(combo__id  = self.id)
-        for pizacb in a:
-            price += pizacb.pizzacombo.cost
-        b = SideDishesInCombo.objects.filter(combo__id = self.id)
-        for sidecb in b:
-            price+= sidecb.sidecombo.cost
-        return int(price*(100-self.percent))/100 
+    # def price(self):
+    #     price = 0
+    #     a = PizzaInCombo.objects.filter(combo__id  = self.id)
+    #     for pizacb in a:
+    #         price += pizacb.pizzacombo.cost
+    #     b = SideDishesInCombo.objects.filter(combo__id = self.id)
+    #     for sidecb in b:
+    #         price+= sidecb.sidecombo.cost
+    #     return int(price*(100-self.percent))/100 
 class SideDishesInComboClient(models.Model):
     comboclient = models.ForeignKey('ComboClient', related_name='sideincomboclient', on_delete=models.SET_NULL, null=True)
     sidecomboclient = models.ForeignKey(SideDishes, on_delete=models.SET_NULL,null = True,related_name='sidecomboclient')

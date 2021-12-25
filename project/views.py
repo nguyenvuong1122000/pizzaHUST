@@ -26,14 +26,14 @@ class ToppingDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Topping.objects.all()
     serializer_class = ToppingSerializer
     name = 'topping-detail'
-class ToppingAmountList(generics.ListCreateAPIView):
-    queryset = ToppingAmount.objects.all()
-    serializer_class = ToppingAmountSerializer
-    name = 'toppingamount-list'
-class ToppingAmountDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = ToppingAmount.objects.all()
-    serializer_class = ToppingAmountSerializer
-    name = 'toppingamount-detail'
+# class ToppingAmountList(generics.ListCreateAPIView):
+#     queryset = ToppingAmount.objects.all()
+#     serializer_class = ToppingAmountSerializer
+#     name = 'toppingamount-list'
+# class ToppingAmountDetail(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = ToppingAmount.objects.all()
+#     serializer_class = ToppingAmountSerializer
+#     name = 'toppingamount-detail'
 # class ComboAmountList(generics.ListCreateAPIView):
 #     queryset = ComboAmount.objects.all()
 #     serializer_class = ComboAmountSerializer
@@ -142,11 +142,11 @@ class APIRoot(generics.GenericAPIView):
         return Response({
             'pizzas': reverse(PizzaList.name, request=request),
             'toppings': reverse(ToppingList.name, request=request),
-            'toppingamounts': reverse(ToppingAmountList.name, request=request),
+            # 'toppingamounts': reverse(ToppingAmountList.name, request=request),
             'combos': reverse(ComboList.name, request = request),
-            'comboamounts': reverse(ComboAmountList.name, request = request),
+            # 'comboamounts': reverse(ComboAmountList.name, request = request),
             'sidedishes': reverse(SideDishesList.name , request=request),
-            'combocategorys': reverse(ComboCategoryList.name,request=request),
+            # 'combocategorys': reverse(ComboCategoryList.name,request=request),
         })
 # class SideDishesFilter(filters.FilterSet):
 #     sidedishes_type = AllValuesFilter(name = 'sidedishes_type')
