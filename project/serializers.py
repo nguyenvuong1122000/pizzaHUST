@@ -38,7 +38,8 @@ class PizzaSerializers(serializers.Serializer):
     pk = serializers.IntegerField(read_only = True)
     name = serializers.CharField(max_length = 100)
     cost = serializers.IntegerField()
-    image = serializers.ImageField()
+    # image = serializers.ImageField(default='D:\tt\my_django\myproject\media\pizza\Screenshot_4.png')
+    image = serializers.ImageField(required=False)
     description = serializers.CharField(max_length = 200)
     def create(self, validated_data):
         return Pizza.objects.create(**validated_data)
@@ -106,7 +107,7 @@ class PizzaSerializer(serializers.HyperlinkedModelSerializer):
     topping_amounts = ToppingAmountSerializer(many = True)
     name = serializers.CharField(max_length = 100)
     cost = serializers.IntegerField()
-    image = serializers.ImageField()
+    image = serializers.ImageField(required = False, read_only = True)
     description = serializers.CharField(max_length = 200)
     menu = serializers.ChoiceField(choices = Pizza.choi, read_only = True)
     score_fields = serializers.FloatField(source = 'score', read_only = True)

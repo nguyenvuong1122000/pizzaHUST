@@ -131,12 +131,15 @@ class SideDishesInComboClientSerializer(serializers.HyperlinkedModelSerializer):
             'sides',
             # 'amount',
         )
+# class ComboClient(object):
+#     def __init__(self, image):
+#         self.image = image
 class ComboClientSerializer(serializers.HyperlinkedModelSerializer):
     # pk = serializers.IntegerField(read_only=True)
     # combo = serializers.HyperlinkedRelatedField(many = True, read_only = True, view_name='comboamount-detail')
     # combocategory = serializers.SlugRelatedField(queryset = ComboCategory.objects.all(), slug_field='name')
-    pizzaincomboclient = PizzaInComboClientSerializer(many = True)
-    sideincomboclient = SideDishesInComboClientSerializer(many = True)
+    pizzaincomboclient = PizzaInComboClientSerializer(many = True,required=False)
+    sideincomboclient = SideDishesInComboClientSerializer(many = True, required=False)
     # pizzas = PizzaSerializer(many=True, read_only = True)
     # sides = SideDishesSerializer(many = True)
     # sides = SideDishesSerializer(many = True)
@@ -145,14 +148,14 @@ class ComboClientSerializer(serializers.HyperlinkedModelSerializer):
     numberperson = serializers.IntegerField()
     time = serializers.DateTimeField()
     cost = serializers.IntegerField()
-    image = serializers.ImageField()
+    image = serializers.ImageField(required=False)
     description = serializers.CharField(max_length = 200)
     menu = serializers.ChoiceField(choices=Pizza.choi, read_only = True)
     current_sides_fields = SideDishesSerializer(many = True, source = 'current_sides',read_only = True)
     price_field = serializers.IntegerField(source = 'price', read_only = True)
     score_fields = serializers.FloatField(source = 'score', read_only = True)
     class Meta:
-        model = Combo
+        model = ComboClient
         fields = ('url',
             'name',
             'time',
@@ -192,6 +195,7 @@ class OrderPizzaSerializer(serializers.HyperlinkedModelSerializer):
             'order',
             'pizaa',
             'pizzaa',
+            'pecent',
             'amount',
             'cost'
 
@@ -213,6 +217,7 @@ class OrderSideSerializer(serializers.HyperlinkedModelSerializer):
             'order',
             'sidess',
             'sidedis',
+            'pecent',
             'amount',
             'cost'
         )

@@ -19,10 +19,10 @@ class OrderAdmin(admin.ModelAdmin):
     inlines = [OrderPizzaInLine,OrderSideInLine,OrderComboInLine]
 class PizzaInComboClientAdmin(admin.StackedInline):
     model = PizzaInComboClient
-    extra = 1
+    extra = 0
 class SideDishesInComboClientAdmin(admin.StackedInline):
     model = SideDishesInComboClient
-    extra = 1
+    extra = 0
 class ComboClientAdmin(admin.ModelAdmin):
     list_display=('name','numberperson','cost','time')
     list_filter=['numberperson','cost']

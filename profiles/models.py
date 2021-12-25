@@ -102,6 +102,7 @@ class Order(models.Model):
 class OrderPizza(models.Model):
     order = models.ForeignKey(Order,related_name='orderpizza',on_delete= models.CASCADE, null = False)
     pizaa = models.ForeignKey(Pizza,related_name='pizaa', on_delete=models.CASCADE)
+    pecent = models.IntegerField(default=0)
     amount = models.IntegerField(default=1)
     def cost(self):
         return self.pizaa.cost*self.amount
@@ -112,6 +113,7 @@ class OrderSideDishes(models.Model):
     order = models.ForeignKey(Order, related_name = 'orderside', on_delete = models.CASCADE)
     sidess = models.ForeignKey(SideDishes,related_name= 'sidess', on_delete=models.CASCADE)
     amount = models.IntegerField(default=1)
+    pecent = models.IntegerField(default=0)
     def cost(self):
         return self.sidess.cost*self.amount
     @property
@@ -130,10 +132,10 @@ class ComboClient(models.Model):
     name=models.CharField(max_length=100)
     cost = models.IntegerField()
     time = models.DateTimeField("Expires on")
-    image = models.ImageField(default = 'combo', upload_to = 'combo')
+    image = models.ImageField(default = 'combo', upload_to = 'combo', null = True)
     numberperson = models.IntegerField()
     percent = models.IntegerField(default=10)
-    description = models.CharField(max_length = 200, blank = True)
+    description = models.CharField(max_length = 200, blank = True, null=True)
     # pizzas= models.ManyToManyField(Pizza,related_name='pizzas')
     # sides = models.ManyToManyField(SideDishes,related_name='sides')
     menu = models.CharField(default='Sang',choices = Pizza.choi,max_length=10)
