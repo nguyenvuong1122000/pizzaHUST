@@ -85,8 +85,8 @@ class Order(models.Model):
         ]
     delive = models.CharField(choices=DELIVE_CHOICE, max_length= 30)
     create = models.DateTimeField(default = datetime.now())
-    # def __str__(self):
-    #     return self.name
+    def __str__(self):
+        return self.name
     def price(self):
         cost = 0
         a = OrderSideDishes.objects.filter(order__id = self.id)

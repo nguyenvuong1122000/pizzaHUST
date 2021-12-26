@@ -9,8 +9,8 @@ class Topping(models.Model):
     description = models.CharField(max_length = 200, blank = True)
     # class Meta:
     #     ordering = ('name',)
-    # def __str__(self):
-    #     return self.name
+    def __str__(self):
+        return self.name
 class Pizza(models.Model):
     # toppings = models.ManyToManyField(Topping)
     # toppings = models.ManyToManyField('Topping', through='ToppingAmount', related_name='pizzas')
@@ -20,9 +20,9 @@ class Pizza(models.Model):
     # MEAN='M'
     # BIG='L'
     # choice = [(SMALL,'S'),(MEAN,'M'),(BIG,'L')]
-    sizes = models.IntegerField()
-    sizem = models.IntegerField()
-    sizel = models.IntegerField()
+    cost = models.IntegerField()
+    costm = models.IntegerField()
+    costl = models.IntegerField()
     # size = models.CharField(max_length=1,choices=choice,default='S')
     image=models.ImageField(default='defaultpizza.webp',upload_to='pizza')
     XOP = 'Mem xop'
@@ -143,8 +143,8 @@ class SideDishes(models.Model):
 #     name = models.CharField(max_length=1000)
 #     image = models.ImageField(default = 'combo', upload_to = 'combo')
 #     description = models.CharField(max_length=1000)
-#     def __str__(self):
-#         return self.name
+    def __str__(self):
+        return self.name
 class SideDishesInCombo(models.Model):
     combo = models.ForeignKey('Combo', related_name='sideincombo', on_delete=models.SET_NULL, null=True)
     sidecombo = models.ForeignKey('SideDishes', on_delete=models.SET_NULL,null = True,related_name='sidecombo')
@@ -170,8 +170,8 @@ class Combo(models.Model):
     menu = models.CharField(default='Sang',choices = Pizza.choi,max_length=10)
     # class Meta:
     #     ordering = ('name',)
-    # def __str__(self):
-    #     return self.name
+    def __str__(self):
+        return self.name
     # def addpizza(self, pizza_id):
     #     pizza=Pizza.objects.get(pk=pizza_id)
     #     self.pizzas.add(pizza)
