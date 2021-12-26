@@ -30,9 +30,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
-                ('sizes', models.IntegerField()),
-                ('sizem', models.IntegerField()),
-                ('sizel', models.IntegerField()),
+                ('cost', models.IntegerField()),
+                ('costm', models.IntegerField()),
+                ('costl', models.IntegerField()),
                 ('image', models.ImageField(default='defaultpizza.webp', upload_to='pizza')),
                 ('description', models.CharField(blank=True, max_length=200)),
                 ('menu', models.CharField(choices=[('Appetizer', 'Appetizer'), ('Main', 'Main'), ('Dessert', 'Dessert'), ('Vegetarian', 'Vegetarian'), ('Children', 'Children')], default='Appetizer', max_length=10)),

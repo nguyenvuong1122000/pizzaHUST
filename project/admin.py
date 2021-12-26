@@ -15,8 +15,8 @@ class SideDishesInComboAdmin(admin.StackedInline):
     model = SideDishesInCombo
     extra = 1
 class PizzaAdmin(admin.ModelAdmin):
-    list_display=('name','sizes')
-    list_filter=['sizes']
+    list_display=('name','cost')
+    list_filter=['cost']
     search_fields=['name']
     fieldsets = (
         (None, {
@@ -28,13 +28,13 @@ class PizzaAdmin(admin.ModelAdmin):
         #     'fields':['size']
         # }),
         (None,{
-            "fields":['sizes']
+            "fields":['cost']
         }),
         (None,{
-            "fields":['sizem']
+            "fields":['costm']
         }),
         (None,{
-            "fields":['sizel']
+            "fields":['costl']
         }),
         (None,{
             "fields":['image']
