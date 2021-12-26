@@ -126,8 +126,8 @@ class SideDishes(models.Model):
         (SIDE, 'Sidedishes'),
     )
     type = models.CharField(choices=TYPE_CHOICES,default=SIDE, max_length=50)
-    # def __str__(self):
-    #     return self.name
+    def __str__(self):
+        return self.name
     @property
     def score(self):
         a = ScoreSide.objects.filter(side__id = self.id)

@@ -118,8 +118,8 @@ class PizzaSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'name',
             'sizes',
-            # 'sizel',
-            # 'sizem',
+            'sizel',
+            'sizem',
             'pk',
             'image',
             'description',
@@ -224,7 +224,7 @@ class ComboSerializer(serializers.HyperlinkedModelSerializer):
     description = serializers.CharField(max_length = 200)
     menu = serializers.ChoiceField(choices=Pizza.choi, read_only = True)
     current_sides_fields = SideDishesSerializer(many = True, source = 'current_sides',read_only = True)
-    price_field = serializers.IntegerField(source = 'price', read_only = True)
+    # price_field = serializers.IntegerField(source = 'price', read_only = True)
     score_fields = serializers.FloatField(source = 'score', read_only = True)
     class Meta:
         model = Combo
@@ -244,7 +244,7 @@ class ComboSerializer(serializers.HyperlinkedModelSerializer):
             'pizzas',
             # 'sides',
             # 'combocategory',
-            'price_field',
+            # 'price_field',
             'current_sides_fields',
             'score_fields',
             # 'side'

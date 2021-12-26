@@ -9,6 +9,7 @@ from project.models import *
 from django.contrib.auth.models import User
 # from project.serializers import *
 # from project.serializers import ComboSerializer
+from drf_writable_nested import WritableNestedModelSerializer 
 class ProfilesSerializaer(serializers.HyperlinkedModelSerializer):
     user = serializers.SlugRelatedField(queryset = User.objects.all(),slug_field='username')
     image =serializers.ImageField()
@@ -195,7 +196,7 @@ class OrderPizzaSerializer(serializers.HyperlinkedModelSerializer):
     # order = serializers.StringRelatedField()
     order = serializers.SlugRelatedField(queryset = Order.objects.all(), slug_field='pk')
     # pizaa = PizzaSerializer()
-    comboorder = serializers.SlugRelatedField(queryset = Combo.objects.all(), slug_field='pk')
+    comboorder = serializers.SlugRelatedField(queryset = Combo.objects.all(), slug_field='pk', allow_null= True)
     pizaa = serializers.SlugRelatedField(queryset = Pizza.objects.all(), slug_field='pk')
     pizzaa = PizzaSerializer(source = 'pizza', read_only = True)
     #pizaa = serializers.PrimaryKeyRelatedField(queryset = Pizza.objects.all(),pk_field=UUIDField(format='hex'))
@@ -212,6 +213,7 @@ class OrderPizzaSerializer(serializers.HyperlinkedModelSerializer):
             'order',
             'comboorder',
             'size',
+            'soles',
             'topping_amounts',
             'pizaa',
             'pizzaa',
@@ -234,6 +236,7 @@ class OrderPizzaSerializer(serializers.HyperlinkedModelSerializer):
     #         return orderpiza.pizaa.sizel*orderpiza.amount
 class OrderSideSerializer(serializers.HyperlinkedModelSerializer):
     # order = serializers.StringRelatedField()
+    order = serializers.SlugRelatedField(queryset = Order.objects.all(), slug_field='pk')
 
     sidess = serializers.SlugRelatedField(queryset = SideDishes.objects.all(), slug_field='pk')
     # sidess = serializers.HyperlinkedRelatedField(read_only = True, view_name='sidedishes-detail')
@@ -272,8 +275,8 @@ class OrderComboSerializer(serializers.HyperlinkedModelSerializer):
         )
     def get_cost(self, ordercombo):
         return ordercombo.combobox.cost*ordercombo.amount
-class OrderSerializer(serializers.HyperlinkedModelSerializer):
-    # cart = serializers.SlugRelatedField(queryset = Cart.objects.all(), slug_field='__str__')
+class OrderSerializer(WritableNestedModelSerializer, serializers.HyperlinkedModelSerializer):
+    cart = serializers.SlugRelatedField(queryset = Cart.objects.all(), slug_field='__str__', allow_null = True)
     # cart = serializers.StringRelatedField()
     # piza = serializers.SlugRelatedField(queryset = Pizza.objects.all(), slug_field='name')
     # side = serializers.SlugRelatedField(queryset = SideDishes.objects.all(), slug_field='name')
