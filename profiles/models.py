@@ -85,8 +85,8 @@ class Order(models.Model):
         ]
     delive = models.CharField(choices=DELIVE_CHOICE, max_length= 30)
     create = models.DateTimeField(default = datetime.now())
-    # def __str__(self):
-    #     return self.name
+    def __str__(self):
+        return self.name
     def price(self):
         cost = 0
         a = OrderSideDishes.objects.filter(order__id = self.id)
@@ -95,22 +95,22 @@ class Order(models.Model):
         b = OrderSideDishes.objects.filter(order__id = self.id)
         for side in b:
             cost+=side.cost()
-        c = OrderCombo.objects.filter(order__id = self.id)
-        for combo in c:
-            cost+=combo.cost()
-        return cost
+        # c = OrderCombo.objects.filter(order__id = self.id)
+        # for combo in c:
+        #     cost+=combo.cost()
+        return cost+22000
     @property
     def cost(self):
         cost = 0
-        a = OrderSideDishes.objects.filter(order__id = self.id)
+        a = OrderPizza.objects.filter(order__id = self.id)
         for piza in a:
-            cost +=piza.cost()
+            cost+=piza.cost()
         b = OrderSideDishes.objects.filter(order__id = self.id)
         for side in b:
             cost+=side.cost()
-        c = OrderCombo.objects.filter(order__id = self.id)
-        for combo in c:
-            cost+=combo.cost()
+        # c = OrderCombo.objects.filter(order__id = self.id)
+        # for combo in c:
+        #     cost+=combo.cost()
         return cost
 class OrderPizza(models.Model):
     comboorder = models.ForeignKey(Combo, related_name='comboorder',on_delete=models.CASCADE, null = True, blank=True)
@@ -121,7 +121,13 @@ class OrderPizza(models.Model):
     pecent = models.IntegerField(default=0)
     amount = models.IntegerField(default=1)
     def cost(self):
-        return self.pizaa.cost*self.amount
+        if self.size == 'S':
+            return self.pizaa.cost*(100-self.pecent)/100*self.amount
+        if self.size == 'M':
+            return self.pizza.costm*(100-self.pecent)/100*self.amount
+        if self.size == 'L':
+            return self.pizza.costl*(100-self.pecent)/100*self.amount
+        # return 0
     @property
     def pizza(self):
         return Pizza.objects.get(id = self.pizaa.id)
@@ -131,7 +137,7 @@ class OrderSideDishes(models.Model):
     amount = models.IntegerField(default=1)
     pecent = models.IntegerField(default=0)
     def cost(self):
-        return self.sidess.cost*self.amount
+        return self.sidess.cost*(100-self.pecent)/100*self.amount
     @property
     def sidedishes(self):
         return SideDishes.objects.get(id = self.sidess.id)
