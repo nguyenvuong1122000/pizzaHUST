@@ -33,11 +33,16 @@ REST_FRAMEWORK = {
 # 'DEFAULT_PAGINATION_CLASS':
 # 'project.custompagination.LimitOffsetPaginationWithUpperBound',
 # 'PAGE_SIZE': 6,
-'DEFAULT_FILTER_BACKENDS': (
-'django_filters.rest_framework.DjangoFilterBackend',
-'rest_framework.filters.OrderingFilter',
-'rest_framework.filters.SearchFilter',
-),
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.OrderingFilter',
+        'rest_framework.filters.SearchFilter',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'knox.auth.TokenAuthentication'
+    )
+
 }
 # REST_FRAMEWORK = {
 #     'DEFAULT_PAGINATION_CLASS':
@@ -60,6 +65,7 @@ INSTALLED_APPS = [
     'django_filters',
     'django_extensions',
     'corsheaders',
+    'knox'
 ]
 
 MIDDLEWARE = [

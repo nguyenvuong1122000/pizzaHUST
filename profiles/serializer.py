@@ -9,7 +9,9 @@ from project.models import *
 from django.contrib.auth.models import User
 # from project.serializers import *
 # from project.serializers import ComboSerializer
-from drf_writable_nested import WritableNestedModelSerializer 
+from drf_writable_nested import WritableNestedModelSerializer
+
+
 class ProfilesSerializaer(serializers.HyperlinkedModelSerializer):
     user = serializers.SlugRelatedField(queryset = User.objects.all(),slug_field='username')
     image =serializers.ImageField()
@@ -340,6 +342,26 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             'password',
             # 'password2'
         )
+
+# User Serializer
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'email')
+
+# Register Serializer
+class RegisterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'email', 'password')
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        user = User.objects.create_user(validated_data['username'], validated_data['email'], validated_data['password'])
+
+        return user
+
+
 # class ScorePizzaSerialize(serializers.HyperlinkedModelSerializer):
 #     pizza = serializers.StringRelatedField()
 #     score = serializers.ChoiceField(choices=ScorePizza.SCORE_CHOICE)
