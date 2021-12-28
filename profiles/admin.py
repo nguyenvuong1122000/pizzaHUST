@@ -77,4 +77,4 @@ class ComboClientAdmin(admin.ModelAdmin):
 admin.site.register(Profile)
 admin.site.register(Cart)
 admin.site.register(Order,OrderAdmin)
-admin.site.register(ComboClient, ComboClientAdmin)
+# admin.site.register(ComboClient, ComboClientAdmin)
