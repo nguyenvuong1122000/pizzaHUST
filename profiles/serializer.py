@@ -37,7 +37,7 @@ class PizzaSerializer(serializers.HyperlinkedModelSerializer):
     name = serializers.CharField(max_length = 100)
     image = serializers.ImageField( read_only = True)
     description = serializers.CharField(max_length = 200)
-    cost  = serializers.IntegerField()
+    cost = serializers.IntegerField()
     menu = serializers.ChoiceField(choices = Pizza.choi, read_only = True)
     score_fields = serializers.FloatField(source = 'score', read_only = True)
     class Meta:
@@ -196,7 +196,7 @@ class OrderPizzaSerializer(serializers.HyperlinkedModelSerializer):
     # order = serializers.StringRelatedField()
     order = serializers.SlugRelatedField(queryset = Order.objects.all(), slug_field='pk')
     # pizaa = PizzaSerializer()
-    comboorder = serializers.SlugRelatedField(queryset = Combo.objects.all(), slug_field='pk', allow_null= True)
+    comboorder = serializers.SlugRelatedField(queryset = Combo.objects.all(), slug_field='pk', allow_null = True)
     pizaa = serializers.SlugRelatedField(queryset = Pizza.objects.all(), slug_field='pk')
     pizzaa = PizzaSerializer(source = 'pizza', read_only = True)
     #pizaa = serializers.PrimaryKeyRelatedField(queryset = Pizza.objects.all(),pk_field=UUIDField(format='hex'))
