@@ -17,6 +17,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from knox import views as knox_views
+
+from rest_framework_simplejwt import views as jwt_views
+from profiles.views import *
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+
 # from myproject import project
 # from myproject.profiles import views
 # from myproject.project.views import ComboList
@@ -101,5 +110,12 @@ urlpatterns = [
     path('pizaincomboclient/<int:pk>/',profiles_view.PizzaInComboClientDetail.as_view(), name = profiles_view.PizzaInComboClientDetail.name),
     path('sideincomboclient/', profiles_view.SideInComboClientList.as_view(), name = profiles_view.SideInComboClientList.name),
     path('sideincomboclient/<int:pk>/', profiles_view.SideInComboClientDetail.as_view(), name=profiles_view.SideInComboClientDetail.name),
+
+#api login, logout
+    path('api/register/', RegisterAPI.as_view(), name='register'),
+    path('api/login/', LoginAPI.as_view(), name='login'),
+    path('api/logout/', knox_views.LogoutView.as_view(), name='logout'),
+    path('api/logoutall/', knox_views.LogoutAllView.as_view(), name='logoutall'),
+
 ]
 urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
