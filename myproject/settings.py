@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import admin_volt
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -44,6 +45,8 @@ REST_FRAMEWORK = {
     )
 
 }
+
+
 # REST_FRAMEWORK = {
 #     'DEFAULT_PAGINATION_CLASS':
 #     'projects.custompagination.LimitOffsetPaginationWithUpperBound',
@@ -51,6 +54,7 @@ REST_FRAMEWORK = {
 # }
 INSTALLED_APPS = [
     # 'home.apps.HomeConfig',
+    'admin_volt.apps.AdminVoltConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -65,7 +69,7 @@ INSTALLED_APPS = [
     'django_filters',
     'django_extensions',
     'corsheaders',
-    'knox'
+    'knox',
 ]
 
 MIDDLEWARE = [
@@ -81,7 +85,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'myproject.urls'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
