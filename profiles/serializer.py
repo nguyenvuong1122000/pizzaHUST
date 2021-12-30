@@ -14,7 +14,7 @@ from drf_writable_nested import WritableNestedModelSerializer
 
 class ProfilesSerializaer(serializers.HyperlinkedModelSerializer):
     user = serializers.SlugRelatedField(queryset = User.objects.all(),slug_field='username')
-    image =serializers.ImageField()
+    image =serializers.ImageField(allow_null = True)
     name = serializers.CharField(max_length=100)
     number_phone = serializers.CharField(max_length=10)
     address = serializers.CharField(max_length=500)
@@ -25,6 +25,7 @@ class ProfilesSerializaer(serializers.HyperlinkedModelSerializer):
             'url',
             'image',
             'name',
+            'email',
             'number_phone',
             'address',
             'pub_date',

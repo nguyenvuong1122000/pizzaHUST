@@ -62,6 +62,12 @@ class ProfileDeltail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfilesSerializaer
     name = 'profile-detail'
+    
+class Profilelist(generics.ListCreateAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfilesSerializaer
+    name = 'profile-list'
+    filter_fields = ['user__username']
 
 
 class OrderList(generics.ListCreateAPIView):

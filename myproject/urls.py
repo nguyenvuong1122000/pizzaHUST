@@ -79,6 +79,7 @@ urlpatterns = [
     
     #API Profile
     path('profile/<int:pk>/',profiles_view.ProfileDeltail.as_view(), name=profiles_view.ProfileDeltail.name),
+    path('profile/', profiles_view.Profilelist.as_view(), name=profiles_view.Profilelist.name),
     # path('choice/<int:pk>/',home_view.ChoiceDetails.as_view(), name = home_view.ChoiceDetails.name ),
     # path('question/<int:pk>/',home_view.QuestionDetail.as_view(),name=home_view.QuestionDetail.name),
     # path('test/<int:pk>/',home_view.TestDetail.as_view(), name = home_view.TestDetail.name),

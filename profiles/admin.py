@@ -11,6 +11,9 @@ class OrderComboInLine(admin.StackedInline):
     model = OrderCombo
     extra = 0
 class OrderAdmin(admin.ModelAdmin):
+    list_filter = ['delive']
+    list_display = ['name','address','price']
+    readonly_fields = ['price']
     fields_set = (
         (None, {
             'fields': ['name']

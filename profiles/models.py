@@ -27,15 +27,16 @@ class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     image =models.ImageField(default="default.jpg",upload_to="profile_pictures")
     name = models.CharField(max_length=100,default='')
+    email = models.EmailField(blank=True)
     number_phone = models.CharField(max_length=10,blank=False)
     address = models.CharField(max_length=500, blank=False)
     pub_date = models.DateField('Birthday',default=date.today)
     def __str__(self) :
         return f'{self.user.username}\'s Profile...'
-    @receiver(post_save,sender=User)
-    def create_profile(sender,instance,created,**kwargs):
-        if created:
-            Profile.objects.create(user=instance)
+    # @receiver(post_save,sender=User)
+    # def create_profile(sender,instance,created,**kwargs):
+    #     if created:
+    #         Profile.objects.create(user=instance)
 class ProfileForm(ModelForm):
     class Meta:
         model=Profile
@@ -89,7 +90,7 @@ class Order(models.Model):
         return self.name
     def price(self):
         cost = 0
-        a = OrderSideDishes.objects.filter(order__id = self.id)
+        a = OrderPizza.objects.filter(order__id = self.id)
         for piza in a:
             cost +=piza.cost()
         b = OrderSideDishes.objects.filter(order__id = self.id)
