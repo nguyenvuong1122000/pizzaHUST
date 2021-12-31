@@ -86,7 +86,12 @@ class CartDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
     name = 'cart-detail'
-
+    
+class CartList(generics.ListCreateAPIView):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
+    name = 'cart-list'
+    filter_fields = ['user__username']
 
 class OrderPizzaList(generics.ListCreateAPIView):
     queryset = OrderPizza.objects.all()

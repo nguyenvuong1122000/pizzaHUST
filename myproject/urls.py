@@ -88,6 +88,7 @@ urlpatterns = [
     path('order/',profiles_view.OrderList.as_view(), name = profiles_view.OrderList.name),
     path('order/<int:pk>/', profiles_view.OrderDetail.as_view(), name = profiles_view.OrderDetail.name),
     path('cart/<int:pk>/',profiles_view.CartDetail.as_view(), name = profiles_view.CartDetail.name),
+    path('cart/',profiles_view.CartList.as_view(), name = profiles_view.CartList.name),
     path('orderpiza/',profiles_view.OrderPizzaList.as_view(), name = profiles_view.OrderPizzaList.name),
     path('orderpiza/<int:pk>/', profiles_view.OrderPizzaDetail.as_view(), name = profiles_view.OrderPizzaDetail.name),
     path('orderside/', profiles_view.OrderSideDishesList.as_view(), name = profiles_view.OrderSideDishesList.name),

@@ -30,6 +30,7 @@ class ProfilesSerializaer(serializers.HyperlinkedModelSerializer):
             'address',
             'pub_date',
             'user',
+            'pk',
             # 'cost',
         )
 class PizzaSerializer(serializers.HyperlinkedModelSerializer):
@@ -279,7 +280,7 @@ class OrderComboSerializer(serializers.HyperlinkedModelSerializer):
     def get_cost(self, ordercombo):
         return ordercombo.combobox.cost*ordercombo.amount
 class OrderSerializer(WritableNestedModelSerializer, serializers.HyperlinkedModelSerializer):
-    cart = serializers.SlugRelatedField(queryset = Cart.objects.all(), slug_field='__str__', allow_null = True)
+    cart = serializers.SlugRelatedField(queryset = Cart.objects.all(), slug_field='pk', allow_null = True)
     # cart = serializers.StringRelatedField()
     # piza = serializers.SlugRelatedField(queryset = Pizza.objects.all(), slug_field='name')
     # side = serializers.SlugRelatedField(queryset = SideDishes.objects.all(), slug_field='name')
@@ -314,8 +315,8 @@ class OrderSerializer(WritableNestedModelSerializer, serializers.HyperlinkedMode
             'cost_fields'
         )
 class CartSerializer(serializers.HyperlinkedModelSerializer):
+    user = serializers.SlugRelatedField(queryset = User.objects.all(), slug_field='username')
     cart = OrderSerializer(many=True,read_only = True)
-    name_fields = serializers.CharField(source = '__str__')
     pricecart_fields = serializers.IntegerField(source = 'pricecart')
     # cost = serializers.SerializerMethodField('get_cost')
     delived_fields = OrderSerializer(many = True, source = 'delived', read_only = True)
@@ -326,7 +327,7 @@ class CartSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'pk',
             'cart',
-            'name_fields',
+            'user',
             # 'cost'
             'pricecart_fields',
             'delived_fields',
