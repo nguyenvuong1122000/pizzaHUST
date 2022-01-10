@@ -1,6 +1,6 @@
 import BuyHistory from './BuyHistory';
 import Buying from './Buying';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
@@ -26,17 +26,51 @@ const useStyles = makeStyles({
 });
 
 function MyTab(props) {
+  
   const { active, ...other } = props;
   const classes = useStyles(props);
   return <div className={classes.tabs} {...other} />;
 }
 
-export default function Order() {
+export default function Order({ user }) {
   const [activeId, setActiveId] = useState(1);
 
   const onTabClick = (id) => {
     setActiveId(id);
   };
+
+  const [cartHis, setCartHis] = useState([]);
+  const [cartCon, setCartCon] = useState([]);
+  const api = `http://127.0.0.1:8000/cart/?user__username=${user}`;
+  useEffect(() => {
+    async function getData() {
+      const response = await fetch(api);
+      const responseJSON = await response.json();
+      const resCartHis = await responseJSON[0].cart.filter(cart =>(
+        'delive' === "Hoan thanh"
+      ))
+      const resCartCon = await responseJSON[0].cart.filter(cart =>(
+        'delive' !== "Hoan thanh"
+      ))
+      setCartHis(resCartHis);
+      setCartCon(resCartCon);
+    }
+    getData();
+  }, [api]);
+  console.log(cartCon)
+
+  const tabBuys = [
+    {
+      id: 1,
+      name: 'Lịch sử mua hàng',
+      component: <BuyHistory cartHis={cartHis}/>,
+    },
+    {
+      id: 2,
+      name: 'Đang giao',
+      component: <Buying cartCon={cartCon}/>,
+    },
+  ];
 
   return (
     <div>
@@ -55,16 +89,3 @@ export default function Order() {
     </div>
   );
 }
-
-const tabBuys = [
-  {
-    id: 1,
-    name: 'Lịch sử mua hàng',
-    component: <BuyHistory />,
-  },
-  {
-    id: 2,
-    name: 'Đang giao',
-    component: <Buying />,
-  },
-];

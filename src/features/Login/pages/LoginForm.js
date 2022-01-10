@@ -34,7 +34,7 @@ function LoginForm({ Login, error }) {
         }, 1000);
       })
       .catch((error) => {
-        alert("Ten dang nhap khong ton tai/Khong dung mat khau")
+        alert("Tên đăng nhập không tồn tại/ Không đúng mật khẩu")
         console.log(error);
       });
   }

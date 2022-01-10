@@ -32,15 +32,15 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Buying() {
+export default function Buying({ cartCon }) {
   const classes = useStyles();
+  console.log(cartCon)
 
   return (
     <Box className={classes.root}>
-      {buying.map((list) => (
-        <ProductList key={list.id} list={list.productList} fee={list.fee} />
+      {cartCon.map((list) => (
+        <ProductList key={list.id} cost_fields={list.cost_fields} orderpizza={list.orderpizza} orderside={list.orderside}/>
       ))}
-      {/* <ProductList /> */}
     </Box>
   );
 }

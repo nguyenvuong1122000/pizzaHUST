@@ -32,12 +32,13 @@ const useStyles = makeStyles({
   },
 });
 
-export default function BuyHistory() {
+export default function BuyHistory({ cartHis }) {
   const classes = useStyles();
+  console.log(cartHis)
   return (
     <Box className={classes.root}>
-      {buyHistory.map((list) => (
-        <ProductList key={list.id} list={list.productList} fee={list.fee} />
+      {cartHis.map((list) => (
+        <ProductList key={list.id} cost_fields={list.cost_fields} orderpizza={list.orderpizza} orderside={list.orderside}/>
       ))}
     </Box>
   );

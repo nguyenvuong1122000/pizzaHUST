@@ -36,20 +36,24 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ProductList({ list, fee }) {
+export default function ProductList({ orderpizza, orderside, cost_fields }) {
   const classes = useStyles();
-  // console.log(list);
+  console.log(orderpizza);
+  console.log(orderside);
   return (
     <Box className={classes.root}>
       <Box className={classes.list}>
-        {list.map((item) => (
+        {orderpizza.map((item) => (
+          <ProductItem key={item.id} item={item} />
+        ))}
+        {orderside.map((item) => (
           <ProductItem key={item.id} item={item} />
         ))}
       </Box>
       <Box className={classes.fee}>
         <span>Tổng thanh toán</span>
         <span>
-          {fee}
+          {cost_fields}
           <span>đ</span>
         </span>
       </Box>

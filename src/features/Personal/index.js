@@ -35,7 +35,7 @@ export default function Personal() {
     },
     {
       id: 2,
-      component: <Order data={data}/>,
+      component: <Order data={data} user={user}/>,
     },
     {
       id: 3,
