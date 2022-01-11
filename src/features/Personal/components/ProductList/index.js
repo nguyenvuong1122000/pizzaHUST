@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ProductItem from '../ProductItem';
-import { Box } from '@mui/material';
+import { Box, Rating, Button, Snackbar, Alert } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
@@ -34,20 +34,54 @@ const useStyles = makeStyles({
       },
     },
   },
+
+  rate: {
+    display: 'flex',
+    alignItems: 'center',
+    margin: '10px 0 10px 20px',
+    '& > span': {
+      fontWeight: 600,
+      marginRight: '10px',
+    },
+    '& button, & button:hover': {
+      backgroundColor: '#ff8000',
+    },
+  },
 });
 
-export default function ProductList({ orderpizza, orderside, cost_fields }) {
+export default function ProductList({
+  orderpizza,
+  orderside,
+  cost_fields,
+  isHistory,
+}) {
   const classes = useStyles();
-  console.log(orderpizza);
-  console.log(orderside);
+  const [rateValue, setRateValue] = useState(0);
+  const [disable, setDisable] = useState(false);
+  const [openNoti, setOpenNoti] = useState(false);
+
+  // console.log(orderpizza);
+  // console.log(orderside);
+  const handleRateClick = () => {
+    setDisable(true);
+    setOpenNoti(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenNoti(false);
+  };
+
   return (
     <Box className={classes.root}>
       <Box className={classes.list}>
         {orderpizza.map((item) => (
-          <ProductItem key={item.id} item={item} />
+          <ProductItem key={item.pk} item={item} />
         ))}
         {orderside.map((item) => (
-          <ProductItem key={item.id} item={item} />
+          <ProductItem key={item.pk} item={item} />
         ))}
       </Box>
       <Box className={classes.fee}>
@@ -57,6 +91,37 @@ export default function ProductList({ orderpizza, orderside, cost_fields }) {
           <span>đ</span>
         </span>
       </Box>
+      <Box
+        className={classes.rate}
+        sx={{ display: isHistory ? 'flex' : 'none' }}
+      >
+        <span>Đánh giá: </span>
+        <Rating
+          readOnly={disable /* || nếu đã đánh giá */}
+          value={rateValue}
+          onChange={(event, newValue) => {
+            setRateValue(newValue);
+          }}
+        />
+        {!disable /* && nếu chưa đánh giá */ && (
+          <Button variant="contained" size="small" onClick={handleRateClick}>
+            Send
+          </Button>
+        )}
+      </Box>
+      <Snackbar
+        open={openNoti}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+      >
+        <Alert onClose={handleClose} severity="error">
+          Cảm ơn phản hồi của bạn
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

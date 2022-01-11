@@ -26,7 +26,6 @@ const useStyles = makeStyles({
 });
 
 function MyTab(props) {
-  
   const { active, ...other } = props;
   const classes = useStyles(props);
   return <div className={classes.tabs} {...other} />;
@@ -46,29 +45,29 @@ export default function Order({ user }) {
     async function getData() {
       const response = await fetch(api);
       const responseJSON = await response.json();
-      const resCartHis = await responseJSON[0].cart.filter(cart =>(
-        cart.delive === "Hoan thanh"
-      ))
-      const resCartCon = await responseJSON[0].cart.filter(cart =>(
-        cart.delive !== "Hoan thanh"
-      ))
+      const resCartHis = await responseJSON[0].cart.filter(
+        (cart) => cart.delive === 'Hoan thanh'
+      );
+      const resCartCon = await responseJSON[0].cart.filter(
+        (cart) => cart.delive !== 'Hoan thanh'
+      );
       setCartHis(resCartHis);
       setCartCon(resCartCon);
     }
     getData();
   }, [api]);
-  console.log(cartCon)
+  // console.log(cartCon);
 
   const tabBuys = [
     {
       id: 1,
       name: 'Lịch sử mua hàng',
-      component: <BuyHistory cartHis={cartHis}/>,
+      component: <BuyHistory cartHis={cartHis} />,
     },
     {
       id: 2,
       name: 'Đang giao',
-      component: <Buying cartCon={cartCon}/>,
+      component: <Buying cartCon={cartCon} />,
     },
   ];
 
@@ -84,7 +83,9 @@ export default function Order({ user }) {
         </MyTab>
       ))}
       <div>
-        {tabBuys.map((tab) => (tab.id === activeId ? tab.component : null))}
+        {tabBuys.map((tab) => (
+          <div key={tab.id}>{tab.id === activeId ? tab.component : null}</div>
+        ))}
       </div>
     </div>
   );
