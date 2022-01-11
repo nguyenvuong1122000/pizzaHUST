@@ -50,8 +50,8 @@ class PizzaSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'name',
             'cost',
-            # 'costl',
-            # 'costm',
+            'costl',
+            'costm',
             'pk',
             'image',
             'description',
@@ -139,12 +139,12 @@ class SideDishesInComboClientSerializer(serializers.HyperlinkedModelSerializer):
 # class ComboClient(object):
 #     def __init__(self, image):
 #         self.image = image
-class ComboClientSerializer(serializers.HyperlinkedModelSerializer):
+class ComboSerializer(serializers.HyperlinkedModelSerializer):
     # pk = serializers.IntegerField(read_only=True)
     # combo = serializers.HyperlinkedRelatedField(many = True, read_only = True, view_name='comboamount-detail')
     # combocategory = serializers.SlugRelatedField(queryset = ComboCategory.objects.all(), slug_field='name')
-    pizzaincomboclient = PizzaInComboClientSerializer(many = True,required=False)
-    sideincomboclient = SideDishesInComboClientSerializer(many = True, required=False)
+    # pizzaincomboclient = PizzaInComboClientSerializer(many = True,required=False)
+    # sideincomboclient = SideDishesInComboClientSerializer(many = True, required=False)
     # pizzas = PizzaSerializer(many=True, read_only = True)
     # sides = SideDishesSerializer(many = True)
     # sides = SideDishesSerializer(many = True)
@@ -152,34 +152,34 @@ class ComboClientSerializer(serializers.HyperlinkedModelSerializer):
     name = serializers.CharField(max_length = 100)
     numberperson = serializers.IntegerField()
     time = serializers.DateTimeField()
-    cost = serializers.IntegerField()
+    # cost = serializers.IntegerField()
     image = serializers.ImageField(required=False)
     description = serializers.CharField(max_length = 200)
     menu = serializers.ChoiceField(choices=Pizza.choi, read_only = True)
-    current_sides_fields = SideDishesSerializer(many = True, source = 'current_sides',read_only = True)
-    price_field = serializers.IntegerField(source = 'price', read_only = True)
-    score_fields = serializers.FloatField(source = 'score', read_only = True)
+    # current_sides_fields = SideDishesSerializer(many = True, source = 'current_sides',read_only = True)
+    # price_field = serializers.IntegerField(source = 'price', read_only = True)
+    # score_fields = serializers.FloatField(source = 'score', read_only = True)
     class Meta:
-        model = ComboClient
+        model = Combo
         fields = ('url',
             'name',
             'time',
             'pk',
             'numberperson',
-            'cost',
+            # 'cost',
             'image',
             'percent',
             'description',
             'menu',
             # 'combo',
-            'pizzaincomboclient',
-            'sideincomboclient',
+            # 'pizzaincomboclient',
+            # 'sideincomboclient',
             # 'pizzas',
             # 'sides',
             # 'combocategory',
-            'price_field',
-            'current_sides_fields',
-            'score_fields',
+            # 'price_field',
+            # 'current_sides_fields',
+            # 'score_fields',
             # 'side'
             # 'typeside'
             )
@@ -205,7 +205,8 @@ class OrderPizzaSerializer(serializers.HyperlinkedModelSerializer):
     pizzaa = PizzaSerializer(source = 'pizza', read_only = True)
     #pizaa = serializers.PrimaryKeyRelatedField(queryset = Pizza.objects.all(),pk_field=UUIDField(format='hex'))
     # pizaa = serializers.HyperlinkedIdentityField(view_name='pizza-detail')
-    topping_amounts = ToppingAmountSerializer(many = True, read_only = True)
+    topping = serializers.ChoiceField(allow_null = True, choices = OrderPizza.TOPPING_CHOICE)
+    # topping_amounts = ToppingAmountSerializer(many = True, read_only = True)
     # cost  = serializers.SerializerMethodField(read_only = True)
     # size = serializers.CharField()
     # test = serializers.IntegerField(read_only = True)
@@ -218,9 +219,10 @@ class OrderPizzaSerializer(serializers.HyperlinkedModelSerializer):
             'comboorder',
             'size',
             'soles',
-            'topping_amounts',
+            'topping',
             'pizaa',
             'pizzaa',
+            'rating',
             'pecent',
             'amount',
             # 'cost',
@@ -241,7 +243,7 @@ class OrderPizzaSerializer(serializers.HyperlinkedModelSerializer):
 class OrderSideSerializer(serializers.HyperlinkedModelSerializer):
     # order = serializers.StringRelatedField()
     order = serializers.SlugRelatedField(queryset = Order.objects.all(), slug_field='pk')
-
+    comboorder = serializers.SlugRelatedField(queryset  = Combo.objects.all(), slug_field='pk')
     sidess = serializers.SlugRelatedField(queryset = SideDishes.objects.all(), slug_field='pk')
     # sidess = serializers.HyperlinkedRelatedField(read_only = True, view_name='sidedishes-detail')
     sidedis = SideDishesSerializer(read_only = True, source = 'sidedishes')
@@ -253,8 +255,10 @@ class OrderSideSerializer(serializers.HyperlinkedModelSerializer):
             'pk',
             'order',
             'sidess',
+            'comboorder',
             'sidedis',
             'pecent',
+            'rating',
             'amount',
             'cost'
         )
@@ -264,7 +268,7 @@ class OrderComboSerializer(serializers.HyperlinkedModelSerializer):
     order = serializers.StringRelatedField()
     combobox = serializers.SlugRelatedField(queryset = ComboClient.objects.all(), slug_field='pk')
     # combobox = serializers.HyperlinkedRelatedField(read_only = True, view_name='combo-detail')
-    comboinformation = ComboClientSerializer(read_only = True, source = 'comboboss')
+    # comboinformation = ComboClientSerializer(read_only = True, source = 'comboboss')
     cost = serializers.SerializerMethodField(read_only = True)
     class Meta:
         model = OrderCombo
@@ -273,7 +277,7 @@ class OrderComboSerializer(serializers.HyperlinkedModelSerializer):
             'pk',
             'order',
             'combobox',
-            'comboinformation',
+            # 'comboinformation',
             'amount',
             'cost'
         )
@@ -290,8 +294,9 @@ class OrderSerializer(WritableNestedModelSerializer, serializers.HyperlinkedMode
     # cost  = serializers.SerializerMethodField(read_only=True)
     orderpizza = OrderPizzaSerializer(many = True, required = False)
     orderside = OrderSideSerializer(many = True, required = False)
-    ordercombo = OrderComboSerializer( many = True, required = False)
-    cost_fields = serializers.IntegerField(source = 'cost', read_only = True)
+    cost = serializers.IntegerField(source = 'costorder', read_only = True)
+    # ordercombo = OrderComboSerializer( many = True, required = False)
+    # cost_fields = serializers.IntegerField(source = 'cost', read_only = True)
     class Meta:
         model = Order
         fields = (
@@ -310,17 +315,22 @@ class OrderSerializer(WritableNestedModelSerializer, serializers.HyperlinkedMode
             'address',
             'orderpizza',
             'orderside',
-            'ordercombo',
+            # 'ordercombo',
             'delive',
-            'cost_fields'
+            # 'rating',
+            'cost'
         )
 class CartSerializer(serializers.HyperlinkedModelSerializer):
     user = serializers.SlugRelatedField(queryset = User.objects.all(), slug_field='username')
     cart = OrderSerializer(many=True,read_only = True)
     pricecart_fields = serializers.IntegerField(source = 'pricecart')
     # cost = serializers.SerializerMethodField('get_cost')
-    delived_fields = OrderSerializer(many = True, source = 'delived', read_only = True)
-    notdelived_fields = OrderSerializer(many = True, source = 'notdelived', read_only = True)
+    # delived_fields = OrderSerializer(many = True, source = 'delived', read_only = True)
+    # notdelived_fields = OrderSerializer(many = True, source = 'notdelived', read_only = True)
+    confirms = OrderSerializer(source = 'confirm', read_only = True, many = True)
+    confirmings = OrderSerializer(source = 'confirming', read_only = True, many = True)
+    deliving = OrderSerializer(source = 'delivering', read_only = True, many = True)
+    successes = OrderSerializer(source = 'success', read_only = True, many = True)
     class Meta:
         model = Cart
         fields=(
@@ -330,11 +340,14 @@ class CartSerializer(serializers.HyperlinkedModelSerializer):
             'user',
             # 'cost'
             'pricecart_fields',
-            'delived_fields',
-            'notdelived_fields',
+            'confirms',
+            'confirmings',
+            'deliving',
+            'successes',
         )
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     # name = serializers.CharField(max_length = 50)
+    cart = serializers.SlugRelatedField(queryset=Cart.objects.all(),slug_field='pk')
     class Meta:
         model = User
         fields=(
@@ -343,6 +356,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             # 'name',
             'password',
             # 'password2'
+            'cart'
         )
 
 # User Serializer

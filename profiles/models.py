@@ -2,6 +2,7 @@ import re
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.aggregates import Avg
+from django.db.models import query
 from django.db.models.fields.mixins import NOT_PROVIDED
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -52,12 +53,18 @@ class Cart(models.Model):
         for order in order_set:
             price +=order.price()
         return price
-    def delived(self):
+    def confirm(self):
         a = Order.objects.filter(cart__id=self.id)
-        return a.filter(delive="False")
-    def notdelived(self):
+        return a.filter(delive="Xac nhan")
+    def confirming(self):
         a = Order.objects.filter(cart__id=self.id)
-        return a.filter(delive="True")
+        return a.filter(delive="Dang xac nhan")
+    def delivering(self):
+        a= Order.objects.filter(cart__id = self.id)
+        return a.filter(delive = 'Dang giao')
+    def success(self):
+        a= Order.objects.filter(cart__id = self.id)
+        return a.filter(delive = 'Hoan thanh')
     @receiver(post_save,sender=User)
     def create_cart(sender,instance,created,**kwargs):
         if created:
@@ -85,6 +92,7 @@ class Order(models.Model):
         (OKE,'Hoan thanh ')
         ]
     delive = models.CharField(choices=DELIVE_CHOICE, max_length= 30)
+    # rating = models.BooleanField(default=False)
     create = models.DateTimeField(default = datetime.now())
     def __str__(self):
         return self.name
@@ -100,8 +108,18 @@ class Order(models.Model):
         # for combo in c:
         #     cost+=combo.cost()
         return cost+22000
+    def ordercombox(self):
+        # a = OrderPizza.objects.filter(order__id = self.id)
+        b = OrderPizza.objects.filter(order__id = self.id)
+        idcombo = b.values_list('comboorder__id')
+        c=[]
+        for  a in idcombo:
+            if a[0] != None :
+                combobox = Combo.objects.get(id = a[0])
+                c.append(combobox)
+        return c
     @property
-    def cost(self):
+    def costorder(self):
         cost = 0
         a = OrderPizza.objects.filter(order__id = self.id)
         for piza in a:
@@ -113,29 +131,96 @@ class Order(models.Model):
         # for combo in c:
         #     cost+=combo.cost()
         return cost
+    def querycombo(self):
+        # a = OrderPizza.objects.filter(order__id = self.id)
+        b = OrderPizza.objects.filter(order__id = self.id)
+        idcombo = b.values_list('comboorder__id')
+        c=[]
+        for  a in idcombo:
+            if a[0] != None :
+                combobox = Combo.objects.get(id = a[0])
+                c.append(combobox)
+        return c
+    # def querytest(self):
+    #     b = OrderPizza.objects.filter(order__id = self.id)
+    #     idcombo = b.values_list('comboorder__id')
+    #     c=[]
+    #     for a in idcombo:
+    #         if a[0]!=None:
+    #             d=[]
+    #             d.append(a[0])
+    #             c.append(d)
+    #     return c
+    def querypizzacombo(self):
+        b = OrderPizza.objects.filter(order__id = self.id)
+        idcombo = b.values_list('comboorder__id')
+        querypiza= []
+        for c in idcombo:
+            if c[0]!=None:
+                querypiza.append(b.filter(comboorder__id = c[0]))
+        return querypiza
+    def querysidecombo(self):
+        a = OrderSideDishes.objects.filter(order__id = self.id)
+        idcombo = a.values_list('comboorder__id')
+        queryside = []
+        for c in idcombo:
+            if c[0]!=None:
+                queryside.append(a.filter(comboorder__id = c[0]))
+        return queryside
+    def querycostcombo(self):
+        a = OrderSideDishes.objects.filter(order__id = self.id)
+        b = OrderPizza.objects.filter(order__id = self.id)
+        idcombo = b.values_list('comboorder__id')
+        querycost = []
+        for c in idcombo:
+            if c[0]!=None:
+                cost = 0
+                for orderside in a.filter(comboorder__id = c[0]):
+                    cost+=orderside.cost()
+                for orderpiza in b.filter(comboorder__id = c[0]):
+                    cost+=orderpiza.cost()
+                querycost.append(cost)
+        return querycost
 class OrderPizza(models.Model):
     comboorder = models.ForeignKey(Combo, related_name='comboorder',on_delete=models.CASCADE, null = True, blank=True)
     order = models.ForeignKey(Order,related_name='orderpizza',on_delete= models.CASCADE, null = False)
     pizaa = models.ForeignKey(Pizza,related_name='pizaa', on_delete=models.CASCADE)
     size  = models.CharField(default='S', choices=Pizza.choice, max_length=20)
     soles = models.CharField(choices=Pizza.DE_CHOICE, max_length = 10, default='Gion')
+    TOP1 = 'Thêm phô mai phủ'
+    TOP2 = 'Thêm phô mai viền'
+    TOP3 = 'Double sốt'
+    TOPPING_CHOICE = [
+        (TOP1, 'Thêm phô mai phủ'),
+        (TOP2, 'Thêm phô mai viền'),
+        (TOP3, 'Double sốt'),
+    ]
+    topping = models.CharField(choices=TOPPING_CHOICE, max_length= 30, blank=True, null = True)
+    rating = models.BooleanField(default=False)
     pecent = models.IntegerField(default=0)
     amount = models.IntegerField(default=1)
+    def __str__(self):
+        return 'Pizza: '+ self.pizaa.name 
     def cost(self):
+        price=0
         if self.size == 'S':
-            return self.pizaa.cost*(100-self.pecent)/100*self.amount
+            price+=self.pizaa.cost*(100-self.pecent)/100
         if self.size == 'M':
-            return self.pizza.costm*(100-self.pecent)/100*self.amount
+            price+=self.pizza.costm*(100-self.pecent)/100
         if self.size == 'L':
-            return self.pizza.costl*(100-self.pecent)/100*self.amount
-        # return 0
+            price+=self.pizza.costl*(100-self.pecent)/100
+        if self.topping != None:
+            price+=10000
+        return price
     @property
     def pizza(self):
         return Pizza.objects.get(id = self.pizaa.id)
 class OrderSideDishes(models.Model):
+    comboorder = models.ForeignKey(Combo, related_name='comboside',on_delete=models.CASCADE, null = True, blank=True)
     order = models.ForeignKey(Order, related_name = 'orderside', on_delete = models.CASCADE)
     sidess = models.ForeignKey(SideDishes,related_name= 'sidess', on_delete=models.CASCADE)
     amount = models.IntegerField(default=1)
+    rating  = models.BooleanField(default=False)
     pecent = models.IntegerField(default=0)
     def cost(self):
         return self.sidess.cost*(100-self.pecent)/100*self.amount
