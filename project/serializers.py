@@ -258,7 +258,7 @@ class ComboSerializer(serializers.HyperlinkedModelSerializer):
     #     # data = combo.sides
     #     return SideDishesSerializer(many = True, source = 'current_sides').data
 class ScorePizzaSerialize(serializers.HyperlinkedModelSerializer):
-    pizza = serializers.SlugRelatedField(queryset = Pizza.objects.all(), slug_field='name')
+    pizza = serializers.SlugRelatedField(queryset = Pizza.objects.all(), slug_field='pk')
     score = serializers.ChoiceField(choices=ScorePizza.SCORE_CHOICE)
     class Meta:
         model = ScorePizza
@@ -268,7 +268,7 @@ class ScorePizzaSerialize(serializers.HyperlinkedModelSerializer):
             'score'
         )
 class ScoreSideSerializer(serializers.HyperlinkedModelSerializer):
-    side = serializers.SlugRelatedField(queryset = SideDishes.objects.all(), slug_field = 'name')
+    side = serializers.SlugRelatedField(queryset = SideDishes.objects.all(), slug_field = 'pk')
     score = serializers.ChoiceField(choices = ScorePizza.SCORE_CHOICE)
     class Meta:
         model = ScoreSide
@@ -278,7 +278,7 @@ class ScoreSideSerializer(serializers.HyperlinkedModelSerializer):
             'score'
         )
 class ScoreComboSerializer(serializers.HyperlinkedModelSerializer):
-    combo = serializers.SlugRelatedField(queryset = Combo.objects.all(), slug_field = 'name')
+    combo = serializers.SlugRelatedField(queryset = Combo.objects.all(), slug_field = 'pk')
     score = serializers.ChoiceField(choices = ScorePizza.SCORE_CHOICE)
     class Meta:
         model = ScoreCombo

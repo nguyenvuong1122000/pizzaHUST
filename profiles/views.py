@@ -25,6 +25,11 @@ class ProfileDeltail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfilesSerializaer
     name = 'profile-detail'
+class ProfileList(generics.ListCreateAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfilesSerializaer
+    name = 'profile-list'
+    filter_fields = ['user__username']
 class OrderList(generics.ListCreateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
@@ -65,14 +70,15 @@ class UserList(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     name = 'user-list'
-class ComboClientList(generics.ListCreateAPIView):
-    queryset = ComboClient.objects.all()
-    serializer_class = ComboClientSerializer
-    name = 'comboclient-list'
-class ComboClientDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = ComboClient.objects.all()
-    serializer_class = ComboClientSerializer
-    name = 'comboclient-detail'
+    filter_fields = ['username']
+# class ComboClientList(generics.ListCreateAPIView):
+#     queryset = ComboClient.objects.all()
+#     serializer_class = ComboClientSerializer
+#     name = 'comboclient-list'
+# class ComboClientDetail(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = ComboClient.objects.all()
+#     serializer_class = ComboClientSerializer
+#     name = 'comboclient-detail'
 class PizzaInComboClientList(generics.ListCreateAPIView):
     queryset = PizzaInComboClient.objects.all()
     serializer_class = PizzaInComboClientSerializer
