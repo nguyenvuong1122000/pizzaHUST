@@ -65,7 +65,7 @@ const useForm = (callback, validate, setUser, setEmail) => {
       //     navigate('/home', { replace: true });
       //   }, 1000);
     }
-  }, [errors]);
+  });
 
   return { handleChange, handleSubmit, values, errors };
 };
