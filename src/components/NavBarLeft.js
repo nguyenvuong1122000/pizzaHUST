@@ -7,7 +7,7 @@ import ListItem from '@mui/material/ListItem';
 import { makeStyles } from '@mui/styles';
 import { logout } from 'features/Authentication/slice';
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles({
@@ -79,7 +79,7 @@ export default function NavBarLeft() {
   const classes = useStyles();
   const [isActive, setIsActive] = useState(1);
   const navigate = useNavigate();
-  const tokenUser = useSelector((state) => state.auth.token);
+  const tokenUser = localStorage.getItem('tokenHUST') || '';
   const dispatch = useDispatch();
 
   const handleUserInfo = () => {
@@ -88,7 +88,7 @@ export default function NavBarLeft() {
   };
 
   const handleLogin = () => {
-    if (tokenUser === '') {
+    if (tokenUser) {
       navigate('/login', { replace: true });
     } else {
       dispatch(logout());
@@ -114,18 +114,17 @@ export default function NavBarLeft() {
 
       <Divider variant="middle" flexItem sx={{ mt: '10px', mb: '10px' }} />
 
-      <ListItem
-        sx={{ display: tokenUser ? 'inherit' : 'none' }}
-        key={5}
-        className={`${classes.navIcon}  ${
-          isActive === 5 ? classes.active : ''
-        } `}
-        onClick={handleUserInfo}
-      >
-        <Box>
+      <Box sx={{ display: 'none' }}>
+        <ListItem
+          key={5}
+          className={`${classes.navIcon}  ${
+            isActive === 5 ? classes.active : ''
+          } `}
+          onClick={handleUserInfo}
+        >
           <PersonOutlinedIcon sx={{ fontSize: 30 }} />
-        </Box>
-      </ListItem>
+        </ListItem>
+      </Box>
 
       <ListItem className={classes.navIcon} onClick={handleLogin}>
         <LogoutOutlinedIcon

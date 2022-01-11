@@ -1,18 +1,19 @@
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { Box, Grid, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/styles';
 import NavBarLeft from 'components/NavBarLeft';
+import { logout } from 'features/Authentication/slice';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Account from './pages/Account';
 import Addresses from './pages/Addresses';
 import Order from './pages/Order';
-import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import './styles.css';
-import { logout } from 'features/Authentication/slice';
 
 export default function Personal() {
-  const user = useSelector((state) => state.auth.username);
+  // const user = useSelector((state) => state.auth.username);
+  const user = localStorage.getItem('tokenHUST') || '';
   const theme = useTheme();
   const tablet = useMediaQuery(theme.breakpoints.up('tablet'));
   const [activeId, setActiveId] = useState(1);
@@ -23,18 +24,19 @@ export default function Personal() {
     setActiveId(id);
   };
 
-  console.log(user);
   // API
   const [data, setData] = useState([]);
   const api = `http://127.0.0.1:8000/profile/?user__username=${user}`;
   useEffect(() => {
-    async function getData() {
-      const response = await fetch(api);
-      const responseJSON = await response.json();
-      setData(responseJSON);
+    if (user) {
+      async function getData() {
+        const response = await fetch(api);
+        const responseJSON = await response.json();
+        setData(responseJSON);
+      }
+      getData();
     }
-    getData();
-  }, [api]);
+  }, [api, user]);
   console.log(data);
 
   const tabs = [
@@ -46,7 +48,7 @@ export default function Personal() {
     {
       id: 2,
       name: 'Đơn hàng',
-      component: <Order data={data} user={user}/>,
+      component: <Order data={data} user={user} />,
     },
     {
       id: 3,
