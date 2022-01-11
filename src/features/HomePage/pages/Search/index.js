@@ -2,7 +2,7 @@ import { Box, CircularProgress } from '@mui/material';
 import ListItem from 'features/HomePage/components/ListItem';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import SearchBtn from '../Main/pages/SearchBtn';
+import SearchBtn from '../../components/SearchBtn';
 
 export default function Search() {
   const { search } = useParams();
@@ -39,7 +39,6 @@ export default function Search() {
 
   return (
     <div>
-      
       {search.length > 7 && (
         <Box sx={{ mt: 2 }}>
           <SearchBtn />
@@ -47,17 +46,18 @@ export default function Search() {
             <Box>Hiển thị kết quả tìm kiếm cho {search.slice(7)}</Box>
             <Box>Có {data.length} kết quả.</Box>
           </Box>
-          {
-            loading===3 ? (
-              <>
-                <ListItem listItem={data} />
-              </>
-            ) : (
-              <Box style={{ textAlign: 'center' }}>
-                <CircularProgress color="success" style={{ margin: '20px auto' }} />
-              </Box>
-            )
-          }
+          {loading === 3 ? (
+            <>
+              <ListItem listItem={data} />
+            </>
+          ) : (
+            <Box style={{ textAlign: 'center' }}>
+              <CircularProgress
+                color="success"
+                style={{ margin: '20px auto' }}
+              />
+            </Box>
+          )}
         </Box>
       )}
     </div>

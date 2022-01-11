@@ -1,29 +1,40 @@
 import { Grid } from '@mui/material';
-import React from 'react';
-import { makeStyles } from '@mui/styles';
+import React, { useEffect } from 'react';
+import { makeStyles, useTheme } from '@mui/styles';
 import PayCard from './pages/PayCart';
 import UserForm from './pages/UserForm';
-import NavBar from 'components/NavBar';
+import { useMediaQuery } from '@mui/material';
 
 const useStyles = makeStyles({
   root: {
-    height: '100vh',
+    height: (props) => (props.tablet ? '100vh' : 'none'),
     backgroundColor: '#FFF2F2',
+    width: (props) => (props.tablet ? 'calc(100vw - 16px) !important' : '100%'),
+    paddingLeft: '25px',
   },
 });
 
 export default function Pay() {
-  const classes = useStyles();
+  const theme = useTheme();
+  const tablet = useMediaQuery(theme.breakpoints.up('tablet'));
+  const classes = useStyles({ tablet });
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+    });
+  }, []);
 
   return (
     <Grid className={classes.root} container>
-      <Grid className={classes.navBar} item xs={1}>
+      {/* <Grid className={classes.navBar} item xs={1}>
         <NavBar />
-      </Grid>
-      <Grid className={classes.main} item xs={7}>
+      </Grid> */}
+      <Grid item xs={tablet ? 8 : 12}>
         <PayCard />
       </Grid>
-      <Grid className={classes.userForm} item xs={4}>
+      <Grid item xs={tablet ? 4 : 12}>
         <UserForm />
       </Grid>
     </Grid>

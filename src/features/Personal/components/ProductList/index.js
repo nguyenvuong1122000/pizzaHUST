@@ -53,7 +53,7 @@ export default function ProductList({ orderpizza, orderside, cost_fields }) {
       <Box className={classes.fee}>
         <span>Tổng thanh toán</span>
         <span>
-          {cost_fields}
+          {cost_fields + 22000}
           <span>đ</span>
         </span>
       </Box>

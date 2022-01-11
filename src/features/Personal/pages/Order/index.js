@@ -47,10 +47,10 @@ export default function Order({ user }) {
       const response = await fetch(api);
       const responseJSON = await response.json();
       const resCartHis = await responseJSON[0].cart.filter(cart =>(
-        'delive' === "Hoan thanh"
+        cart.delive === "Hoan thanh"
       ))
       const resCartCon = await responseJSON[0].cart.filter(cart =>(
-        'delive' !== "Hoan thanh"
+        cart.delive !== "Hoan thanh"
       ))
       setCartHis(resCartHis);
       setCartCon(resCartCon);

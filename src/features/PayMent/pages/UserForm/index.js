@@ -1,20 +1,48 @@
-import React, { useState, useEffect } from 'react';
-import { Alert, Box, Snackbar, TextField } from '@mui/material';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Alert, Box, Snackbar, useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/styles';
 import Button from 'components/Button';
+import InputField from 'components/FormFields/InputField';
+import { buyAllRequest } from 'features/Slice';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { buyAllRequest } from 'features/Slice';
+import * as yup from 'yup';
 import { useStyles } from './styles';
-import './styles.css';
+
+const schema = yup.object({
+  name: yup
+    .string()
+    .required('Please enter your full name.')
+    .test('two-words', 'Enter at least 2 words.', (value) => {
+      if (!value) return true;
+      const parts = value?.split(' ') || [];
+      return parts.filter((x) => !!x).length >= 2;
+    }),
+  phone: yup
+    .number()
+    .positive('Invalid phone number.')
+    .required('Please enter your phone.')
+    .typeError('Invalid phone number.'),
+  email: yup.string().email('Invalid email.').required('Please enter email.'),
+  address: yup.string().required('Please enter your address.'),
+});
 
 export default function UserForm() {
-  const classes = useStyles();
+  const theme = useTheme();
+  const tablet = useMediaQuery(theme.breakpoints.up('tablet'));
+  const classes = useStyles({ tablet });
   const [buySuccess, setBuySuccess] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { control, handleSubmit } = useForm({
+    resolver: yupResolver(schema),
+  });
+
   const cart = useSelector((state) => state.cart.listProduct);
-  const user = useSelector((state) => state.login.username);
-  console.log(user)
+  const user = useSelector((state) => state.auth.username);
+  console.log(user);
 
   // API
   const [dataCart, setDataCart] = useState([]);
@@ -27,20 +55,10 @@ export default function UserForm() {
     }
     getData();
   }, [apiCart]);
-  console.log(dataCart)
+  console.log(dataCart);
 
-
-  function handleBuyBtn(event) {
-    event.preventDefault();
-    dispatch(buyAllRequest());
-    setBuySuccess(true);
-    const data = new FormData(event.currentTarget);
-    const dataToOrder = {
-      name: data.get('Name'),
-      phone: data.get('Phone'),
-      email: data.get('Email'),
-      address: data.get('Address'),
-    };
+  function handleBuyBtn(values) {
+    const dataToOrder = values;
     console.log('data to order', dataToOrder);
     const orderside = cart.filter((item) => item.type);
     const ordercombo = cart.filter((item) => item.numberperson);
@@ -54,6 +72,7 @@ export default function UserForm() {
         order: 41, //
         size: item.size,
         soles: item.sole,
+        topping: item.topping ? item.topping : null,
         pizaa: item.pk,
         pizzaa: item,
         comboorder: null,
@@ -84,6 +103,7 @@ export default function UserForm() {
           size: 'M',
           soles: 'Mem xop',
           comboorder: item.pk,
+          topping: null,
           pizaa: i.pk,
           pizzaa: i,
           amount: item.quantity,
@@ -95,6 +115,7 @@ export default function UserForm() {
         orderside1.push({
           order: 41, //
           sidess: i.pk,
+          comboorder: item.pk,
           sidedis: i,
           amount: item.quantity,
           cost: i.cost,
@@ -104,7 +125,6 @@ export default function UserForm() {
     }
     console.log(orderpizza1);
     console.log(orderside1);
-    console.log(data)
 
     var dataPost = {
       cart: dataCart[1] ? null : dataCart[0].pk, //neu co tk mk thi them th nay vao
@@ -129,6 +149,8 @@ export default function UserForm() {
       .then((data) => {
         // bạn có thể làm gì đó với kết quả cuối cùng này thì làm
 
+        dispatch(buyAllRequest());
+        setBuySuccess(true);
         console.log('Success:', data); // ghi log kết quả hoàn thành
         setTimeout(() => {
           navigate('/success', { replace: true });
@@ -137,7 +159,6 @@ export default function UserForm() {
       .catch((error) => {
         console.error('Error:', error); // ghi log nếu xảy ra lỗi
       });
-    console.log('Success:', data); // ghi log kết quả hoàn thành
   }
 
   function handleClose() {
@@ -147,61 +168,48 @@ export default function UserForm() {
   return (
     <Box className={classes.root}>
       <Box className={classes.logo}>
-        <img
-          srcSet={process.env.PUBLIC_URL + 'pizzaLogo.png 2x'}
-          alt=""
-          style={{ marginLeft: 'auto', display: 'block' }}
-        />
+        <img srcSet={process.env.PUBLIC_URL + 'pizzaLogo.png 2x'} alt="" />
       </Box>
-      <Box
-        component="form"
-        className={classes.userForm}
-        onSubmit={handleBuyBtn}
-      >
-        <span>Thông tin thanh toán</span>
+      <span>Thông tin thanh toán</span>
+
+      <form className={classes.userForm} onSubmit={handleSubmit(handleBuyBtn)}>
         <Box className={classes.userForm}>
-          <TextField
-            margin="normal"
-            autoFocus
-            required
-            fullWidth
-            id="name"
-            placeholder="Họ và tên"
-            name="Name"
-            sx={{ mt: 2, mb: 2 }}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="phone"
-            placeholder="Số điện thoại"
-            name="Phone"
-            sx={{ mt: 2, mb: 2 }}
-            inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            type="email"
-            id="email"
-            placeholder="Email"
-            name="Email"
-            sx={{ mt: 2, mb: 2 }}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="address"
-            placeholder="Địa chỉ"
-            name="Address"
-            sx={{ mt: 2, mb: 2 }}
-          />
+          <Box sx={{ mt: 2, mb: 2 }}>
+            <InputField
+              name="name"
+              size="large"
+              placeholder="Họ và tên"
+              control={control}
+            />
+          </Box>
+          <Box sx={{ mt: 2, mb: 2 }}>
+            <InputField
+              name="phone"
+              size="large"
+              placeholder="Số điện thoại"
+              control={control}
+            />
+          </Box>
+          <Box sx={{ mt: 2, mb: 2 }}>
+            <InputField
+              name="email"
+              size="large"
+              placeholder="Email"
+              control={control}
+            />
+          </Box>
+          <Box sx={{ mt: 2, mb: 2 }}>
+            <InputField
+              name="address"
+              size="large"
+              placeholder="Địa chỉ"
+              control={control}
+            />
+          </Box>
         </Box>
         <Button type="submit" name="Mua hàng" />
-      </Box>
+      </form>
+
       <Snackbar
         open={buySuccess}
         autoHideDuration={3000}
@@ -212,7 +220,7 @@ export default function UserForm() {
         }}
       >
         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          Buy Successfull! Thank you!
+          Buy Successfully! Thank you!
         </Alert>
       </Snackbar>
     </Box>
