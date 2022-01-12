@@ -92,6 +92,7 @@ export default function NavBarLeft() {
       navigate('/login', { replace: true });
     } else {
       dispatch(logout());
+      navigate('/home', { replace: true });
     }
   };
 
