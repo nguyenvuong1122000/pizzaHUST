@@ -15,7 +15,7 @@ class OrderComboInLine(admin.StackedInline):
 class OrderAdmin(admin.ModelAdmin):
     list_filter = ['delive']
     list_display = ['name','address','price']
-    readonly_fields = ['cart','name','phonenumber','email','address','delive','create','price']
+    readonly_fields = ['cart','name','phonenumber','email','address','create','price']
     # def price(self):
     #     return 10
     # fields_set = (
@@ -91,6 +91,7 @@ class CartAdmin(admin.ModelAdmin):
                 ['user']
             ),
         }),
+    list_display = ['user', 'countorder']
     inlines = [OrderInLine]
 class ProfileAdmin(admin.ModelAdmin):
     model = Profile

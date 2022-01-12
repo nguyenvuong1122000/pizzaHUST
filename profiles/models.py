@@ -46,7 +46,11 @@ class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     def __str__(self):
         return self.user.username
-    # @property
+    def countorder(self):
+        return Order.objects.filter(cart__id = self.id).count()
+    def ordercart(self):
+        return Order.objects.filter(cart__id = self.id)
+    @property
     def pricecart(self):
         price = 0
         order_set = Order.objects.filter(cart__id=self.id)
@@ -92,7 +96,7 @@ class Order(models.Model):
         (OKE,'Hoan thanh ')
         ]
     delive = models.CharField(choices=DELIVE_CHOICE, max_length= 30)
-    # rating = models.BooleanField(default=False)
+    rating = models.IntegerField(default=0)
     create = models.DateTimeField(default = datetime.now())
     def __str__(self):
         return self.name
@@ -204,13 +208,13 @@ class OrderPizza(models.Model):
     def cost(self):
         price=0
         if self.size == 'S':
-            price+=self.pizaa.cost*(100-self.pecent)/100
+            price+=self.pizaa.cost*(100-self.pecent)/100*self.amount
         if self.size == 'M':
-            price+=self.pizza.costm*(100-self.pecent)/100
+            price+=self.pizza.costm*(100-self.pecent)/100*self.amount
         if self.size == 'L':
-            price+=self.pizza.costl*(100-self.pecent)/100
+            price+=self.pizza.costl*(100-self.pecent)/100*self.amount
         if self.topping != None:
-            price+=10000
+            price+=10000*self.amount
         return price
     @property
     def pizza(self):

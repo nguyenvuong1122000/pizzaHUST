@@ -317,7 +317,7 @@ class OrderSerializer(WritableNestedModelSerializer, serializers.HyperlinkedMode
             'orderside',
             # 'ordercombo',
             'delive',
-            # 'rating',
+            'rating',
             'cost'
         )
 class CartSerializer(serializers.HyperlinkedModelSerializer):
