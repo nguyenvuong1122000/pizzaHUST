@@ -60,8 +60,8 @@ export default function ProductList({
   const [rateValue, setRateValue] = useState(0);
   const [openNoti, setOpenNoti] = useState(false);
   // const [total, setTotal] = useState(0);
-  const ratingPizza = 'http://127.0.0.1:8000/scorepiza/'
-  const ratingSide = 'http://127.0.0.1:8000/scoreside/'
+  const ratingPizza = 'http://127.0.0.1:8000/scorepiza/';
+  const ratingSide = 'http://127.0.0.1:8000/scoreside/';
 
   // console.log(orderpizza);
   // console.log(orderside);
@@ -69,46 +69,46 @@ export default function ProductList({
 
   const handleRateClick = () => {
     // console.log(rateValue);
-    orderpizza.map((item)=>{
+    orderpizza.map((item) => {
       const api = ratingPizza;
       var e = {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          "pizza": item.pizaa,
-          "score": rateValue,
+          pizza: item.pizaa,
+          score: rateValue,
         }),
       };
       fetch(api, e)
         .then((res) => {
-          console.log(123)
+          console.log(123);
         })
         .catch((error) => {
-          console.error("Error:", error);
+          console.error('Error:', error);
         });
-    })
-    orderside.map((item)=>{
+    });
+    orderside.map((item) => {
       const api = ratingSide;
       var e = {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          "side": item.sidess,
-          "score": rateValue,
+          side: item.sidess,
+          score: rateValue,
         }),
       };
       fetch(api, e)
         .then((res) => {
-          console.log(345)
+          console.log(345);
         })
         .catch((error) => {
-          console.error("Error:", error);
+          console.error('Error:', error);
         });
-    })
+    });
     var dataPost = {
       ...list,
       rating: rateValue,
@@ -142,10 +142,10 @@ export default function ProductList({
     <Box className={classes.root}>
       <Box className={classes.list}>
         {orderpizza.map((item) => (
-          <ProductItem key={item.pk} item={item}/>
+          <ProductItem key={item.pk} item={item} />
         ))}
         {orderside.map((item) => (
-          <ProductItem key={item.pk} item={item}/>
+          <ProductItem key={item.pk} item={item} />
         ))}
       </Box>
       <Box className={classes.fee}>
@@ -161,13 +161,13 @@ export default function ProductList({
       >
         <span>Đánh giá: </span>
         <Rating
-          readOnly={isHistory ? list.rating : true/* || nếu đã đánh giá */}
+          readOnly={isHistory ? list.rating : true /* || nếu đã đánh giá */}
           value={rateValue === 0 ? list.rating : rateValue}
           onChange={(event, newValue) => {
             setRateValue(newValue);
           }}
         />
-        {(isHistory ? !list.rating : false)/* && nếu chưa đánh giá */ && (
+        {(isHistory ? !list.rating : false) /* && nếu chưa đánh giá */ && (
           <Button variant="contained" size="small" onClick={handleRateClick}>
             Send
           </Button>
