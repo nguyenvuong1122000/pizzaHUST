@@ -45,7 +45,11 @@ class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     def __str__(self):
         return f'{self.user.username}\''
-    # @property
+    def countorder(self):
+        return Order.objects.filter(cart__id = self.id).count()
+    def ordercart(self):
+        return Order.objects.filter(cart__id = self.id)
+    @property
     def pricecart(self):
         price = 0
         order_set = Order.objects.filter(cart__id=self.id)
@@ -92,6 +96,7 @@ class Order(models.Model):
         ]
     delive = models.CharField(choices=DELIVE_CHOICE, max_length= 30)
     create = models.DateTimeField(default = datetime.now())
+    rating = models.BooleanField(default=False)
     # cost = models.IntegerField(default=0)
     def __str__(self):
         return self.name
@@ -195,7 +200,7 @@ class OrderPizza(models.Model):
         (TOP3, 'Double sốt')
     ]
     topping = models.CharField(choices=TOPPING_CHOICE, default=TOP1, max_length= 30)
-    rating = models.BooleanField(default=False)
+    # rating = models.BooleanField(default=False)
     pecent = models.IntegerField(default=0)
     amount = models.IntegerField(default=1)
     def __str__(self):
@@ -219,7 +224,7 @@ class OrderSideDishes(models.Model):
     comboorder = models.ForeignKey(Combo, related_name='comboside',on_delete=models.CASCADE, null = True, blank=True)
     order = models.ForeignKey(Order, related_name = 'orderside', on_delete = models.CASCADE)
     sidess = models.ForeignKey(SideDishes,related_name= 'sidess', on_delete=models.CASCADE)
-    rating  = models.BooleanField(default=False)
+    # rating  = models.BooleanField(default=False)
     amount = models.IntegerField(default=1)
     pecent = models.IntegerField(default=0)
     def cost(self):

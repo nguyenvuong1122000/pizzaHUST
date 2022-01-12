@@ -99,6 +99,7 @@ class CartAdmin(admin.ModelAdmin):
                 ['user']
             ),
         }),
+    list_display = ['user', 'countorder']
     inlines = [OrderInLine]
 class ProfileAdmin(admin.ModelAdmin):
     model = Profile
