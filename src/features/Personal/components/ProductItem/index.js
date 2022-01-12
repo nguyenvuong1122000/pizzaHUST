@@ -1,9 +1,10 @@
 import { Box } from "@mui/material";
-import React from "react";
+import React, {useState} from "react";
 import { useStyles } from "features/PayMent/pages/PayCart/styles";
 
 export default function ProductItem({ item }) {
   const classes = useStyles();
+  const [cost, setCost] = useState(0);
   // console.log(item)
   return (
     <Box className={classes.root}>
@@ -22,7 +23,7 @@ export default function ProductItem({ item }) {
           <Box className={classes.quantity}>
             {/* Đánh giá */}
             <span style={{ margin: "0 20px" }}>
-              {item.pizzaa ? item.pizzaa.cost : item.sidedis.cost}
+            <span style={{ color: "#ff8000" }}>x</span>{item.amount}
             </span>
           </Box>
           <p style={{ fontSize: "10px", lineHeight: 6 / 5 }}>
@@ -34,11 +35,11 @@ export default function ProductItem({ item }) {
           <span>
             {item.pizzaa
               ? item.size === "S"
-                ? item.pizzaa.cost*(100-item.pecent)/100
+                ? (item.pizzaa.cost + (item.topping ? 10000 : 0))*(100-item.pecent)/100*item.amount
                 : item.size === "M"
-                ? item.pizzaa.costm*(100-item.pecent)/100
-                : item.pizzaa.costl*(100-item.pecent)/100
-              : item.sidedis.cost*(100-item.pecent)/100}
+                ? (item.pizzaa.costm + (item.topping ? 10000 : 0))*(100-item.pecent)/100*item.amount
+                : (item.pizzaa.costl + (item.topping ? 10000 : 0))*(100-item.pecent)/100*item.amount
+              : item.sidedis.cost*(100-item.pecent)/100*item.amount}
             <span style={{ color: "#ff8000" }}>đ</span>
           </span>
         </Box>

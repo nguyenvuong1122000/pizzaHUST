@@ -35,15 +35,17 @@ const useStyles = makeStyles({
 export default function Buying({ cartCon }) {
   const classes = useStyles();
   cartCon = cartCon.map((item) => item).reverse();
-  // console.log(cartCon);
+  console.log(cartCon);
   return (
     <Box className={classes.root}>
       {cartCon.map((list) => (
         <ProductList
           key={list.pk}
+          list={list}
           cost_fields={list.cost}
           orderpizza={list.orderpizza}
           orderside={list.orderside}
+          isHistory={false}
         />
       ))}
     </Box>

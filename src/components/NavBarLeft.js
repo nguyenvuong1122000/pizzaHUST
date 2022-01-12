@@ -88,7 +88,7 @@ export default function NavBarLeft() {
   };
 
   const handleLogin = () => {
-    if (tokenUser) {
+    if (!tokenUser) {
       navigate('/login', { replace: true });
     } else {
       dispatch(logout());
@@ -114,7 +114,7 @@ export default function NavBarLeft() {
 
       <Divider variant="middle" flexItem sx={{ mt: '10px', mb: '10px' }} />
 
-      <Box sx={{ display: 'none' }}>
+      <Box sx={{ display: tokenUser ? 'block' : 'none' }}>
         <ListItem
           key={5}
           className={`${classes.navIcon}  ${
