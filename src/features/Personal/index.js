@@ -13,7 +13,7 @@ import './styles.css';
 
 export default function Personal() {
   // const user = useSelector((state) => state.auth.username);
-  const user = localStorage.getItem('tokenHUST') || '';
+  const user = localStorage.getItem('usernameHUST') || '';
   const theme = useTheme();
   const tablet = useMediaQuery(theme.breakpoints.up('tablet'));
   const [activeId, setActiveId] = useState(1);

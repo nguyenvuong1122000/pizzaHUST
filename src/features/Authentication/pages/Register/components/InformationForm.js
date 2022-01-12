@@ -46,13 +46,13 @@ export default function InformationForm({ onSubmit }) {
     <Box>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <Box>Họ và tên</Box>
-        <InputField name="name" control={control} />
+        <InputField name="fullname" control={control} />
         <Box sx={{ mt: 2 }}>Số điện thoại</Box>
-        <InputField name="number_phone" control={control} />
+        <InputField name="phone" control={control} />
         <Box sx={{ mt: 2 }}>Địa chỉ</Box>
         <InputField name="address" control={control} />
         <Box sx={{ mt: 2 }}>Ngày sinh</Box>
-        <InputField name="pub_date" type="date" control={control} />
+        <InputField name="dateOfBirth" type="date" control={control} />
         <AuthButton name="Chấp nhận" />
       </form>
       <Snackbar

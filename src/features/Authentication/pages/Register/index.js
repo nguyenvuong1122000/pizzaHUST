@@ -1,86 +1,88 @@
-import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
-import RegisterForm from './components/RegisterForm';
-import useStyles from '../Login/styles';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import useStyles from '../Login/styles';
 import InformationForm from './components/InformationForm';
+import RegisterForm from './components/RegisterForm';
+import { saveDataLogin } from 'features/Authentication/slice';
 
 export default function Register() {
   const classes = useStyles();
   const [openInfoForm, setOpenInfoForm] = useState(false);
-  const navigate = useNavigate();
   const [dataRegister, setDataRegister] = useState({});
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  
   const handleRegister = (values) => {
-    console.log('values', values);
-    const userApi = "http://127.0.0.1:8000/api/register/";
-    const postApi = (userInp) => {
-      var e = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userInp),
-      };
-      fetch(userApi, e)
-        .then((res) => {
-          setOpenInfoForm(true);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    };
-      console.log(openInfoForm);
-      setDataRegister({
-        username: values.username,
-        phone: values.phone,
-        password: values.password,
-      });
-      var [a, b, c] = [values.username, values.email, values.password];
-      var userInp = {
-        username: a,
-        email: b,
-        password: c,
-      };
-      
-      postApi(userInp)
-      // api register lan 1
-  };
-
-  const handleInfo = (values) => {
-    console.log(openInfoForm);
-      var url_post = 'http://127.0.0.1:8000/profile/';
-      const postApi2 = (userInp) => {
+    if (!openInfoForm) {
+      const userApi = 'http://127.0.0.1:8000/api/register/';
+      const postApi = (userInfo) => {
         var e = {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
-          body: JSON.stringify(userInp),
+          body: JSON.stringify(userInfo),
         };
-        fetch(url_post, e)
+        fetch(userApi, e)
           .then((res) => {
-            if(res.ok) {
-              res.json()
-            }else{
-              alert("Khong thanh cong")
+            if (res.ok) {
+              setOpenInfoForm(true);
             }
           })
           .catch((error) => {
-            console.error("Error:", error);
+            console.error('Error:', error);
           });
       };
+      const userInfo = {
+        username: values.username,
+        email: values.email,
+        password: values.password,
+      };
+      setDataRegister({ ...userInfo });
+      postApi(userInfo);
+    } else {
       const newValues = {
-        ...dataRegister,
-        ...values,
+        user: dataRegister.username,
+        email: dataRegister.email,
+        name: values.fullname,
+        number_phone: values.phone,
+        address: values.address,
+        pub_date: values.dayOfBirth,
         image: null,
       };
-      console.log('newValues', newValues);
-      // api register lan 2
-      postApi2(newValues)
-      navigate('/', { replace: true });
-  }
+      const url_post = 'http://127.0.0.1:8000/profile/';
+      const postApi2 = (userInfo) => {
+        var e = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userInfo),
+        };
+        fetch(url_post, e)
+          .then((res) => {
+            if (res.ok) {
+              dispatch(
+                saveDataLogin({
+                  username: userInfo.username,
+                  token: userInfo.token,
+                })
+              );
+              navigate('/', { replace: true });
+              res.json();
+            } else {
+              alert('Khong thanh cong');
+            }
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      };
+      postApi2(newValues);
+    }
+  };
 
   return (
     <Box className={classes.root}>
@@ -95,7 +97,7 @@ export default function Register() {
               <InformationForm onSubmit={handleRegister} />
             ) : (
               <Box>
-                <RegisterForm onSubmit={handleInfo} />
+                <RegisterForm onSubmit={handleRegister} />
                 Đã có tài khoản?{' '}
                 <Box
                   onClick={() => navigate('/login', { replace: true })}
