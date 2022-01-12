@@ -53,7 +53,7 @@ export default function InformationForm({ onSubmit }) {
         <InputField name="address" control={control} />
         <Box sx={{ mt: 2 }}>Ngày sinh</Box>
         <InputField name="pub_date" type="date" control={control} />
-        <AuthButton name="Chấp nhận" />
+        <AuthButton name="Chấp nhận"/>
       </form>
       <Snackbar
         open={error ? true : false}
