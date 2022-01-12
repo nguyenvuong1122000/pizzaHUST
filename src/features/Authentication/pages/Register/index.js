@@ -15,6 +15,7 @@ export default function Register() {
   const navigate = useNavigate();
 
   const handleRegister = (values) => {
+    console.log(values);
     if (!openInfoForm) {
       const userApi = 'http://127.0.0.1:8000/api/register/';
       const postApi = (userInfo) => {
@@ -49,9 +50,10 @@ export default function Register() {
         name: values.fullname,
         number_phone: values.phone,
         address: values.address,
-        pub_date: values.dayOfBirth,
+        pub_date: values.dateOfBirth,
         image: null,
       };
+      console.log(newValues);
       const url_post = 'http://127.0.0.1:8000/profile/';
       const postApi2 = (userInfo) => {
         var e = {
@@ -66,8 +68,8 @@ export default function Register() {
             if (res.ok) {
               dispatch(
                 saveDataLogin({
-                  username: userInfo.username,
-                  token: userInfo.token,
+                  username: newValues.username,
+                  token: newValues.username,
                 })
               );
               navigate('/', { replace: true });
