@@ -54,16 +54,80 @@ export default function ProductList({
   orderside,
   cost_fields,
   isHistory,
+  list,
 }) {
   const classes = useStyles();
   const [rateValue, setRateValue] = useState(0);
-  const [disable, setDisable] = useState(false);
   const [openNoti, setOpenNoti] = useState(false);
+  // const [total, setTotal] = useState(0);
+  const ratingPizza = 'http://127.0.0.1:8000/scorepiza/'
+  const ratingSide = 'http://127.0.0.1:8000/scoreside/'
 
   // console.log(orderpizza);
   // console.log(orderside);
+  // console.log(list);
+
   const handleRateClick = () => {
-    setDisable(true);
+    // console.log(rateValue);
+    orderpizza.map((item)=>{
+      const api = ratingPizza;
+      var e = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "pizza": item.pizaa,
+          "score": rateValue,
+        }),
+      };
+      fetch(api, e)
+        .then((res) => {
+          console.log(123)
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    })
+    orderside.map((item)=>{
+      const api = ratingSide;
+      var e = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "side": item.sidess,
+          "score": rateValue,
+        }),
+      };
+      fetch(api, e)
+        .then((res) => {
+          console.log(345)
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    })
+    var dataPost = {
+      ...list,
+      rating: rateValue,
+    };
+    var url_post = 'http://127.0.0.1:8000/order/' + list.pk + '/';
+    fetch(url_post, {
+      method: 'PUT', // thêm mới thì dùng post
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(dataPost), // chuyển dữ liệu object trên thành chuỗi json
+    })
+      .then((response) => response.json()) // chuyển kết quả trả về thành json object
+      .then((data) => {
+        // bạn có thể làm gì đó với kết quả cuối cùng này thì làm
+      })
+      .catch((error) => {
+        console.error('Error:', error); // ghi log nếu xảy ra lỗi
+      });
     setOpenNoti(true);
   };
 
@@ -78,10 +142,10 @@ export default function ProductList({
     <Box className={classes.root}>
       <Box className={classes.list}>
         {orderpizza.map((item) => (
-          <ProductItem key={item.pk} item={item} />
+          <ProductItem key={item.pk} item={item}/>
         ))}
         {orderside.map((item) => (
-          <ProductItem key={item.pk} item={item} />
+          <ProductItem key={item.pk} item={item}/>
         ))}
       </Box>
       <Box className={classes.fee}>
@@ -97,17 +161,23 @@ export default function ProductList({
       >
         <span>Đánh giá: </span>
         <Rating
-          readOnly={disable /* || nếu đã đánh giá */}
-          value={rateValue}
+          readOnly={isHistory ? list.rating : true/* || nếu đã đánh giá */}
+          value={rateValue === 0 ? list.rating : rateValue}
           onChange={(event, newValue) => {
             setRateValue(newValue);
           }}
         />
-        {!disable /* && nếu chưa đánh giá */ && (
+        {(isHistory ? !list.rating : false)/* && nếu chưa đánh giá */ && (
           <Button variant="contained" size="small" onClick={handleRateClick}>
             Send
           </Button>
         )}
+      </Box>
+      <Box
+        className={classes.rate}
+        sx={{ display: isHistory ? 'none' : 'flex' }}
+      >
+        <span>Trạng thái: {list.delive}</span>
       </Box>
       <Snackbar
         open={openNoti}

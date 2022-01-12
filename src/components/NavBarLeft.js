@@ -88,10 +88,15 @@ export default function NavBarLeft() {
   };
 
   const handleLogin = () => {
+<<<<<<< HEAD
     if (tokenUser === '') {
+=======
+    if (!tokenUser) {
+>>>>>>> a252dc788d175e7134530b43c6b6f4ee06b957cd
       navigate('/login', { replace: true });
     } else {
       dispatch(logout());
+      navigate('/home', { replace: true });
     }
   };
 

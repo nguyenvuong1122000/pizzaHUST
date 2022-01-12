@@ -57,7 +57,7 @@ export default function UserForm() {
   }, [apiCart]);
   console.log(dataCart);
 
-  function handleBuyBtn(values) {
+  async function handleBuyBtn(values) {
     const dataToOrder = values;
     console.log('data to order', dataToOrder);
     const orderside = cart.filter((item) => item.type);
@@ -138,7 +138,7 @@ export default function UserForm() {
       cost_fields: 20000,
     };
     var url_post = 'http://127.0.0.1:8000/order/';
-    fetch(url_post, {
+    await fetch(url_post, {
       method: 'POST', // thêm mới thì dùng post
       headers: {
         'Content-Type': 'application/json',

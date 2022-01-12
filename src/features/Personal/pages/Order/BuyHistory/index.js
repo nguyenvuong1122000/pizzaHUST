@@ -40,6 +40,7 @@ export default function BuyHistory({ cartHis }) {
       {cartHis.map((list) => (
         <ProductList
           key={list.id}
+          list={list}
           cost_fields={list.cost}
           orderpizza={list.orderpizza}
           orderside={list.orderside}
