@@ -1,93 +1,89 @@
-import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
-import RegisterForm from './components/RegisterForm';
-import useStyles from '../Login/styles';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import useStyles from '../Login/styles';
 import InformationForm from './components/InformationForm';
+import RegisterForm from './components/RegisterForm';
+import { saveDataLogin } from 'features/Authentication/slice';
 
 export default function Register() {
   const classes = useStyles();
   const [openInfoForm, setOpenInfoForm] = useState(false);
-  const navigate = useNavigate();
   const [dataRegister, setDataRegister] = useState({});
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleRegister = (values) => {
-    if(!openInfoForm){
-      console.log(123)
-      console.log('values', values);
-      const userApi = "http://127.0.0.1:8000/api/register/";
-      const postApi = (userInp) => {
+    console.log(values);
+    if (!openInfoForm) {
+      const userApi = 'http://127.0.0.1:8000/api/register/';
+      const postApi = (userInfo) => {
         var e = {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
-          body: JSON.stringify(userInp),
+          body: JSON.stringify(userInfo),
         };
         fetch(userApi, e)
           .then((res) => {
-            if(res.ok) {
+            if (res.ok) {
               setOpenInfoForm(true);
-              console.log("ok")
             }
           })
           .catch((error) => {
-            console.error("Error:", error);
+            console.error('Error:', error);
           });
       };
-      // console.log(openInfoForm);
-      setDataRegister({
+      const userInfo = {
         username: values.username,
-        phone: values.phone,
+        email: values.email,
         password: values.password,
-      });
-      var [a, b, c] = [values.username, values.email, values.password];
-      var userInp = {
-        username: a,
-        email: b,
-        password: c,
       };
-      postApi(userInp)
-      // api register lan 1
-    }
-    else{
-      console.log(456)
-      console.log(openInfoForm);
-      var url_post = 'http://127.0.0.1:8000/profile/';
-      const postApi2 = (userInp) => {
+      setDataRegister({ ...userInfo });
+      postApi(userInfo);
+    } else {
+      const newValues = {
+        user: dataRegister.username,
+        email: dataRegister.email,
+        name: values.fullname,
+        number_phone: values.phone,
+        address: values.address,
+        pub_date: values.dateOfBirth,
+        image: null,
+      };
+      console.log(newValues);
+      const url_post = 'http://127.0.0.1:8000/profile/';
+      const postApi2 = (userInfo) => {
         var e = {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
-          body: JSON.stringify(userInp),
+          body: JSON.stringify(userInfo),
         };
         fetch(url_post, e)
           .then((res) => {
-            if(res.ok) {
-              console.log("ok2")
+            if (res.ok) {
+              dispatch(
+                saveDataLogin({
+                  username: newValues.username,
+                  token: newValues.username,
+                })
+              );
               navigate('/', { replace: true });
-            }else{
-              alert("Khong thanh cong")
+              res.json();
+            } else {
+              alert('Khong thanh cong');
             }
           })
           .catch((error) => {
-            console.error("Error:", error);
+            console.error('Error:', error);
           });
       };
-      const newValues = {
-        ...dataRegister,
-        ...values,
-        image: null,
-      };
-      console.log('newValues', newValues);
-      // api register lan 2
-      postApi2(newValues)
+      postApi2(newValues);
     }
-  }
-  
-  const handleInfo = (values) => {
-    
   };
 
   return (
