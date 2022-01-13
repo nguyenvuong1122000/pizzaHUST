@@ -14,7 +14,6 @@ import './styles.css';
 export default function Personal() {
   // const user = useSelector((state) => state.auth.username);
   const user = localStorage.getItem('usernameHUST') || '';
-  console.log(user)
   const theme = useTheme();
   const tablet = useMediaQuery(theme.breakpoints.up('tablet'));
   const [activeId, setActiveId] = useState(1);
@@ -37,7 +36,7 @@ export default function Personal() {
       }
       getData();
     }
-  }, [api]);
+  }, [api, user]);
   console.log(data);
 
   const tabs = [
