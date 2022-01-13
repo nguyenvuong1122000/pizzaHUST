@@ -1,10 +1,9 @@
-import { Grid } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { Grid, useMediaQuery } from '@mui/material';
 import { makeStyles, useTheme } from '@mui/styles';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import PayCard from './pages/PayCart';
 import UserForm from './pages/UserForm';
-import { useMediaQuery } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
   root: {
@@ -28,7 +27,6 @@ export default function Pay() {
   }, []);
 
   const user = useSelector((state) => state.auth.username);
-  console.log(user);
 
   // API
   const [data, setData] = useState([]);
@@ -42,8 +40,7 @@ export default function Pay() {
       }
       getData();
     }
-  }, [api]);
-  console.log(data);
+  }, [api, user]);
 
   return (
     <Grid className={classes.root} container>
@@ -54,7 +51,7 @@ export default function Pay() {
         <PayCard />
       </Grid>
       <Grid item xs={tablet ? 4 : 12}>
-        <UserForm data={data}/>
+        {data.hasOwnProperty('name') && <UserForm data={data} />}
       </Grid>
     </Grid>
   );

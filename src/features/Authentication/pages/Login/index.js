@@ -75,7 +75,9 @@ export default function Login() {
         </Snackbar>
       </Box>
       <Box className={classes.image}>
-        <img src={process.env.PUBLIC_URL + 'auth.png'} alt="" />
+        <Box className={classes.wrap}>
+          <img src={process.env.PUBLIC_URL + 'auth.png'} alt="" />
+        </Box>
       </Box>
     </Box>
   );

@@ -20,7 +20,7 @@ const schema = yup.object({
       const parts = value?.split(' ') || [];
       return parts.filter((x) => !!x).length >= 2;
     }),
-  phone: yup
+  number_phone: yup
     .number()
     .positive('Invalid phone number.')
     .required('Please enter your phone.')
@@ -29,18 +29,21 @@ const schema = yup.object({
   address: yup.string().required('Please enter your address.'),
 });
 
-export default function UserForm({data}) {
+export default function UserForm({ data }) {
   const theme = useTheme();
   const tablet = useMediaQuery(theme.breakpoints.up('tablet'));
   const classes = useStyles({ tablet });
   const [buySuccess, setBuySuccess] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
 
   const cart = useSelector((state) => state.cart.listProduct);
   const user = useSelector((state) => state.auth.username);
-  
+
+  const { control, handleSubmit } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: data,
+  });
 
   // API
   const [dataCart, setDataCart] = useState([]);
@@ -49,23 +52,12 @@ export default function UserForm({data}) {
     async function getData() {
       const response = await fetch(apiCart);
       const responseJSON = await response.json();
-      if(responseJSON.length === 1){
+      if (responseJSON.length === 1) {
         setDataCart(responseJSON);
       }
     }
     getData();
   }, [apiCart]);
-  console.log(dataCart);
-
-  const { control, handleSubmit } = useForm({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      name: data.name,
-      email: data.email,
-      phone: data.number_phone,
-      address: data.address,
-    }
-  });
 
   async function handleBuyBtn(values) {
     const dataToOrder = values;
@@ -181,7 +173,6 @@ export default function UserForm({data}) {
         <img srcSet={process.env.PUBLIC_URL + 'pizzaLogo.png 2x'} alt="" />
       </Box>
       <span>Thông tin thanh toán</span>
-
       <form className={classes.userForm} onSubmit={handleSubmit(handleBuyBtn)}>
         <Box className={classes.userForm}>
           <Box sx={{ mt: 2, mb: 2 }}>
@@ -190,16 +181,14 @@ export default function UserForm({data}) {
               size="large"
               placeholder="Họ và tên"
               control={control}
-              defaultValue={data? data.name : ''}
             />
           </Box>
           <Box sx={{ mt: 2, mb: 2 }}>
             <InputField
-              name="phone"
+              name="number_phone"
               size="large"
               placeholder="Số điện thoại"
               control={control}
-              defaultValue={data? data.number_phone : ''}
             />
           </Box>
           <Box sx={{ mt: 2, mb: 2 }}>
@@ -208,7 +197,6 @@ export default function UserForm({data}) {
               size="large"
               placeholder="Email"
               control={control}
-              defaultValue={data? data.email : ''}
             />
           </Box>
           <Box sx={{ mt: 2, mb: 2 }}>
@@ -217,7 +205,6 @@ export default function UserForm({data}) {
               size="large"
               placeholder="Địa chỉ"
               control={control}
-              defaultValue={data? data.address : ''}
             />
           </Box>
         </Box>

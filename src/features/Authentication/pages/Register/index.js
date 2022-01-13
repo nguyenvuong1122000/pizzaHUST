@@ -29,7 +29,7 @@ export default function Register() {
         fetch(userApi, e)
           .then((res) => {
             if (res.ok) {
-              console.log(res)
+              console.log(res);
               setOpenInfoForm(true);
             }
           })
@@ -114,7 +114,9 @@ export default function Register() {
         </Box>
       </Box>
       <Box className={classes.image}>
-        <img src={process.env.PUBLIC_URL + 'auth.png'} alt="" />
+        <Box className={classes.wrap}>
+          <img src={process.env.PUBLIC_URL + 'auth.png'} alt="" />
+        </Box>
       </Box>
     </Box>
   );

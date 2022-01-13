@@ -32,13 +32,14 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Buying({ cartCon }) {
+export default function Buying({ cartContinue }) {
   const classes = useStyles();
-  cartCon = cartCon.map((item) => item).reverse();
-  console.log(cartCon);
+
+  cartContinue = cartContinue.map((item) => item).reverse();
+
   return (
     <Box className={classes.root}>
-      {cartCon.map((list) => (
+      {cartContinue.map((list) => (
         <ProductList
           key={list.pk}
           list={list}

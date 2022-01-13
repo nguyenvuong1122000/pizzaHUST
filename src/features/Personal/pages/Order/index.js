@@ -33,41 +33,40 @@ function MyTab(props) {
 
 export default function Order({ user }) {
   const [activeId, setActiveId] = useState(1);
+  const [cartHistory, setCartHistory] = useState([]);
+  const [cartContinue, setCartContinue] = useState([]);
 
-  const onTabClick = (id) => {
-    setActiveId(id);
-  };
-
-  const [cartHis, setCartHis] = useState([]);
-  const [cartCon, setCartCon] = useState([]);
   const api = `http://127.0.0.1:8000/cart/?user__username=${user}`;
   useEffect(() => {
     async function getData() {
       const response = await fetch(api);
       const responseJSON = await response.json();
-      const resCartHis = await responseJSON[0].cart.filter(
+      const resCartHistory = await responseJSON[0].cart.filter(
         (cart) => cart.delive === 'Hoan thanh'
       );
-      const resCartCon = await responseJSON[0].cart.filter(
+      const resCartContinue = await responseJSON[0].cart.filter(
         (cart) => cart.delive !== 'Hoan thanh'
       );
-      setCartHis(resCartHis);
-      setCartCon(resCartCon);
+      setCartHistory(resCartHistory);
+      setCartContinue(resCartContinue);
     }
     getData();
   }, [api]);
-  // console.log(cartCon);
+
+  const onTabClick = (id) => {
+    setActiveId(id);
+  };
 
   const tabBuys = [
     {
       id: 1,
       name: 'Lịch sử mua hàng',
-      component: <BuyHistory cartHis={cartHis} />,
+      component: <BuyHistory cartHistory={cartHistory} />,
     },
     {
       id: 2,
       name: 'Đang giao',
-      component: <Buying cartCon={cartCon} />,
+      component: <Buying cartContinue={cartContinue} />,
     },
   ];
 

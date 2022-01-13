@@ -93,8 +93,6 @@ export default function PayCard() {
     );
   }
 
-  console.log(cart);
-
   return (
     <Box className={classes.root}>
       <Box className={classes.container}>

@@ -32,12 +32,14 @@ const useStyles = makeStyles({
   },
 });
 
-export default function BuyHistory({ cartHis }) {
+export default function BuyHistory({ cartHistory }) {
   const classes = useStyles();
-  cartHis = cartHis.map((item) => item).reverse();
+
+  cartHistory = cartHistory.map((item) => item).reverse();
+
   return (
     <Box className={classes.root}>
-      {cartHis.map((list) => (
+      {cartHistory.map((list) => (
         <ProductList
           key={list.id}
           list={list}
@@ -50,58 +52,3 @@ export default function BuyHistory({ cartHis }) {
     </Box>
   );
 }
-
-// const buyHistory = [
-//   {
-//     id: 1,
-//     fee: 1200000,
-//     productList: [
-//       {
-//         id: 1,
-//         srcImg: '',
-//         name: 'Pizza Hải Sản Đào',
-//         quantity: 1,
-//         cost: 69000,
-//         size: 'Size S',
-//         sole: 'Đế mỏng',
-//         topping: '',
-//       },
-//       {
-//         id: 2,
-//         srcImg: '',
-//         name: 'Pizza Hải Sản Đào',
-//         quantity: 1,
-//         cost: 69000,
-//         size: 'Size S',
-//         sole: 'Đế mỏng',
-//         topping: '',
-//       },
-//     ],
-//   },
-//   {
-//     id: 2,
-//     fee: 1200000,
-//     productList: [
-//       {
-//         id: 1,
-//         srcImg: '',
-//         name: 'Pizza Hải Sản Đào',
-//         quantity: 1,
-//         cost: 69000,
-//         size: 'Size S',
-//         sole: 'Đế mỏng',
-//         topping: '',
-//       },
-//       {
-//         id: 2,
-//         srcImg: '',
-//         name: 'Pizza Hải Sản Đào',
-//         quantity: 1,
-//         cost: 69000,
-//         size: 'Size S',
-//         sole: 'Đế mỏng',
-//         topping: '',
-//       },
-//     ],
-//   },
-// ];

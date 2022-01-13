@@ -8,14 +8,13 @@ export default function InputField({
   control,
   size,
   label,
-  defaultValue,
   placeholder,
   ...inputProps
 }) {
   const classes = useStyles();
 
   const {
-    field: { onChange, onBlur, ref },
+    field: { value, onChange, onBlur, ref },
     fieldState: { invalid, error },
   } = useController({ name, control });
 
@@ -25,8 +24,7 @@ export default function InputField({
       variant="outlined"
       size={size || 'small'}
       label={label}
-      defaultValue={defaultValue}
-      // value={value}
+      value={value}
       fullWidth
       margin="dense"
       onChange={onChange}

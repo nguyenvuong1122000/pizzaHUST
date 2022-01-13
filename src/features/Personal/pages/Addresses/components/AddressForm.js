@@ -27,17 +27,12 @@ const schema = yup.object({
   address: yup.string().required('Please enter your address.'),
 });
 
-export default function AddressForm({ onSubmit, data }) {
+export default function AddressForm({ onSubmit, initialValues }) {
   const [error, setError] = useState('');
 
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: {
-      name: data.name,
-      email: data.email,
-      number_phone: data.number_phone,
-      address: data.address,
-    }
+    defaultValues: initialValues,
   });
 
   const handleFormSubmit = (values) => {
@@ -51,17 +46,18 @@ export default function AddressForm({ onSubmit, data }) {
   function handleClose() {
     setError('');
   }
+
   return (
     <Box>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <Box>Họ và tên</Box>
-        <InputField name="name" control={control} defaultValue={data.name}/>
+        <InputField name="name" control={control} />
         <Box sx={{ mt: 2 }}>Email</Box>
-        <InputField name="email" control={control} defaultValue={data.email}/>
+        <InputField name="email" control={control} />
         <Box sx={{ mt: 2 }}>Số điện thoại</Box>
-        <InputField name="number_phone" control={control} defaultValue={data.number_phone}/>
+        <InputField name="number_phone" control={control} />
         <Box sx={{ mt: 2 }}>Địa chỉ</Box>
-        <InputField name="address" control={control} defaultValue={data.address}/>
+        <InputField name="address" control={control} />
         <AuthButton name="Chỉnh sửa" />
       </form>
       <Snackbar
