@@ -14,6 +14,7 @@ import './styles.css';
 export default function Personal() {
   // const user = useSelector((state) => state.auth.username);
   const user = localStorage.getItem('usernameHUST') || '';
+  console.log(user)
   const theme = useTheme();
   const tablet = useMediaQuery(theme.breakpoints.up('tablet'));
   const [activeId, setActiveId] = useState(1);
@@ -53,7 +54,7 @@ export default function Personal() {
     {
       id: 3,
       name: 'Địa chỉ',
-      component: <Addresses />,
+      component: <Addresses data={data[0]}/>,
     },
   ];
 

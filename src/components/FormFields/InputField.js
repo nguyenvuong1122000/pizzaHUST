@@ -8,6 +8,7 @@ export default function InputField({
   control,
   size,
   label,
+  defaultValue,
   placeholder,
   ...inputProps
 }) {
@@ -24,6 +25,7 @@ export default function InputField({
       variant="outlined"
       size={size || 'small'}
       label={label}
+      defaultValue={defaultValue}
       // value={value}
       fullWidth
       margin="dense"

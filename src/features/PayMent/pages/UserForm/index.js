@@ -29,20 +29,18 @@ const schema = yup.object({
   address: yup.string().required('Please enter your address.'),
 });
 
-export default function UserForm() {
+export default function UserForm({data}) {
   const theme = useTheme();
   const tablet = useMediaQuery(theme.breakpoints.up('tablet'));
   const classes = useStyles({ tablet });
   const [buySuccess, setBuySuccess] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { control, handleSubmit } = useForm({
-    resolver: yupResolver(schema),
-  });
+  
 
   const cart = useSelector((state) => state.cart.listProduct);
   const user = useSelector((state) => state.auth.username);
-  console.log(user);
+  
 
   // API
   const [dataCart, setDataCart] = useState([]);
@@ -51,11 +49,23 @@ export default function UserForm() {
     async function getData() {
       const response = await fetch(apiCart);
       const responseJSON = await response.json();
-      setDataCart(responseJSON);
+      if(responseJSON.length === 1){
+        setDataCart(responseJSON);
+      }
     }
     getData();
   }, [apiCart]);
   console.log(dataCart);
+
+  const { control, handleSubmit } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      name: data.name,
+      email: data.email,
+      phone: data.number_phone,
+      address: data.address,
+    }
+  });
 
   async function handleBuyBtn(values) {
     const dataToOrder = values;
@@ -127,7 +137,7 @@ export default function UserForm() {
     console.log(orderside1);
 
     var dataPost = {
-      cart: dataCart[1] ? null : dataCart[0].pk, //neu co tk mk thi them th nay vao
+      cart: dataCart.length === 1 ? dataCart[0].pk : null, //neu co tk mk thi them th nay vao
       name: dataToOrder.name,
       phonenumber: dataToOrder.phone,
       email: dataToOrder.email,
@@ -180,6 +190,7 @@ export default function UserForm() {
               size="large"
               placeholder="Họ và tên"
               control={control}
+              defaultValue={data? data.name : ''}
             />
           </Box>
           <Box sx={{ mt: 2, mb: 2 }}>
@@ -188,6 +199,7 @@ export default function UserForm() {
               size="large"
               placeholder="Số điện thoại"
               control={control}
+              defaultValue={data? data.number_phone : ''}
             />
           </Box>
           <Box sx={{ mt: 2, mb: 2 }}>
@@ -196,6 +208,7 @@ export default function UserForm() {
               size="large"
               placeholder="Email"
               control={control}
+              defaultValue={data? data.email : ''}
             />
           </Box>
           <Box sx={{ mt: 2, mb: 2 }}>
@@ -204,6 +217,7 @@ export default function UserForm() {
               size="large"
               placeholder="Địa chỉ"
               control={control}
+              defaultValue={data? data.address : ''}
             />
           </Box>
         </Box>

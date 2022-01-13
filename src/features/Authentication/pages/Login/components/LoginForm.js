@@ -27,7 +27,7 @@ export default function LoginForm({ onSubmit }) {
         <InputField name="username" control={control} />
         <Box sx={{ mt: 3 }}>Mật khẩu</Box>
         <InputField name="password" type="password" control={control} />
-        <Box
+        {/* <Box
           sx={{
             mt: 3,
             mb: 3,
@@ -37,7 +37,7 @@ export default function LoginForm({ onSubmit }) {
           }}
         >
           Quên mật khẩu
-        </Box>
+        </Box> */}
         <AuthButton name="Đăng nhập" />
       </form>
     </Box>

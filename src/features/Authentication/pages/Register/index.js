@@ -29,6 +29,7 @@ export default function Register() {
         fetch(userApi, e)
           .then((res) => {
             if (res.ok) {
+              console.log(res)
               setOpenInfoForm(true);
             }
           })
@@ -68,7 +69,7 @@ export default function Register() {
             if (res.ok) {
               dispatch(
                 saveDataLogin({
-                  username: newValues.username,
+                  username: newValues.user,
                   token: newValues.username,
                 })
               );
