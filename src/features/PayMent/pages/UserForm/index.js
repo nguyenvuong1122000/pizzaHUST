@@ -30,6 +30,7 @@ const schema = yup.object({
 });
 
 export default function UserForm({ data }) {
+  console.log(data)
   const theme = useTheme();
   const tablet = useMediaQuery(theme.breakpoints.up('tablet'));
   const classes = useStyles({ tablet });
@@ -42,7 +43,10 @@ export default function UserForm({ data }) {
 
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: data,
+    defaultValues: {
+      ...data,
+      phonenumber: data.number_phone
+    },
   });
 
   // API
@@ -131,7 +135,7 @@ export default function UserForm({ data }) {
     var dataPost = {
       cart: dataCart.length === 1 ? dataCart[0].pk : null, //neu co tk mk thi them th nay vao
       name: dataToOrder.name,
-      phonenumber: dataToOrder.phone,
+      phonenumber: dataToOrder.phonenumber,
       email: dataToOrder.email,
       address: dataToOrder.address,
       orderpizza: orderpizza1,

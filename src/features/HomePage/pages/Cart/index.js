@@ -9,9 +9,11 @@ import { useSelector } from 'react-redux';
 const useStyles = makeStyles({
   root: {
     position: (props) => (props.tablet ? 'fixed' : 'block'),
+    // position: 'fixed',
     zIndex: 2,
     width: (props) => (props.tablet ? '33.3333%' : '100%'),
-    maxWidth: '420px',
+    // width: '100%',
+    // maxWidth: '420px',
     margin: '0 auto',
     backgroundColor: '#fff',
     borderRadius: '20px 0 0 0',
