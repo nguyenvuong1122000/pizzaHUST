@@ -45,7 +45,7 @@ export default function Order({ user }) {
         (cart) => cart.delive === 'Hoan thanh'
       );
       const resCartContinue = await responseJSON[0].cart.filter(
-        (cart) => cart.delive !== 'Hoan thanh'
+        (cart) => (cart.delive !== 'Hoan thanh' && cart.delive !== 'Huy')
       );
       setCartHistory(resCartHistory);
       setCartContinue(resCartContinue);

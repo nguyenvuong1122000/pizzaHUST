@@ -51,12 +51,13 @@ export default function UserForm({ data }) {
     async function getData() {
       const response = await fetch(apiCart);
       const responseJSON = await response.json();
+      console.log(responseJSON)
       if (responseJSON.length === 1) {
         setDataCart(responseJSON);
       }
     }
     getData();
-  }, [apiCart]);
+  }, [apiCart, user]);
 
   async function handleBuyBtn(values) {
     const dataToOrder = values;

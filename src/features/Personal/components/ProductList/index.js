@@ -57,6 +57,7 @@ export default function ProductList({
   list,
 }) {
   const classes = useStyles();
+  const [isReadOnly, setIsReadOnly] = useState(false);
   const [rateValue, setRateValue] = useState(0);
   const [openNoti, setOpenNoti] = useState(false);
   // const [total, setTotal] = useState(0);
@@ -129,6 +130,8 @@ export default function ProductList({
         console.error('Error:', error); // ghi log nếu xảy ra lỗi
       });
     setOpenNoti(true);
+    setIsReadOnly(true);
+    // isHistory = true;
   };
 
   const handleClose = (event, reason) => {
@@ -161,15 +164,15 @@ export default function ProductList({
       >
         <span>Đánh giá: </span>
         <Rating
-          readOnly={isHistory ? list.rating : true /* || nếu đã đánh giá */}
+          readOnly={isHistory ? (isReadOnly ? true :list.rating) : true /* || nếu đã đánh giá */}
           value={rateValue === 0 ? list.rating : rateValue}
           onChange={(event, newValue) => {
             setRateValue(newValue);
           }}
         />
-        {(isHistory ? !list.rating : false) /* && nếu chưa đánh giá */ && (
+        {(isHistory ? (isReadOnly ? false : !list.rating) : false) /* && nếu chưa đánh giá */ && (
           <Button variant="contained" size="small" onClick={handleRateClick}>
-            Send
+            Gửi Đánh Giá
           </Button>
         )}
       </Box>
