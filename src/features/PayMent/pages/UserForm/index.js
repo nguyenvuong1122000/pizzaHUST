@@ -10,16 +10,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { useStyles } from './styles';
-
+// const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 const schema = yup.object({
   name: yup
     .string()
-    .required('Please enter your full name.')
-    .test('two-words', 'Enter at least 2 words.', (value) => {
-      if (!value) return true;
-      const parts = value?.split(' ') || [];
-      return parts.filter((x) => !!x).length >= 2;
-    }),
+    .required('Please enter your full name.'),
   number_phone: yup
     .number()
     .positive('Invalid phone number.')
@@ -45,7 +40,7 @@ export default function UserForm({ data }) {
     resolver: yupResolver(schema),
     defaultValues: {
       ...data,
-      phonenumber: data.number_phone
+      // phonenumber: data.number_phone
     },
   });
 
@@ -135,7 +130,7 @@ export default function UserForm({ data }) {
     var dataPost = {
       cart: dataCart.length === 1 ? dataCart[0].pk : null, //neu co tk mk thi them th nay vao
       name: dataToOrder.name,
-      phonenumber: dataToOrder.phonenumber,
+      phonenumber: dataToOrder.number_phone,
       email: dataToOrder.email,
       address: dataToOrder.address,
       orderpizza: orderpizza1,
