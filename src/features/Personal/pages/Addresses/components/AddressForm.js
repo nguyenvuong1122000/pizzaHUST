@@ -1,34 +1,28 @@
-import { Alert, Box, Snackbar } from '@mui/material';
-import AuthButton from 'components/AuthButton';
-import InputField from 'components/FormFields/InputField';
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import { Alert, Box, Snackbar } from "@mui/material";
+import AuthButton from "components/AuthButton";
+import InputField from "components/FormFields/InputField";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+const regex = /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/;
 
 const schema = yup.object({
-  name: yup
-    .string()
-    .required('Please enter your full name.')
-    .test('two-words', 'Enter at least 2 words.', (value) => {
-      if (!value) return true;
-      const parts = value?.split(' ') || [];
-      return parts.filter((x) => !!x).length >= 2;
-    }),
+  name: yup.string().required("Please enter your full name."),
   email: yup
     .string()
-    .email('Invalid email')
-    .required('Please enter your email.'),
+    .email("Invalid email")
+    .required("Please enter your email."),
   number_phone: yup
-    .number()
-    .positive('Invalid phone number.')
-    .required('Please enter your phone.')
-    .typeError('Invalid phone number.'),
-  address: yup.string().required('Please enter your address.'),
+    .string()
+    .required("Please enter your phone number")
+    .matches(regex, "Invalid phone number"),
+  address: yup.string().required("Please enter your address."),
 });
 
 export default function AddressForm({ onSubmit, initialValues }) {
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(schema),
@@ -44,7 +38,7 @@ export default function AddressForm({ onSubmit, initialValues }) {
   };
 
   function handleClose() {
-    setError('');
+    setError("");
   }
 
   return (
@@ -63,8 +57,8 @@ export default function AddressForm({ onSubmit, initialValues }) {
       <Snackbar
         open={error ? true : false}
         anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
+          vertical: "top",
+          horizontal: "center",
         }}
       >
         <Alert onClose={handleClose} severity="error">

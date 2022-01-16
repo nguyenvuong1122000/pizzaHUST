@@ -83,8 +83,8 @@ export default function NavBarLeft() {
   const dispatch = useDispatch();
 
   const handleUserInfo = () => {
-    setIsActive(5);
     navigate('/personal', { replace: true });
+    setIsActive(5);
   };
 
   const handleLogin = () => {
