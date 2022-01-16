@@ -89,11 +89,13 @@ class Order(models.Model):
     NHA = 'Xac nhan'
     DAN = 'Dang giao'
     OKE = 'Hoan thanh'
+    HUY = 'Huy'
     DELIVE_CHOICE =[
         (XAC,'Dang xac nhan'),
         (NHA, 'Xac nhan'),
         (DAN,'Dang giao'),
-        (OKE,'Hoan thanh ')
+        (OKE,'Hoan thanh '),
+        (HUY, 'Huy')
         ]
     delive = models.CharField(choices=DELIVE_CHOICE, max_length= 30)
     rating = models.IntegerField(default=0)
