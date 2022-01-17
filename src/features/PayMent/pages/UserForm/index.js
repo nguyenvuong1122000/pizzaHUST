@@ -95,6 +95,7 @@ export default function UserForm({ data }) {
         sidedis: item,
         amount: item.quantity,
         cost: item.cost,
+        comboorder: null,
         pecent: 0,
       });
     }
