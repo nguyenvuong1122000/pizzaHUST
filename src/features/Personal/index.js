@@ -4,7 +4,7 @@ import { useTheme } from '@mui/styles';
 import NavBarLeft from 'components/NavBarLeft';
 import { logout } from 'features/Authentication/slice';
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Account from './pages/Account';
 import Addresses from './pages/Addresses';
@@ -12,12 +12,14 @@ import Order from './pages/Order';
 import './styles.css';
 
 export default function Personal() {
-  const user = localStorage.getItem('usernameHUST') || '';
   const theme = useTheme();
   const tablet = useMediaQuery(theme.breakpoints.up('tablet'));
-  const [activeId, setActiveId] = useState(1);
+
+  const buySuccess = useSelector((state) => state.cart.buySuccess);
+  const [activeId, setActiveId] = useState(buySuccess ? 2 : 1);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const user = localStorage.getItem('usernameHUST') || '';
 
   const onTabClick = (id) => {
     setActiveId(id);
@@ -51,7 +53,7 @@ export default function Personal() {
     },
     {
       id: 3,
-      name: 'Địa chỉ',
+      name: 'Thông tin cá nhân',
       component: <Addresses data={data[0]} />,
     },
   ];

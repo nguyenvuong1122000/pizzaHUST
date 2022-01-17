@@ -36,9 +36,11 @@ export default function Pay() {
       async function getData() {
         const response = await fetch(api);
         const responseJSON = await response.json();
-        if(responseJSON.length === 1){
+        if (responseJSON.length === 1) {
           setData(responseJSON[0]);
-        }else{setData({})}
+        } else {
+          setData({});
+        }
       }
       getData();
     }
@@ -53,7 +55,11 @@ export default function Pay() {
         <PayCard />
       </Grid>
       <Grid item xs={tablet ? 4 : 12}>
-        {!user ? <UserForm data={data} /> : (data.hasOwnProperty('name') && <UserForm data={data} />)}
+        {!user ? (
+          <UserForm />
+        ) : (
+          data.hasOwnProperty('name') && <UserForm data={data} />
+        )}
       </Grid>
     </Grid>
   );

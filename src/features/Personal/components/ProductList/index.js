@@ -164,13 +164,23 @@ export default function ProductList({
       >
         <span>Đánh giá: </span>
         <Rating
-          readOnly={isHistory ? (isReadOnly ? true :list.rating) : true /* || nếu đã đánh giá */}
+          readOnly={
+            isHistory
+              ? isReadOnly
+                ? true
+                : list.rating
+              : true /* || nếu đã đánh giá */
+          }
           value={rateValue === 0 ? list.rating : rateValue}
           onChange={(event, newValue) => {
             setRateValue(newValue);
           }}
         />
-        {(isHistory ? (isReadOnly ? false : !list.rating) : false) /* && nếu chưa đánh giá */ && (
+        {(isHistory
+          ? isReadOnly
+            ? false
+            : !list.rating
+          : false) /* && nếu chưa đánh giá */ && (
           <Button variant="contained" size="small" onClick={handleRateClick}>
             Gửi Đánh Giá
           </Button>
@@ -191,7 +201,7 @@ export default function ProductList({
           horizontal: 'center',
         }}
       >
-        <Alert onClose={handleClose} severity="error">
+        <Alert onClose={handleClose} severity="success">
           Cảm ơn phản hồi của bạn
         </Alert>
       </Snackbar>

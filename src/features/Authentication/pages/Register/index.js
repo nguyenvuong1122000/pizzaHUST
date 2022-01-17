@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Alert, Box, Snackbar } from '@mui/material';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -10,6 +10,7 @@ import { saveDataLogin } from 'features/Authentication/slice';
 export default function Register() {
   const classes = useStyles();
   const [openInfoForm, setOpenInfoForm] = useState(false);
+  const [error, setError] = useState('');
   const [dataRegister, setDataRegister] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -76,7 +77,7 @@ export default function Register() {
               navigate('/', { replace: true });
               res.json();
             } else {
-              alert('Khong thanh cong');
+              setError('Không thành công!');
             }
           })
           .catch((error) => {
@@ -85,6 +86,13 @@ export default function Register() {
       };
       postApi2(newValues);
     }
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setError('');
   };
 
   return (
@@ -118,6 +126,19 @@ export default function Register() {
           <img src={process.env.PUBLIC_URL + 'auth.png'} alt="" />
         </Box>
       </Box>
+      <Snackbar
+        open={error}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+      >
+        <Alert onClose={handleClose} severity="error">
+          {error}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

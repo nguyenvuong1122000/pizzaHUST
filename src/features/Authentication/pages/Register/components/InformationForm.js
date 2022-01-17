@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
+const regex = /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/;
 const schema = yup.object({
   fullname: yup
     .string()
@@ -16,10 +17,9 @@ const schema = yup.object({
       return parts.filter((x) => !!x).length >= 2;
     }),
   phone: yup
-    .number()
-    .positive('Invalid phone number.')
-    .required('Please enter your phone.')
-    .typeError('Invalid phone number.'),
+    .string()
+    .required('Please enter your phone number')
+    .matches(regex, 'Invalid phone number'),
   address: yup.string().required('Please enter your address.'),
   dateOfBirth: yup.string().required('Please enter your date of birth.'),
 });

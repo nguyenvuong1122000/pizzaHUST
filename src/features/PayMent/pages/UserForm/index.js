@@ -10,24 +10,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { useStyles } from './styles';
-const regex =/^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/
+
+const regex = /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/;
 const schema = yup.object({
-  name: yup
-    .string()
-    .required('Please enter your full name.'),
+  name: yup.string().required('Please enter your full name.'),
   number_phone: yup
-  .string()
-  .required("Please enter your phone number")
-  .matches(
-    regex,
-    "Invalid phone number"
-  ),
+    .string()
+    .required('Please enter your phone number')
+    .matches(regex, 'Invalid phone number'),
   email: yup.string().email('Invalid email.').required('Please enter email.'),
   address: yup.string().required('Please enter your address.'),
 });
 
 export default function UserForm({ data }) {
-  console.log(data)
+  console.log(data);
   const theme = useTheme();
   const tablet = useMediaQuery(theme.breakpoints.up('tablet'));
   const classes = useStyles({ tablet });
@@ -53,7 +49,7 @@ export default function UserForm({ data }) {
     async function getData() {
       const response = await fetch(apiCart);
       const responseJSON = await response.json();
-      console.log(responseJSON)
+      console.log(responseJSON);
       if (responseJSON.length === 1) {
         setDataCart(responseJSON);
       }

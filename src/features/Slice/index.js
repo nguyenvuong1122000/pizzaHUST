@@ -5,6 +5,7 @@ const initialState = {
   listProduct: [],
   chooseProduct: {},
   loadingChoose: false,
+  buySuccess: false,
 };
 
 const cart = createSlice({
@@ -28,7 +29,6 @@ const cart = createSlice({
       } else if (state.listProduct[idx].quantity > 1) {
         state.listProduct[idx].quantity = state.listProduct[idx].quantity - 1;
       }
-      // localStorage.setItem('listProduct', state.listProduct);
     },
 
     AddBtnClick: (state, action) => {
@@ -36,13 +36,11 @@ const cart = createSlice({
       state.listProduct[idx].quantity = state.listProduct[idx].quantity + 1;
       state.chooseProduct = {};
       state.loadingChoose = false;
-      // localStorage.setItem('listProduct', state.listProduct);
     },
 
     DelBtnClick: (state, action) => {
       const idx = action.payload;
       state.listProduct.splice(idx, 1);
-      // localStorage.setItem('listProduct', state.listProduct);
     },
 
     addProduct: (state, action) => {
@@ -50,7 +48,6 @@ const cart = createSlice({
       state.chooseProduct = {};
       state.loadingChoose = false;
       state.listProduct.push(newProduct);
-      // localStorage.setItem('listProduct', state.listProduct);
     },
 
     addOldProduct: (state, action) => {
@@ -61,12 +58,15 @@ const cart = createSlice({
       state.chooseProduct = {};
       state.loadingChoose = false;
       state.listProduct.push(newProduct);
-      // localStorage.setItem('listProduct', state.listProduct);
     },
 
     buyAllRequest: (state) => {
       state.listProduct = [];
-      // localStorage.removeItem('listProduct');
+      state.buySuccess = true;
+    },
+
+    turnOffBuySuccess: (state) => {
+      state.buySuccess = false;
     },
   },
 });
@@ -80,6 +80,7 @@ export const {
   DelBtnClick,
   BackBtnClick,
   buyAllRequest,
+  turnOffBuySuccess,
 } = cart.actions;
 
 export default cart.reducer;

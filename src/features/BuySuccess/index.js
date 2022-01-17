@@ -39,9 +39,14 @@ export default function BuySuccess() {
   const classes = useStyles();
   const navigate = useNavigate();
 
-  function returnHome(event) {
+  function handleReturnHome(event) {
     event.preventDefault();
     navigate('/', { replace: true });
+  }
+
+  function handleViewCart(event) {
+    event.preventDefault();
+    navigate('/personal', { replace: true });
   }
 
   return (
@@ -50,10 +55,10 @@ export default function BuySuccess() {
         <Box className={classes.img}>
           <img srcSet={process.env.PUBLIC_URL + 'buySuccess.png 2x'} alt="" />
         </Box>
-        <Box className={classes.button} onClick={returnHome}>
+        <Box className={classes.button} onClick={handleReturnHome}>
           <Button name="Quay lại trang chủ" />
         </Box>
-        <Box className={classes.button}>
+        <Box className={classes.button} onClick={handleViewCart}>
           <Button name="Xem đơn hàng" />
         </Box>
       </Box>
