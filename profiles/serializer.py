@@ -243,7 +243,7 @@ class OrderPizzaSerializer(serializers.HyperlinkedModelSerializer):
 class OrderSideSerializer(serializers.HyperlinkedModelSerializer):
     # order = serializers.StringRelatedField()
     order = serializers.SlugRelatedField(queryset = Order.objects.all(), slug_field='pk')
-    comboorder = serializers.SlugRelatedField(queryset  = Combo.objects.all(), slug_field='pk')
+    comboorder = serializers.SlugRelatedField(queryset  = Combo.objects.all(), slug_field='pk', allow_null = True)
     sidess = serializers.SlugRelatedField(queryset = SideDishes.objects.all(), slug_field='pk')
     # sidess = serializers.HyperlinkedRelatedField(read_only = True, view_name='sidedishes-detail')
     sidedis = SideDishesSerializer(read_only = True, source = 'sidedishes')
