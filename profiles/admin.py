@@ -4,18 +4,23 @@ from .models import *
 class OrderPizzaInLine(admin.TabularInline):
     model = OrderPizza
     extra = 0
-    readonly_fields = ['comboorder', 'pizaa','size','soles','pecent','amount']
+    readonly_fields = ['pizaa','size','soles','topping','amount']
+    exclude = ['rating', 'comboorder', 'pecent']
 class OrderSideInLine(admin.TabularInline):
     model = OrderSideDishes
     extra = 0
+    readonly_fields = ['sidess','amount']
+    exclude = ['rating', 'comboorder', 'pecent']
 class OrderComboInLine(admin.StackedInline):
     model = OrderCombo
     extra = 0
-    readonly_fields = ['comboorder', 'sidess', 'amount', 'pecent']
+    readonly_fields = ['sidess', 'amount', 'pecent', 'comboorder']
 class OrderAdmin(admin.ModelAdmin):
     list_filter = ['delive']
     list_display = ['name','address','price']
     readonly_fields = ['cart','name','phonenumber','email','address','create','price']
+    exclude = ['rating']
+    
     # def price(self):
     #     return 10
     # fields_set = (
@@ -34,6 +39,8 @@ class OrderInLine(admin.StackedInline):
     model = Order
     extra = 0
     readonly_fields = ['cart','name','phonenumber','email','address','delive','create','price']
+    exclude = ['rating']
+    
 class ComboClientAdmin(admin.ModelAdmin):
     list_display=('name','numberperson','cost','time')
     list_filter=['numberperson','cost']
@@ -88,14 +95,15 @@ class ComboClientAdmin(admin.ModelAdmin):
 class CartAdmin(admin.ModelAdmin):
     (None, {
             "fields": (
-                ['user']
+                ['user'],
             ),
         }),
     list_display = ['user', 'countorder']
     inlines = [OrderInLine]
 class ProfileAdmin(admin.ModelAdmin):
     model = Profile
-    readonly_fields = ['user','image','name','number_phone','address','pub_date']
+    readonly_fields = ['user','email','name','number_phone','address','pub_date']
+    exclude = ['image']
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Cart,CartAdmin)
 # admin.site.register(Profile)

@@ -128,7 +128,7 @@ class SideDishesAdmin(admin.ModelAdmin):
 #     list_filter=['pizza']
 #     list_display=('pizza','topping','amount')
     
-admin.site.register(Topping,ToppingAdmin)
+# admin.site.register(Topping,ToppingAdmin)
 admin.site.register(SideDishes,SideDishesAdmin)
 admin.site.register(Pizza,PizzaAdmin)
 admin.site.register(Combo,ComboAdmin)

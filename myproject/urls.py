@@ -32,10 +32,10 @@ from rest_framework_simplejwt.views import (
 from profiles import views as profiles_view
 from django.contrib.auth import views as auth_views
 from project import views as project_view
-from home import views as home_view
+# from home import views as home_view
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('home.urls')),
+    # path('', include('home.urls')),
     path('register/',profiles_view.register,name='register'),
     path('login/', auth_views.LoginView.as_view(template_name="profiles/login.html"),
     name="login"),
