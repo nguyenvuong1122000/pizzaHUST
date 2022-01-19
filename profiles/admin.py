@@ -6,13 +6,20 @@ from .models import *
 #     extra = 0
 #     readonly_fields = ['comboorder', 'pizaa','size','soles','pecent','amount']
 class OrderPizzaInLine(admin.TabularInline):
+    # actions = ['some_other_action']
     model = OrderPizza
-    extra = 0
-    readonly_fields = ['comboorder', 'pizaa','size','soles','pecent','amount']
+    readonly_fields = [ 'pizaa','size','soles','amount']
+    exclude = ('comboorder','pecent','rating','delete')
+    extra =0
+    max_num = 0
+    can_delete = False
 class OrderSideInLine(admin.TabularInline):
     model = OrderSideDishes
+    readonly_fields = ['sidess', 'amount']
+    exclude= ('comboorder','rating','pecent','extra')
     extra = 0
-    readonly_fields = ['comboorder', 'sidess', 'amount', 'pecent']
+    max_num = 0
+    can_delete = True
     # readonly_fields = ['comboorder', 'pizaa']
 # class OrderComboInLine(admin.StackedInline):
 #     model = OrderCombo
