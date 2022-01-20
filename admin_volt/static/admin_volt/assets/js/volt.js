@@ -176,7 +176,7 @@ d.addEventListener("DOMContentLoaded", function(event) {
           new Chartist.Line('.ct-chart-sales-value', {
             labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
             series: [
-                [0, 10, 30, 40, 80, 60, 100]
+                [30, 50, 20, 40, 15, 60, 65]
             ]
           }, {
             low: 0,
@@ -205,8 +205,8 @@ d.addEventListener("DOMContentLoaded", function(event) {
         var chart = new Chartist.Bar('.ct-chart-ranking', {
             labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
             series: [
-              [1, 5, 2, 5, 4, 3],
-              [2, 3, 4, 8, 1, 2],
+              [2, 5, 2, 5, 4, 3],
+              [5, 10, 4, 8, 1, 2],
             ]
           }, {
             low: 0,

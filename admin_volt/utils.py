@@ -23,6 +23,7 @@ from django.contrib import messages
 from django.contrib.admin.options import IncorrectLookupParameters
 from django.contrib import admin
 from django.utils.text import slugify
+from profiles.models import Order
 
 try:
     from django.utils.translation import ugettext_lazy as _
@@ -38,7 +39,6 @@ except ImportError:
 default_apps_icon = {
     'auth': 'fa fa-users'
 }
-
 
 class JsonResponse(HttpResponse):
     """
