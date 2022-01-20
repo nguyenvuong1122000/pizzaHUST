@@ -110,6 +110,8 @@ class PizzaSerializer(serializers.HyperlinkedModelSerializer):
     image = serializers.ImageField( read_only = True)
     description = serializers.CharField(max_length = 200)
     cost = serializers.IntegerField()
+    costm = serializers.IntegerField()
+    costl = serializers.IntegerField()
     menu = serializers.ChoiceField(choices = Pizza.choi, read_only = True)
     score_fields = serializers.FloatField(source = 'score', read_only = True)
     class Meta:
@@ -118,8 +120,8 @@ class PizzaSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'name',
             'cost',
-            # 'costl',
-            # 'costm',
+            'costl',
+            'costm',
             'pk',
             'image',
             'description',

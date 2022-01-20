@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import *
+from django.utils.html import format_html
 # Register your models here.
 # admin.site.register(Pizza,PizzaAdmin)
 # class AmountToppingInLine(admin.StackedInline):
@@ -39,6 +40,9 @@ class PizzaAdmin(admin.ModelAdmin):
         (None,{
             "fields":['image']
         }),
+         (None,{
+            "fields":['image_tag']
+        }),
         (None,{
             "fields":['description']
         }
@@ -46,9 +50,18 @@ class PizzaAdmin(admin.ModelAdmin):
         (None,{
             'fields':['menu']
         }),
+        # (None,{
+        #     "fields":['image_tag']
+        # }),
     )
+    # fields = ['image_tag']
+    readonly_fields = ['image_tag',]
     # inlines = [AmountToppingInLine]
     # exclude=('toppings',)
+    def image_tag(self, obj):
+        return format_html('<img src="{}" />'.format(obj.image.url))
+
+    image_tag.short_description = 'Image'
 class ComboAdmin(admin.ModelAdmin):
     list_display=('name','numberperson','time')
     list_filter=['numberperson']
@@ -65,22 +78,6 @@ class ComboAdmin(admin.ModelAdmin):
                 ['name']
             ),
         }),
-        # (None,{
-        #     'fields':
-        #     ['cost']
-        # }),
-        # (None,{
-        #     'fields':
-        #     ['costs']
-        # }),
-        #  (None,{
-        #     'fields':
-        #     ['costm']
-        # }),
-        #  (None,{
-        #     'fields':
-        #     ['costl']
-        # }),
         (None,{
             'fields':['percent']
         }),
@@ -89,6 +86,9 @@ class ComboAdmin(admin.ModelAdmin):
         }),
         (None,{
             'fields':['image']
+        }),
+        (None,{
+            "fields":['image_tag']
         }),
         (None,{
             'fields':['numberperson']
@@ -112,6 +112,11 @@ class ComboAdmin(admin.ModelAdmin):
         # }),
     )
     inlines=[PizzaInComboAdmin,SideDishesInComboAdmin]
+    readonly_fields = ['image_tag']
+    def image_tag(self, obj):
+        return format_html('<img src="{}" />'.format(obj.image.url))
+
+    image_tag.short_description = 'Image'
     # exclude=['pizzas','dishes',]
 class ToppingAdmin(admin.ModelAdmin):
     list_display=('name','cost')
@@ -121,6 +126,35 @@ class SideDishesAdmin(admin.ModelAdmin):
     list_display=('name','cost')
     list_filter=['cost']
     search_fields=['name']
+    fieldsets = (
+        (None, {
+            "fields": (
+                ['name']
+            ),
+        }),
+        (None,{
+            "fields":['cost']
+        }),
+         (None,{
+            'fields':['image']
+        }),
+        (None,{
+            "fields":['image_tag']
+        }),
+        (None,{
+            'fields':['menu']
+        }),
+        (None, {
+            "fields": (
+                ['type']
+            ),
+        }),
+     )
+    readonly_fields = ['image_tag']
+    def image_tag(self, obj):
+        return format_html('<img src="{}" />'.format(obj.image.url))
+
+    image_tag.short_description = 'Image'
 # class ComboAmountAdmin(admin.ModelAdmin):
 #     list_filter=['combo']
 #     list_display=('combo','pizza','size','amountPizza','dishes','amount')
@@ -128,7 +162,7 @@ class SideDishesAdmin(admin.ModelAdmin):
 #     list_filter=['pizza']
 #     list_display=('pizza','topping','amount')
     
-admin.site.register(Topping,ToppingAdmin)
+# admin.site.register(Topping,ToppingAdmin)
 admin.site.register(SideDishes,SideDishesAdmin)
 admin.site.register(Pizza,PizzaAdmin)
 admin.site.register(Combo,ComboAdmin)

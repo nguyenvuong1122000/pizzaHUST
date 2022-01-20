@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models.base import Model
+from django.utils.html import mark_safe
 # from profiles.models import OrderPizza
 # Create your models here.
 class Topping(models.Model):
@@ -65,6 +66,10 @@ class Pizza(models.Model):
     #     self.toppings.remove(topping)
     def __str__(self):
         return self.name
+    # def image_tag(self):
+    #     return mark_safe('<img src="./%s" width="150" height="150" />' % (self.image))
+
+    # image_tag.short_description = 'Image'
     @property
     def score(self):
         a = ScorePizza.objects.filter(pizza__id = self.id)
@@ -126,8 +131,8 @@ class SideDishes(models.Model):
         (SIDE, 'Sidedishes'),
     )
     type = models.CharField(choices=TYPE_CHOICES,default=SIDE, max_length=50)
-    # def __str__(self):
-    #     return self.name
+    def __str__(self):
+        return self.name
     @property
     def score(self):
         a = ScoreSide.objects.filter(side__id = self.id)

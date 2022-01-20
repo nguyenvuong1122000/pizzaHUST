@@ -1,8 +1,8 @@
 import re
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models import query
 from django.db.models.aggregates import Avg
+from django.db.models import query
 from django.db.models.fields.mixins import NOT_PROVIDED
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -28,15 +28,16 @@ class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     image =models.ImageField(default="default.jpg",upload_to="profile_pictures")
     name = models.CharField(max_length=100,default='')
+    email = models.EmailField(blank=True)
     number_phone = models.CharField(max_length=10,blank=False)
     address = models.CharField(max_length=500, blank=False)
     pub_date = models.DateField('Birthday',default=date.today)
     def __str__(self) :
         return f'{self.user.username}\'s Profile...'
-    @receiver(post_save,sender=User)
-    def create_profile(sender,instance,created,**kwargs):
-        if created:
-            Profile.objects.create(user=instance)
+    # @receiver(post_save,sender=User)
+    # def create_profile(sender,instance,created,**kwargs):
+    #     if created:
+    #         Profile.objects.create(user=instance)
 class ProfileForm(ModelForm):
     class Meta:
         model=Profile
@@ -44,7 +45,7 @@ class ProfileForm(ModelForm):
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     def __str__(self):
-        return f'{self.user.username}\''
+        return self.user.username
     def countorder(self):
         return Order.objects.filter(cart__id = self.id).count()
     def ordercart(self):
@@ -88,16 +89,17 @@ class Order(models.Model):
     NHA = 'Xac nhan'
     DAN = 'Dang giao'
     OKE = 'Hoan thanh'
+    HUY = 'Huy'
     DELIVE_CHOICE =[
         (XAC,'Dang xac nhan'),
         (NHA, 'Xac nhan'),
         (DAN,'Dang giao'),
-        (OKE,'Hoan thanh ')
+        (OKE,'Hoan thanh '),
+        (HUY, 'Huy')
         ]
     delive = models.CharField(choices=DELIVE_CHOICE, max_length= 30)
+    rating = models.IntegerField(default=0)
     create = models.DateTimeField(default = datetime.now())
-    rating = models.BooleanField(default=False)
-    # cost = models.IntegerField(default=0)
     def __str__(self):
         return self.name
     def price(self):
@@ -111,7 +113,7 @@ class Order(models.Model):
         # c = OrderCombo.objects.filter(order__id = self.id)
         # for combo in c:
         #     cost+=combo.cost()
-        return cost
+        return cost+22000
     def ordercombox(self):
         # a = OrderPizza.objects.filter(order__id = self.id)
         b = OrderPizza.objects.filter(order__id = self.id)
@@ -127,7 +129,7 @@ class Order(models.Model):
         cost = 0
         a = OrderPizza.objects.filter(order__id = self.id)
         for piza in a:
-            cost +=piza.cost()
+            cost+=piza.cost()
         b = OrderSideDishes.objects.filter(order__id = self.id)
         for side in b:
             cost+=side.cost()
@@ -191,16 +193,16 @@ class OrderPizza(models.Model):
     pizaa = models.ForeignKey(Pizza,related_name='pizaa', on_delete=models.CASCADE)
     size  = models.CharField(default='S', choices=Pizza.choice, max_length=20)
     soles = models.CharField(choices=Pizza.DE_CHOICE, max_length = 10, default='Gion')
-    TOP1 = 'Thêm phomai phủ'
-    TOP2 = 'Thêm phomai viền'
+    TOP1 = 'Thêm phô mai phủ'
+    TOP2 = 'Thêm phô mai viền'
     TOP3 = 'Double sốt'
     TOPPING_CHOICE = [
-        (TOP1, 'Thêm phomai phủ'),
-        (TOP2, 'Thêm phomai viền'),
-        (TOP3, 'Double sốt')
+        (TOP1, 'Thêm phô mai phủ'),
+        (TOP2, 'Thêm phô mai viền'),
+        (TOP3, 'Double sốt'),
     ]
-    topping = models.CharField(choices=TOPPING_CHOICE, default=TOP1, max_length= 30)
-    # rating = models.BooleanField(default=False)
+    topping = models.CharField(choices=TOPPING_CHOICE, max_length= 30, blank=True, null = True)
+    rating = models.BooleanField(default=False)
     pecent = models.IntegerField(default=0)
     amount = models.IntegerField(default=1)
     def __str__(self):
@@ -208,15 +210,14 @@ class OrderPizza(models.Model):
     def cost(self):
         price=0
         if self.size == 'S':
-            price+=self.pizaa.cost*(100-self.pecent)/100
+            price+=self.pizaa.cost*(100-self.pecent)/100*self.amount
         if self.size == 'M':
-            price+=self.pizza.costm*(100-self.pecent)/100
+            price+=self.pizza.costm*(100-self.pecent)/100*self.amount
         if self.size == 'L':
-            price+=self.pizza.costl*(100-self.pecent)/100
+            price+=self.pizza.costl*(100-self.pecent)/100*self.amount
         if self.topping != None:
-            price+=10000
+            price+=10000*self.amount
         return price
-        # return 0
     @property
     def pizza(self):
         return Pizza.objects.get(id = self.pizaa.id)
@@ -224,11 +225,11 @@ class OrderSideDishes(models.Model):
     comboorder = models.ForeignKey(Combo, related_name='comboside',on_delete=models.CASCADE, null = True, blank=True)
     order = models.ForeignKey(Order, related_name = 'orderside', on_delete = models.CASCADE)
     sidess = models.ForeignKey(SideDishes,related_name= 'sidess', on_delete=models.CASCADE)
-    # rating  = models.BooleanField(default=False)
     amount = models.IntegerField(default=1)
+    rating  = models.BooleanField(default=False)
     pecent = models.IntegerField(default=0)
     def cost(self):
-        return self.sidess.cost*(100-self.pecent)/100
+        return self.sidess.cost*(100-self.pecent)/100*self.amount
     @property
     def sidedishes(self):
         return SideDishes.objects.get(id = self.sidess.id)
