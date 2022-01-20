@@ -147,16 +147,16 @@ class Order(models.Model):
                 combobox = Combo.objects.get(id = a[0])
                 c.append(combobox)
         return c
-    # def querytest(self):
-    #     b = OrderPizza.objects.filter(order__id = self.id)
-    #     idcombo = b.values_list('comboorder__id')
-    #     c=[]
-    #     for a in idcombo:
-    #         if a[0]!=None:
-    #             d=[]
-    #             d.append(a[0])
-    #             c.append(d)
-    #     return c
+        # def querytest(self):
+        #     b = OrderPizza.objects.filter(order__id = self.id)
+        #     idcombo = b.values_list('comboorder__id')
+        #     c=[]
+        #     for a in idcombo:
+        #         if a[0]!=None:
+        #             d=[]
+        #             d.append(a[0])
+        #             c.append(d)
+        #     return c
     def querypizzacombo(self):
         b = OrderPizza.objects.filter(order__id = self.id)
         idcombo = b.values_list('comboorder__id')
@@ -187,6 +187,7 @@ class Order(models.Model):
                     cost+=orderpiza.cost()
                 querycost.append(cost)
         return querycost
+
 class OrderPizza(models.Model):
     comboorder = models.ForeignKey(Combo, related_name='comboorder',on_delete=models.CASCADE, null = True, blank=True)
     order = models.ForeignKey(Order,related_name='orderpizza',on_delete= models.CASCADE, null = False)
