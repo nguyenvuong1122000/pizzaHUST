@@ -20,7 +20,7 @@
                 </div>
                 <div class="card-header d-sm-flex flex-row align-items-center flex-0">
                     <div class="d-block mb-3 mb-sm-0">
-                        <div class="fs-5 fw-normal mb-2"> <b>Taday:  {%get_sales_day 6 %} VND </b> </div>
+                        <div class="fs-5 fw-normal mb-2"> <b>Today:  {%get_sales_day 6 %} VND </b> </div>
                         <h2 class="fs-3 fw-extrabold">{{get_addressee}}</h2>
                         <div class="small mt-2">
                         </div>
@@ -56,7 +56,7 @@
                                           d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z"
                                           clip-rule="evenodd"></path>
                                 </svg>
-                                                            <input type="hidden" id="myVar" name="variable" value={% get_chart %}>
+                                    <input type="hidden" id="myVar" name="variable" value={%get_chart %}>
 
                                 VietNam
                             </small>
@@ -66,10 +66,14 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
 <script>
     var data = {
-        series: document.getElementById("myVar").value
+        // series: document.getElementById("myVar")
+        series: [[[22, 21, 29, 6, 168, 0, 2]]]
+
     };
+    console.log(data)
 
     function getRandomInt(max) {
       return Math.floor(Math.random() * Math.floor(max));
@@ -81,6 +85,7 @@
       }
       data.series[0].push(point);
       chart.update(data);
+    //   updateChart(chart,data,getRandomInt(20),length)
       setTimeout(() => { updateChart(chart,data,getRandomInt(20),length) }, 1000);
     }
 
@@ -89,7 +94,7 @@
       // Don't draw the line chart points
       showPoint: true,
       // Disable line smoothing
-      lineSmooth: false,
+      lineSmooth: true,
       // X-Axis specific configuration
       axisX: {
         // We can disable the grid for this axis
@@ -114,7 +119,7 @@
 
     var cid = new Chartist.Line('.ct-chart-sales-value', data, options);
 
-
+    // updateChart(cid, data, getRandomInt(20), 10)
     setTimeout(() => { updateChart(cid, data, getRandomInt(20), 10) }, 2);
 
 </script>

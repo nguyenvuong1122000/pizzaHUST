@@ -44,6 +44,9 @@ def get_chart():
         price_all = 0
         listOrder = Order.objects.all()
         for obj in listOrder:
-            price_all = price_all + obj.price()
+            if (obj.create.weekday() == i):
+                price_all = price_all + obj.price()
+            # print(price_all)
         ans.append(int(price_all/100000))
-    return[[ans]]
+    print([[ans]])
+    return [[ans]]
