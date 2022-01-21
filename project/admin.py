@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import *
+from django.utils.html import format_html
 # Register your models here.
 # admin.site.register(Pizza,PizzaAdmin)
 # class AmountToppingInLine(admin.StackedInline):
@@ -39,6 +40,9 @@ class PizzaAdmin(admin.ModelAdmin):
         (None,{
             "fields":['image']
         }),
+         (None,{
+            "fields":['image_tag']
+        }),
         (None,{
             "fields":['description']
         }
@@ -47,6 +51,13 @@ class PizzaAdmin(admin.ModelAdmin):
             'fields':['menu']
         }),
     )
+    readonly_fields = ['image_tag',]
+    # inlines = [AmountToppingInLine]
+    # exclude=('toppings',)
+    def image_tag(self, obj):
+        return format_html('<img src="{}" />'.format(obj.image.url))
+
+    image_tag.short_description = 'Image'
     # inlines = [AmountToppingInLine]
     # exclude=('toppings',)
 class ComboAdmin(admin.ModelAdmin):
@@ -91,6 +102,9 @@ class ComboAdmin(admin.ModelAdmin):
             'fields':['image']
         }),
         (None,{
+            "fields":['image_tag']
+        }),
+        (None,{
             'fields':['numberperson']
         }),
         (None,{
@@ -113,6 +127,11 @@ class ComboAdmin(admin.ModelAdmin):
     )
     inlines=[PizzaInComboAdmin,SideDishesInComboAdmin]
     # exclude=['pizzas','dishes',]
+    readonly_fields = ['image_tag']
+    def image_tag(self, obj):
+        return format_html('<img src="{}" />'.format(obj.image.url))
+
+    image_tag.short_description = 'Image'
 class ToppingAdmin(admin.ModelAdmin):
     list_display=('name','cost')
     list_filter=['cost']
@@ -121,6 +140,35 @@ class SideDishesAdmin(admin.ModelAdmin):
     list_display=('name','cost')
     list_filter=['cost']
     search_fields=['name']
+    fieldsets = (
+        (None, {
+            "fields": (
+                ['name']
+            ),
+        }),
+        (None,{
+            "fields":['cost']
+        }),
+         (None,{
+            'fields':['image']
+        }),
+        (None,{
+            "fields":['image_tag']
+        }),
+        (None,{
+            'fields':['menu']
+        }),
+        (None, {
+            "fields": (
+                ['type']
+            ),
+        }),
+     )
+    readonly_fields = ['image_tag']
+    def image_tag(self, obj):
+        return format_html('<img src="{}" />'.format(obj.image.url))
+
+    image_tag.short_description = 'Image'
 # class ComboAmountAdmin(admin.ModelAdmin):
 #     list_filter=['combo']
 #     list_display=('combo','pizza','size','amountPizza','dishes','amount')

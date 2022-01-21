@@ -6,21 +6,29 @@ class OrderPizzaInLine(admin.TabularInline):
     extra = 0
     readonly_fields = ['pizaa','size','soles','topping','amount']
     exclude = ['rating', 'comboorder', 'pecent']
+    max_num = 0
+    can_delete = False
+
 class OrderSideInLine(admin.TabularInline):
     model = OrderSideDishes
     extra = 0
     readonly_fields = ['sidess','amount']
     exclude = ['rating', 'comboorder', 'pecent']
+    max_num = 0
+    can_delete = False
 class OrderComboInLine(admin.StackedInline):
     model = OrderCombo
     extra = 0
     readonly_fields = ['sidess', 'amount', 'pecent', 'comboorder']
 class OrderAdmin(admin.ModelAdmin):
+    actions = None
     list_filter = ['delive']
     list_display = ['name','address','price']
     readonly_fields = ['cart','name','phonenumber','email','address','create','price']
     exclude = ['rating']
-    
+    def has_delete_permission(self, request, obj=None):
+        # Disable delete
+        return False
     # def price(self):
     #     return 10
     # fields_set = (
@@ -40,6 +48,8 @@ class OrderInLine(admin.StackedInline):
     extra = 0
     readonly_fields = ['cart','name','phonenumber','email','address','delive','create','price']
     exclude = ['rating']
+    max_num = 0
+    can_delete = False
     
 class ComboClientAdmin(admin.ModelAdmin):
     list_display=('name','numberperson','cost','time')
@@ -100,6 +110,9 @@ class CartAdmin(admin.ModelAdmin):
         }),
     list_display = ['user', 'countorder']
     inlines = [OrderInLine]
+    def has_delete_permission(self, request, obj=None):
+        # Disable delete
+        return False
 class ProfileAdmin(admin.ModelAdmin):
     model = Profile
     readonly_fields = ['user','email','name','number_phone','address','pub_date']
@@ -109,4 +122,5 @@ admin.site.register(Cart,CartAdmin)
 # admin.site.register(Profile)
 # admin.site.register(Cart)
 admin.site.register(Order,OrderAdmin)
+admin.site.disable_action('delete_selected')
 # admin.site.register(ComboClient, ComboClientAdmin)
