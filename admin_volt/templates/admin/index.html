@@ -1,5 +1,7 @@
 {% extends "admin/base_site.html" %}
 {% load i18n static %}
+{%load custom_tag%}
+{% get_addressee as addressee %}
 
 {% block breadcrumbs %}{% endblock %}
 
@@ -9,11 +11,21 @@
             <div class="card bg-yellow-100 border-0 shadow">
                 <div class="card-header d-sm-flex flex-row align-items-center flex-0">
                     <div class="d-block mb-3 mb-sm-0">
-                        <div class="fs-5 fw-normal mb-2">Sales Value</div>
-                        <h2 class="fs-3 fw-extrabold">VND 105,671,223</h2>
+                        <div class="fs-5 fw-normal mb-2"> <b>Total:  {%get_sales_prety 0 %} VND </b> </div>
+                        <h2 class="fs-3 fw-extrabold">{{get_addressee}}</h2>
                         <div class="small mt-2">
                         </div>
                     </div>
+
+                </div>
+                <div class="card-header d-sm-flex flex-row align-items-center flex-0">
+                    <div class="d-block mb-3 mb-sm-0">
+                        <div class="fs-5 fw-normal mb-2"> <b>Taday:  {%get_sales_day 6 %} VND </b> </div>
+                        <h2 class="fs-3 fw-extrabold">{{get_addressee}}</h2>
+                        <div class="small mt-2">
+                        </div>
+                    </div>
+
                 </div>
                 <div class="card-body p-2">
                     <div class="ct-chart-sales-value ct-double-octave ct-series-g"></div>
@@ -34,8 +46,8 @@
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
                             <div class="d-none d-sm-block">
-                                <h2 class="h6 text-gray-400 mb-0">Order</h2>
-                                <h3 class="fw-extrabold mb-2">15</h3>
+                                <h2 class="h6 text-gray-400 mb-0">Total Order</h2>
+                                <h3 class="fw-extrabold mb-2">{%get_addressee%}</h3>
                             </div>
                             <small class="d-flex align-items-center text-gray-500">
                                 <svg class="icon icon-xxs text-gray-500 ms-2 me-1" fill="currentColor"
@@ -44,6 +56,8 @@
                                           d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z"
                                           clip-rule="evenodd"></path>
                                 </svg>
+                                                            <input type="hidden" id="myVar" name="variable" value={% get_chart %}>
+
                                 VietNam
                             </small>
                     </div>
@@ -51,6 +65,59 @@
             </div>
         </div>
     </div>
+</div>
+<script>
+    var data = {
+        series: document.getElementById("myVar").value
+    };
+
+    function getRandomInt(max) {
+      return Math.floor(Math.random() * Math.floor(max));
+    }
+
+    function updateChart(chart,data,point,length) {
+     if(data.series[0].length >= length) {
+        data.series[0].shift();
+      }
+      data.series[0].push(point);
+      chart.update(data);
+      setTimeout(() => { updateChart(chart,data,getRandomInt(20),length) }, 1000);
+    }
+
+    // We are setting a few options for our chart and override the defaults
+    var options = {
+      // Don't draw the line chart points
+      showPoint: true,
+      // Disable line smoothing
+      lineSmooth: false,
+      // X-Axis specific configuration
+      axisX: {
+        // We can disable the grid for this axis
+        showGrid: true,
+        // and also don't show the label
+        showLabel: true
+      },
+      // Y-Axis specific configuration
+      axisY: {
+        // Lets offset the chart a bit from the labels
+        offset: 60,
+        // The label interpolation function enables you to modify the values
+        // used for the labels on each axis. Here we are converting the
+        // values into million pound.
+        labelInterpolationFnc: function(value) {
+          return '$' + value + 'm';
+        }
+      }
+    };
+
+    // All you need to do is pass your configuration as third parameter to the chart function
+
+    var cid = new Chartist.Line('.ct-chart-sales-value', data, options);
+
+
+    setTimeout(() => { updateChart(cid, data, getRandomInt(20), 10) }, 2);
+
+</script>
 {% endblock %}
 
 {% block extrascript %}{% endblock %}
