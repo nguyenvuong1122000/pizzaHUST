@@ -7,6 +7,7 @@ Django==3.2.11
 django-admin-volt==0.0.5
 django-cors-headers==3.11.0
 django-crispy-forms==1.13.0
+django-on-heroku
 django-extensions==3.1.5
 django-filter==21.1
 django-rest-knox==4.1.0
@@ -24,3 +25,4 @@ requests==2.27.1
 sqlparse==0.4.2
 urllib3==1.26.8
 yarg==0.1.9
+gunicorn
