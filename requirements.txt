@@ -25,4 +25,5 @@ requests==2.27.1
 sqlparse==0.4.2
 urllib3==1.26.8
 yarg==0.1.9
+
 gunicorn
