@@ -99,7 +99,7 @@ class Order(models.Model):
         ]
     delive = models.CharField(choices=DELIVE_CHOICE, max_length= 30)
     rating = models.IntegerField(default=0)
-    create = models.DateTimeField(default = datetime.now())
+    create = models.DateTimeField()
     def __str__(self):
         return self.name
     def price(self):
