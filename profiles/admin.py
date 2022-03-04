@@ -115,6 +115,7 @@ class CartAdmin(admin.ModelAdmin):
         return False
 class ProfileAdmin(admin.ModelAdmin):
     model = Profile
+    search_fields=['user',]
     readonly_fields = ['user','email','name','number_phone','address','pub_date']
     exclude = ['image']
 admin.site.register(Profile, ProfileAdmin)

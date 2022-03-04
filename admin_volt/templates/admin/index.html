@@ -20,7 +20,7 @@
                 </div>
                 <div class="card-header d-sm-flex flex-row align-items-center flex-0">
                     <div class="d-block mb-3 mb-sm-0">
-                        <div class="fs-5 fw-normal mb-2"> <b>Today:  {%get_sales_day 6 %} VND </b> </div>
+                        <div class="fs-5 fw-normal mb-2"> <b>Today:  {%get_sales_day 4 %} VND </b> </div>
                         <h2 class="fs-3 fw-extrabold">{{get_addressee}}</h2>
                         <div class="small mt-2">
                         </div>
@@ -69,8 +69,8 @@
 <script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
 <script>
     var data = {
-        // series: document.getElementById("myVar")
-        series: [[[22, 21, 29, 6, 168, 0, 2]]]
+        series: document.getElementById("myVar")
+        // series: [[[22, 21, 29, 6, 168, 0, 2]]]
 
     };
     console.log(data)

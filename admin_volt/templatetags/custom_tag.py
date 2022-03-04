@@ -13,7 +13,7 @@ def get_sales(day):
     price_all = 0
     listOrder = Order.objects.all()
     for obj in listOrder:
-        if (obj.create.weekday() == day):
+        if (obj.delive == 'Hoan thanh' and obj.create.weekday() == day):
             price_all = price_all + obj.price()
     return price_all
 
@@ -23,7 +23,7 @@ def get_sales_day(day):
     price_all = 0
     listOrder = Order.objects.all()
     for obj in listOrder:
-        if (obj.create.weekday() == day):
+        if (obj.delive == 'Hoan thanh' and obj.create.weekday() == day):
             price_all = price_all + obj.price()
     return locale.currency(price_all, grouping=True)
 
@@ -33,7 +33,8 @@ def get_sales_prety(day):
     price_all = 0
     listOrder = Order.objects.all()
     for obj in listOrder:
-        price_all = price_all + obj.price()
+        if obj.delive == 'Hoan thanh':
+            price_all = price_all + obj.price()
     return locale.currency(price_all, grouping=True)
 
 @register.simple_tag
@@ -44,7 +45,7 @@ def get_chart():
         price_all = 0
         listOrder = Order.objects.all()
         for obj in listOrder:
-            if (obj.create.weekday() == i):
+            if (obj.delive == 'Hoan thanh' and obj.create.weekday() == i):
                 price_all = price_all + obj.price()
             # print(price_all)
         ans.append(int(price_all/100000))
