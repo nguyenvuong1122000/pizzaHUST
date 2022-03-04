@@ -32,6 +32,8 @@ export default function Register() {
             if (res.ok) {
               console.log(res);
               setOpenInfoForm(true);
+            } else {
+              setError('Không thành công. Tên đăng nhập đã tồn tại');
             }
           })
           .catch((error) => {

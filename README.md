@@ -19,6 +19,9 @@
    >npm -v
 
 2. Cài đặt thư viện cho project:
+ - Clone source code cho front end:
+   >git clone -b front-end-new https://github.com/nguyenvuong1122000/pizzaHUST
+
     > cd pizzaHUST
  - C1: Sử dụng npm
     >npm install
